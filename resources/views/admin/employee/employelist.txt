@@ -1,0 +1,122 @@
+@foreach ($employees as $employee)
+                                                <tr role="row" class="odd">
+                                                    <td class="sorting_1 text-center">{{ $loop->iteration }}</td>
+                                                    <td class="text-center">
+                                                        <a href="{{route('employee.profile.view',$employee->id )}}"><i class='bx bx-user-circle' ></i> {{$employee->salutations ? $employee->salutations->name: ""}} {{ $employee->first_name . ' ' . $employee->last_name }}</a>
+                                                        <br/>{{$employee->officialInformation ? $employee->officialInformation->designation ? $employee->officialInformation->designation->designation_name : "N/A" : "N/A" }}
+                                                        <br/><i class='bx bx-id-card bx-flashing' ></i> {{ $employee->emp_id }}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {{-- {{ $employee->officialInformation->department }} --}}
+                                                        <span><i class='bx bx-buildings bx-flashing'></i>
+                                                            {{$employee->officialInformation ? $employee->officialInformation->branch ? $employee->officialInformation->branch->name : "N/A" : "N/A" }} <br>
+
+                                                        </span>
+                                                        {{ $employee->officialInformation ? $employee->officialInformation->department ? $employee->officialInformation->department->department_name : "N/A" : "N/A" }}
+
+                                                        @if ($employee->officialInformation && $employee->officialInformation->reportingfirst)
+                                                            <br/><b>Reporting Person:</b>
+                                                            <br/><a href="#" class="client-info"><i class='bx bx-user-voice'></i>{{ $employee->officialInformation->reportingfirst->first_name.' '.$employee->officialInformation->reportingfirst->last_name ?? 'N/A' }}</a>
+                                                        @endif
+
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @if ($employee->contact && $employee->contact->contact_number)
+                                                            <a href="tel:{{$employee->contact->contact_number ?? ''}}" class="client-info">
+                                                                <i class='bx bx-phone-outgoing bx-tada'></i> {{$employee->contact->contact_number ?? ''}}
+                                                            </a>
+                                                        @endif
+                                                        @if ($employee->contact && $employee->contact->whatsapp)
+                                                            <br/>
+                                                            <a href="https://wa.me/{{$employee->contact->whatsapp ?? ''}}" class="client-info">
+                                                                <i class='bx bxl-whatsapp bx-tada'></i>{{$employee->contact->whatsapp ?? ''}}
+                                                            </a>
+                                                        @endif
+                                                        @if ($employee->contact && $employee->contact->email)
+                                                            <br/>
+                                                            <a href="mailto:{{$employee->contact->email ?? ''}}" class="client-info">
+                                                                <i class='bx bx-mail-send bx-tada'></i> {{$employee->contact->email ?? ''}}
+                                                            </a>
+                                                        @endif
+                                                    </td>
+
+                                                    <td class="text-center">
+                                                        @if ($employee->payRollInformation && $employee->payRollInformation->shift)
+                                                        {{ $employee->payRollInformation->shift->shift_name ?? '' }}
+                                                        <br/>{{ \Carbon\Carbon::parse($employee->payRollInformation->shift->start_time ?? '')->format('h.i A') }}
+                                                        to {{ \Carbon\Carbon::parse($employee->payRollInformation->shift->end_time ?? '')->format('h.i A') }}
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-center">{{ $employee->payRollInformation->holiday->name ?? '' }}</td>
+                                                    <td style="text-align: center">
+                                                        @can('Update Employee')
+                                                        <form action="{{ route('employee.toggle', $employee->id) }}" method="POST" class="status-form" style="display: inline;">
+                                                            @csrf
+                                                            <button type="submit" id="status-{{ $employee->id }}"
+                                                                class="toggle-status btn {{ $employee->status == 1 ? 'status-box-1 btn-success' : 'status-box-1 btn-warning' }}"
+                                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                data-bs-custom-class="custom-tooltip"
+                                                                data-bs-title="Click to change Status">
+                                                                {{ $employee->status == 1 ? 'Active' : 'Inactive' }}
+                                                            </button>
+                                                            {{-- <div class="form-check form-switch">
+                                                                <input class="form-check-input toggle-status" style="margin-left: 30px;" type="checkbox" role="switch"
+                                                                    data-switchid="{{ $employee->id }}" {{ $employee->status == 1 ? 'checked' : '' }}>
+                                                            </div> --}}
+                                                        </form>
+                                                        @endcan
+                                                    </td>
+                                                    <td >
+                                                        @can('Update Employee')
+                                                        <span data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        data-bs-custom-class="custom-tooltip"
+                                                        data-bs-title="Upload Documents">
+                                                        <button class="btn btn-label-primary btn-round btn-xs" data-bs-toggle="modal" data-bs-target="#add-documents-{{$employee->id}}">
+                                                        <i class='bx bx-cloud-download bx-flashing me-1' ></i> Documents</button>
+                                                        </span>
+                                                        @endcan
+
+                                                     </td>
+                                                    <td>
+                                                        <div class="form-button-action">
+
+                                                            @can('View Employee')
+
+                                                            <a class="btn btn-link btn-info btn-lg" rel="publisher"
+                                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                data-bs-custom-class="custom-tooltip"
+                                                                data-bs-title="Profile View"
+                                                                href="{{route('employee.profile.view',$employee->id )}}">
+                                                                <i class='bx bx-show-alt'></i>
+                                                            </a>
+                                                            @endcan
+
+                                                            @can('Update Employee')
+                                                            <a class="btn btn-link btn-success btn-lg" rel="publisher"
+                                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                data-bs-custom-class="custom-tooltip"
+                                                                data-bs-title="Edit"
+                                                             href="{{ route('employee.edit', $employee->id) }}"> <i class='bx bxs-edit'></i></a>
+                                                             @endcan
+
+                                                             @can('Delete Employee')
+                                                            <a href="#" id="delete-employee-link" title="delete" class="btn btn-link btn-danger btn-lg"
+                                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                                            data-bs-custom-class="custom-tooltip"
+                                                            data-bs-title="Delete"
+                                                            data-employee-id = "{{ $employee->id }}">
+                                                                <i class='bx bx-trash-alt'></i>
+                                                            </a>
+                                                            @endcan
+
+                                                            <form id="delete-employee-form-{{ $employee->id }}"
+                                                                action="{{ route('employee.destroy', $employee->id) }}"
+                                                                method="POST" style="display: none;">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                            </form>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                @include('admin.employee.add-document')
+                                                @endforeach
