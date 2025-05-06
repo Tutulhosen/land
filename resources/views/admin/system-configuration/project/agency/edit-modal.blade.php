@@ -1,6 +1,6 @@
 <div class="modal fade bs-example-modal-center" id="editModalgrid-agency-{{ $agency->id }}" tabindex="-1"
    aria-labelledby="editModalgridLabel" style="display: none;" aria-modal="true" role="dialog">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered custom-modal-width">
        <div class="modal-content">
           <div class="modal-header">
              <h4 class="project-details-card-header-title"><i class="bx bx-user-pin bx-tada bx-flip-horizontal"></i>Edit Agency</h4>

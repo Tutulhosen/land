@@ -26,12 +26,25 @@ class ProjectController extends Controller
         return response()->json($blocks);
     }
 
+    public function get_road_by_block($id)
+    {
+        $roads = Road::where('block_id', $id)->get(); 
+        return response()->json($roads);
+    }
+
     public function get_plot_size_by_plot($id)
     {
         $plot_size = PlotSize::where('plot_type_id', $id)->get(); 
-        // dd($plot_size);
         return response()->json($plot_size);
     }
+
+    public function get_plot_price_by_size($id)
+    {
+        $plot_price = PlotPrice::where('plot_size_id', $id)->first(); 
+      
+        return response()->json($plot_price);
+    }
+    
 
 
 
@@ -275,8 +288,16 @@ class ProjectController extends Controller
             'address' => 'required',
         ]);
         // dd($request->all());
-        $openingTime = Carbon::createFromFormat('h:i A', $request->opening_time)->format('H:i:s');
-        $closing_time = Carbon::createFromFormat('h:i A', $request->closing_time)->format('H:i:s');
+        if ($request->opening_time) {
+            $openingTime = Carbon::createFromFormat('h:i A', $request->opening_time)->format('H:i:s');
+        } else {
+            $openingTime = null;
+        }
+        if ($request->closing_time) {
+            $closing_time = Carbon::createFromFormat('h:i A', $request->closing_time)->format('H:i:s');
+        } else {
+            $closing_time = null;
+        }
         Agency::create([
             'project_id' => $request->project,
             'agency_name' => $request->agency_name,

@@ -1,6 +1,6 @@
 <div class="modal fade bs-example-modal-center" id="editModalgrid-salesman-{{ $salesman->id }}" tabindex="-1"
    aria-labelledby="editModalgridLabel" style="display: none;" aria-modal="true" role="dialog">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered custom-modal-width">
        <div class="modal-content">
           <div class="modal-header">
              <h4 class="project-details-card-header-title"><i class="bx bx-user-pin bx-tada bx-flip-horizontal"></i>Edit Salesman</h4>
@@ -61,7 +61,7 @@
   
                     <div class="col-lg-12">
                        <div class="form-group">
-                           <label for="address">Agency Address</label>
+                           <label for="address">Salesman Address</label>
                            <textarea name="address" class="form-control h-100" id="address">{{$salesman->address}}</textarea>
                            @error('address') <span class="text-danger">{{ $message }}</span> @enderror
                        </div>

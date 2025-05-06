@@ -422,7 +422,7 @@
                                     </a>
                                 </li>
                                 <li class="">
-                                    <a href="">
+                                    <a href="{{route('plot.index')}}">
                                         <i class='bx bx-building-house'></i>
                                         <span class="sub-item">Plot Setup</span>
                                     </a>

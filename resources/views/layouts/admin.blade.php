@@ -40,6 +40,10 @@
             height: 36px;
             line-height: 36px;
         }
+
+        .custom-modal-width {
+            max-width: 60% !important; 
+        }
     </style>
     @stack('styles')
 </head>

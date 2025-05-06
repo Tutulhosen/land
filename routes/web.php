@@ -31,7 +31,7 @@ use App\Http\Controllers\Admin\HrAdminSetup\DocumentTemplateController;
 use App\Http\Controllers\Admin\LeaveManagement\LeaveApplicationController;
 use App\Http\Controllers\Admin\SystemConfiguration\AdditionalSetupController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
-
+use App\Http\Controllers\Admin\SystemConfiguration\PlotController;
 
 //system setup routes
 Route::get('/setup', [SetupController::class, 'index'])->name('setup.welcome');
@@ -388,7 +388,9 @@ Route::middleware(['auth:admin', 'verified'])->group(function () {
 
         //dependency route
         Route::get('/get_block_by_sector/{id}', 'get_block_by_sector')->name('get.block.by.sector');
+        Route::get('/get_road_by_block/{id}', 'get_road_by_block')->name('get.road.by.block');
         Route::get('/get_plot_size_by_plot/{id}', 'get_plot_size_by_plot')->name('get.plot.size.by.plot');
+        Route::get('/get_plot_price_by_size/{id}', 'get_plot_price_by_size')->name('get.plot.price.by.size');
 
 
 
@@ -440,6 +442,16 @@ Route::middleware(['auth:admin', 'verified'])->group(function () {
         Route::put('/project-setup/plot_price/update/{id}', 'plot_priceUpdate')->name('plot_price.update');
         Route::delete('/project-setup/plot_price/destroy/{id}', 'plot_priceDestroy')->name('plot_price.destroy');
         Route::post('/project-setup/plot_price/toggle/{id}','plot_priceToggle')->name('plot_price.toggle');
+
+    });
+
+    //plot setup
+    Route::prefix('/dashboard/plot')->controller(PlotController::class)->group(function () {
+        Route::get('/plot-setup', 'index')->name('plot.index');
+        Route::post('/plot/store', 'plotStore')->name('plot.store');
+        Route::put('/plot/update/{id}', 'plotUpdate')->name('plot.update');
+        Route::delete('/plot/destroy/{id}', 'plotDestroy')->name('plot.destroy');
+        Route::post('/plot/toggle/{id}','plotToggle')->name('plot.toggle');
 
     });
 
