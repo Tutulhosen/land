@@ -24,6 +24,7 @@ use App\Models\Admin\Employee\EmployeeOfficial;
 use App\Models\Admin\Employee\EmployeeTraining;
 use App\Models\Admin\Employee\EmployeeTransfer;
 use App\Models\Admin\SystemConfiguration\Grade;
+use App\Models\Admin\SystemConfiguration\Agency;
 use App\Models\Admin\SystemConfiguration\Branch;
 use App\Models\Admin\SystemConfiguration\Gender;
 use App\Models\Admin\SystemConfiguration\WeekOff;
@@ -35,14 +36,15 @@ use App\Models\Admin\SystemConfiguration\BloodGroup;
 use App\Models\Admin\SystemConfiguration\Salutation;
 use App\Models\Admin\HrAdminSetup\ShiftAndDepartment;
 use App\Models\Admin\SystemConfiguration\Nationality;
-use App\Models\Admin\SystemConfiguration\ProjectList;
 
+use App\Models\Admin\SystemConfiguration\ProjectList;
 use App\Models\Admin\SystemConfiguration\EmployeeType;
 use App\Models\Admin\Employee\EmployeeEmergencyContact;
 use App\Models\Admin\SystemConfiguration\EducationType;
 use App\Models\Admin\Employee\EmployeePayRollInformation;
 use App\Models\Admin\SystemConfiguration\ProbationPeriod;
 use App\Models\Admin\Employee\{EmployeePersonalInformation, EmployeeContact, EmployeeOfficialInformation, EmployeeGranter, EmployeeReference, EmployeeEducation, EmployeeExperience};
+use App\Models\Division;
 
 class EmployeeController extends Controller
 {
@@ -228,7 +230,9 @@ class EmployeeController extends Controller
         $branches =  Branch::where('status', true)->orderBy('name', 'asc')->get();
         $employee_types  = EmployeeType::where('status', true)->get();
         $religions = Religion::where('status', true)->get();
-
+        $agencies = Agency::orderBy('id','desc')->get();
+        $divisions = Division::orderBy('id','desc')->get();
+        
         return view('admin.employee.create',compact(
             'departments',
             'designations',
@@ -249,6 +253,8 @@ class EmployeeController extends Controller
             'religions',
             'grades',
             'projects',
+            'agencies',
+            'divisions',
         ));
     }
     private function handleFileUpload($file, $path)
