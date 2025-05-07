@@ -1,6 +1,19 @@
 @extends('layouts.admin')
 @section('title','Employees Create')
 @section('content')
+<style>
+    .h_add p {
+        background: #08C2FF;
+        font-size: 14px;
+        font-weight: 500;
+        color: #fff !important;
+        border-radius: 0 15px 15px 15px;
+        align-items: center;
+        height: 40px;
+        display: inline-block;
+        padding: 9px 20px;
+    }
+</style>
 <div class="container">
     <div class="page-inner">
         <div class="row">
@@ -12,7 +25,7 @@
                         <div class="card-header project-details-card-header">
                             <div class="d-flex align-items-center">
                                 <h4 class="project-details-card-header-title"><i class='bx bx-user bx-tada'></i>Create
-                                    Employee</h4>
+                                    Customer</h4>
                             </div>
                         </div>
                         <div class="text-center m-3">
@@ -20,7 +33,7 @@
                                 <li class="nav-item employeebars" role="presentation">
                                     <a class="nav-link employee-link active" id="line-personalinformation-tab"
                                         data-bs-toggle="pill" href="#line-personalinformation" role="tab"
-                                        aria-controls="pills-personalinformation" aria-selected="true">Personal
+                                        aria-controls="pills-personalinformation" aria-selected="true">General
                                         Information</a>
                                 </li>
                                 <li class="nav-item employeebars" role="presentation">
@@ -28,11 +41,6 @@
                                         data-bs-toggle="pill" href="#line-contactinformation" role="tab"
                                         aria-controls="pills-contactinformation" aria-selected="true">Contact
                                         Information</a>
-                                </li>
-                                <li class="nav-item employeebars" role="presentation">
-                                    <a class="nav-link employee-link" id="line-official-tab" data-bs-toggle="pill"
-                                        href="#line-official" role="tab" aria-controls="pills-official"
-                                        aria-selected="false" tabindex="-1">Official Information</a>
                                 </li>
                                 <li class="nav-item employeebars" role="presentation">
                                     <a class="nav-link employee-link" id="line-granter-tab" data-bs-toggle="pill"
@@ -44,495 +52,399 @@
                                         href="#line-reference" role="tab" aria-controls="pills-reference"
                                         aria-selected="false" tabindex="-1">Reference Information</a>
                                 </li>
-                                <li class="nav-item employeebars" role="presentation">
-                                    <a class="nav-link employee-link" id="line-education-tab" data-bs-toggle="pill"
-                                        href="#line-education" role="tab" aria-controls="pills-education"
-                                        aria-selected="false" tabindex="-1">Education History</a>
-                                </li>
-                                <li class="nav-item employeebars" role="presentation">
-                                    <a class="nav-link employee-link" id="line-experience-tab" data-bs-toggle="pill"
-                                        href="#line-experience" role="tab" aria-controls="pills-experience"
-                                        aria-selected="false" tabindex="-1">Experiance History</a>
-                                </li>
-                                <li class="nav-item employeebars" role="presentation">
-                                    <a class="nav-link employee-link" id="line-training-tab" data-bs-toggle="pill"
-                                        href="#line-training" role="tab" aria-controls="pills-training"
-                                        aria-selected="false" tabindex="-1">Training History</a>
-                                </li>
-                                <li class="nav-item employeebars" role="presentation">
-                                    <a class="nav-link employee-link" id="line-payrollinformation-tab"
-                                        data-bs-toggle="pill" href="#line-payrollinformation" role="tab"
-                                        aria-controls="pills-payrollinformation" aria-selected="false"
-                                        tabindex="-1">PayRoll Information</a>
-                                </li>
+                                
 
                             </ul>
                         </div>
                         <div class="card-body">
                             <div class="tab-content mt-3 mb-3" id="line-tabContent">
-                                <!--personalinformation Information-->
+                                <!--General Information-->
                                 <div class="tab-pane fade show active" id="line-personalinformation" role="tabpanel"
                                     aria-labelledby="line-personalinformation-tab">
                                     <div class="row">
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-2">
                                             <div class="form-group">
-                                                <label class="small-label-text">Salutation</label>
-                                                <select class="form-select form-control select2" name="salutation"
-                                                    placeholder="Salutation">
-                                                    <option selected disabled>Select Salutation</option>
-                                                    @foreach ($salutations as $salutation)
-                                                    <option value="{{ $salutation->id }}">
-                                                        {{ $salutation->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                                @error('salutation') <span class="text-danger">{{ $message }}</span>
-                                                @enderror
+                                                <label class="small-label-text">Customer ID number</label>
+                                                <input type="text" class="form-control custom-input custom-input" id="email2" placeholder="Customer ID">
                                             </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label for="first_name">First Name<span class="text-danger"> *</span></label>
-                                                <input type="text" class="form-control  "
-                                                    id="first_name" name="first_name" placeholder="Enter First Name"
-                                                    value="{{ old('first_name') }}" required>
-                                                @error('first_name') <span class="text-danger">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label for="last_name">Last Name <span class="text-danger"> *</span></label>
-                                                <input type="text" class="form-control "
-                                                    id="last_name" name="last_name" placeholder="Enter Last Name"
-                                                    value="{{ old('last_name') }}" required>
-                                                @error('last_name') <span class="text-danger">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label for="emp_id">Employee Id<span class="text-danger"> *</span></label>
-                                                <input type="text" class="form-control"
-                                                    id="emp_id" name="emp_id" placeholder="Enter Employee Id: (EMP-000)"
-                                                    value="{{ old('emp_id') }}" required>
-                                                @error('emp_id') <span class="text-danger">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label for="gender">Gender<span class="text-danger"> *</span></label>
-                                                <select class="form-select form-control  select2" name="gender"
-                                                    placeholder="Gender" required>
-                                                    <option selected disabled>Select Gender</option>
-                                                    @foreach ($genders as $gender)
-                                                    <option value="{{ $gender->id }}">
-                                                        {{ $gender->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                                @error('gender') <span class="text-danger">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label for="religion">Religion<span class="text-danger">  *</span></label>
-                                                <button type="button" class="float-end btn btn-secondary btn-xs mb-1" id=""
-                                                    data-bs-toggle="modal" data-bs-target="#religionModal" >
-                                                    <i class="bx bx-plus"></i>
-                                                </button>
-                                                <select class="form-select form-control  select2" name="religion" id="religion"
-                                                    placeholder="Religion" required>
-                                                    <option selected disabled>Select Religion</option>
-                                                    @foreach ($religions as $religion)
-                                                    <option value="{{ $religion->id }}">
-                                                        {{ $religion->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                                @error('religion') <span class="text-danger">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label for="nationality">Nationality<span class="text-danger"> *</span></label>
-                                                <select class="form-select form-control  select2" name="nationality"
-                                                    placeholder="Nationality" required>
-                                                    <option selected disabled>Select Nationality</option>
-                                                    @foreach ($nationalities as $nationality)
-                                                    <option value="{{ $nationality->id }}">
-                                                        {{ $nationality->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label for="blood_group">Blood Group</label>
-                                                <select class="form-select form-control  select2" id="blood_group"
-                                                    name="blood_group">
-                                                    <option value="" selected disabled>Select Blood Group</option>
-                                                    @foreach ($bloodgroups as $bloodgroup)
-                                                    <option value="{{$bloodgroup->id}}">{{$bloodgroup->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                                @error('blood_group') <span class="text-danger">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label for="identification_type">Identification Type</label>
-                                                <select class="form-select form-control select2" id="identification_type"  name="identification_type">
-                                                    <option value="" selected disabled>Select Identification Type</option>
-                                                    <option value="Birth Registration Number">Birth Registration Number</option>
-                                                    <option value="NID Old">NID Old</option>
-                                                    <option value="NID New">NID New</option>
-                                                    <option value="Passport">Passport</option>
-                                                    <option value="Driving Licence">Driving Licence</option>
-                                                    <option value="Others">Others</option>
-                                                </select>
-                                                @error('identification_type') <span
-                                                    class="text-danger">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label for="identification_number">Identification Number</label>
-                                                <input type="text" class="form-control  "
-                                                    id="identification_number" name="identification_number"
-                                                    placeholder="Enter Identification Number"
-                                                    value="{{ old('identification_number') }}">
-                                                @error('identification_number') <span
-                                                    class="text-danger">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label for="dob">Date Of Birth<span
-                                                        class="text-danger">
-                                                        *</span></label>
-                                                <input type="text" class="form-control  datepicker"
-                                                    id="dob" name="dob"
-                                                    placeholder="Enter Date Of Birth"
-                                                    value="{{ old('dob') }}" required>
-                                                @error('dob') <span
-                                                    class="text-danger">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label for="fathers_name">Father's Name</label>
-                                                <input type="text" class="form-control  "
-                                                    id="fathers_name" name="fathers_name"
-                                                    placeholder="Enter Father's Name" value="{{ old('fathers_name') }}">
-                                                @error('fathers_name') <span class="text-danger">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label for="mothers_name">Mother's Name</label>
-                                                <input type="text" class="form-control  "
-                                                    id="mothers_name" name="mothers_name"
-                                                    placeholder="Enter Mother's Name" value="{{ old('mothers_name') }}">
-                                                @error('mothers_name') <span class="text-danger">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label for="marital_status">Marital Status</label>
-                                                <select class="form-select form-control  select2" id="marital_status"
-                                                    name="marital_status">
-                                                    <option value="" selected disabled>Select Marital Status</option>
-                                                    <option value="Single">Single</option>
-                                                    <option value="Married">Married</option>
-                                                    <option value="Divorced">Divorced</option>
-                                                </select>
-                                                @error('marital_status') <span class="text-danger">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12 spouse-field ">
-                                            <div class="card bg-primary-subtle mb-0 mt-4">
-                                                <div class="card-body">
-                                                    <div class="row">
-                                                        <div class="col-sm-4 ">
-                                                            <div class="form-group">
-                                                                <label for="spouse_name">Spouse Name</label>
-                                                                <input type="text" class="form-control" id="spouse_name"
-                                                                    name="spouse_name" placeholder="Enter Spouse Name"
-                                                                    value="{{ old('spouse_name') }}">
-                                                                @error('spouse_name') <span class="text-danger">{{ $message }}</span>
-                                                                @enderror
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-4 ">
-                                                            <div class="form-group">
-                                                                <label for="spouse_occupation">Spouse Occupation</label>
-                                                                <input type="text" class="form-control" id="spouse_occupation"
-                                                                    name="spouse_occupation" placeholder="Enter Spouse Occupation"
-                                                                    value="{{ old('spouse_occupation') }}">
-                                                                @error('spouse_occupation') <span
-                                                                    class="text-danger">{{ $message }}</span> @enderror
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-4 ">
-                                                            <div class="form-group">
-                                                                <label for="spouse_organization">Spouse's Organization</label>
-                                                                <input type="text" class="form-control" id="spouse_organization"
-                                                                    name="spouse_organization" placeholder="Enter Spouse's Organization"
-                                                                    value="{{ old('spouse_organization') }}">
-                                                                @error('spouse_organization') <span
-                                                                    class="text-danger">{{ $message }}</span> @enderror
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-4 ">
-                                                            <div class="form-group">
-                                                                <label for="spouse_mobile">Spouse's Mobile No</label>
-                                                                <input type="text" class="form-control" id="spouse_mobile"
-                                                                    name="spouse_mobile" placeholder="Enter Spouse's Mobile No"
-                                                                    value="{{ old('spouse_mobile') }}">
-                                                                @error('spouse_mobile') <span class="text-danger">{{ $message }}</span>
-                                                                @enderror
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-4 ">
-                                                            <div class="form-group">
-                                                                <label for="spouse_nid_number">Spouse NID Number</label>
-                                                                <input type="text" class="form-control" id="spouse_nid_number"
-                                                                    name="spouse_nid_number" placeholder="Spouse NID Number">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-4 ">
-                                                            <div class="form-group">
-                                                                <label for="spouse_nid">Spouse NID</label>
-                                                                <input type="file" class="form-control" id="spouse_nid"
-                                                                    name="spouse_nid">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-4 ">
-                                                            <div class="form-group">
-                                                                <label for="spouse_dob">Spouse's Date of Birth</label>
-                                                                <input type="text" class="form-control datepicker" name="spouse_dob"
-                                                                    id="spouse_dob" value="{{ old('spouse_dob') }}">
-                                                                @error('spouse_dob') <span class="text-danger">{{ $message }}</span>
-                                                                @enderror
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                       </div>
+
+                                       <div class="col-sm-4">
+                                          <div class="form-group">
+                                             <label for="email2">Customer Name (English)</label>
+                                             <input type="text" class="form-control custom-input custom-input" id="email2" placeholder="Type Customer Name English">
+                                          </div>
+                                       </div>
+
+                                       <div class="col-sm-4">
+                                          <div class="form-group">
+                                             <label for="email2">Customer Name (Bangla)</label>
+                                             <input type="text" class="form-control custom-input custom-input" id="email2" placeholder="Type Customer Name Bangla">
+                                          </div>
+                                       </div>
+
+                                       <div class="col-sm-2">
+                                          <div class="form-group">
+                                             <label>Old Customer ID</label>
+                                             <input type="text" class="form-control custom-input custom-input" id="email2" placeholder="Customer ID">
+                                          </div>
+                                       </div>
+
+                                       <div class="col-sm-4">
+                                          <div class="form-group">
+                                             <label for="email2">Gender</label>
+                                             <select class="form-select form-control" id="defaultSelect" placeholder="Expense Category">
+                                                <option>-Select-</option>
+                                                <option>Male</option>
+                                                <option>Female</option>
+                                                <option>Others</option>
+                                             </select>
+                                          </div>
+                                       </div>
+
+                                       <div class="col-sm-4">
+                                          <div class="form-group">
+                                             <label for="email2">Nationality</label>
+                                             <select class="form-select form-control" id="defaultSelect" placeholder="Expense Category">
+                                                <option>-Select-</option>
+                                                <option>Bangladesh</option>
+                                                <option>Indian</option>
+                                                <option>Dubai</option>
+                                             </select>
+                                          </div>
+                                       </div>
+
+                                       <div class="col-sm-4">
+                                          <div class="form-group">
+                                             <label for="email2">Blood Group</label>
+                                             <select class="form-select form-control" id="defaultSelect" placeholder="Expense Category">
+                                                <option>-Select-</option>
+                                                <option>A+</option>
+                                                <option>B+</option>
+                                                <option>AB+</option>
+                                             </select>
+                                          </div>
+                                       </div>
+
+                                       <div class="col-sm-6">
+                                          <div class="form-group">
+                                             <label for="email2">Father's Name (English)</label>
+                                             <input type="text" class="form-control custom-input custom-input" id="email2" placeholder="Type Customer Father's Name in English">
+                                          </div>
+                                       </div>
+
+                                       <div class="col-sm-6">
+                                          <div class="form-group">
+                                             <label for="email2">Father's Name (Bangla)</label>
+                                             <input type="text" class="form-control custom-input custom-input" id="email2" placeholder="Type Customer Father's Name in Bangla">
+                                          </div>
+                                       </div>
+
+                                       <div class="col-sm-6">
+                                          <div class="form-group">
+                                             <label for="email2">Mother's Name (English)</label>
+                                             <input type="text" class="form-control custom-input custom-input" id="email2" placeholder="Type Customer Mother's Name in English">
+                                          </div>
+                                       </div>
+
+                                       <div class="col-sm-6">
+                                          <div class="form-group">
+                                             <label for="email2">Mother's Name (Bangla)</label>
+                                             <input type="text" class="form-control custom-input custom-input" id="email2" placeholder="Type Customer Mother's Name in Bangla">
+                                          </div>
+                                       </div>
+
+                                       <div class="col-sm-4">
+                                          <div class="form-group">
+                                             <label for="email2">Date of Birth</label>
+                                             <input type="date" class="form-control custom-input custom-input" id="email2" placeholder="Expense Date">
+                                          </div>
+                                       </div>
+
+                                       <div class="col-sm-2">
+                                          <div class="form-group">
+                                             <label for="email2">Age</label>
+                                             <input type="text" class="form-control custom-input custom-input" id="email2" placeholder="Current Age">
+                                          </div>
+                                       </div>
+
+                                       <div class="col-sm-2">
+                                          <div class="form-group">
+                                             <label>ID Type</label>
+                                             <select class="form-select form-control" id="defaultSelect" placeholder="Expense Category">
+                                                <option>Passport</option>
+                                                <option>NID Card</option>
+                                                <option>NID Smart Card</option>
+                                                <option>Birth Registration</option>
+                                                <option>Driving Licence</option>
+                                             </select>
+                                          </div>
+                                       </div>
+
+                                       <div class="col-sm-4">
+                                          <div class="form-group">
+                                             <label>ID Number</label>
+                                             <input type="text" class="form-control custom-input custom-input" id="email2" placeholder="Type Customer ID Number">
+                                          </div>
+                                       </div>
+
+                                       <div class="col-sm-4">
+                                          <div class="form-group">
+                                             <label for="email2">Religion</label>
+                                             <select class="form-select form-control" id="defaultSelect" placeholder="Expense Category">
+                                                <option>Muslim</option>
+                                                <option>Hindu</option>
+                                                <option>Kristian</option>
+                                                <option>Buddisht</option>
+                                                <option>Others</option>
+                                             </select>
+                                          </div>
+                                       </div>
+
+                                       <div class="col-sm-4">
+                                          <div class="form-group">
+                                             <label for="email2">Profession</label>
+                                             <input type="text" class="form-control custom-input custom-input" id="email2" placeholder="Type Customer Profession">
+                                          </div>
+                                       </div>
+
+                                       <div class="col-sm-4">
+                                          <div class="form-group">
+                                             <label for="email2">Upload ID Card</label>
+                                             <input type="file" class="form-control" id="email2" placeholder="Domain Name">
+                                          </div>
+                                       </div>
+
+                                       <div class="col-sm-4">
+                                          <div class="form-group">
+                                             <label for="email2">Agency Name</label>
+                                             <select class="form-select form-control" id="defaultSelect" placeholder="Expense Category">
+                                                <option>--Select--</option>
+                                                <option>GoldenEye</option>
+                                                <option>Puspodhara</option>
+                                                <option>Others1</option>
+                                                <option>Others2</option>
+                                             </select>
+                                          </div>
+                                       </div>
+
+                                       <div class="col-sm-4">
+                                          <div class="form-group">
+                                             <label for="email2">Salesman Name</label>
+                                             <select class="form-select form-control" id="defaultSelect" placeholder="Expense Category">
+                                                <option>--Select--</option>
+                                                <option>Md.Saokat Shaon</option>
+                                                <option>Md. Nahid Islam</option>
+                                                <option>Md. Saokat Hossain</option>
+                                                <option>Md. Abul Hasan</option>
+                                             </select>
+                                          </div>
+                                       </div>
 
                                     </div>
                                 </div>
+
                                 <!--Contact Information-->
                                 <div class="tab-pane fade" id="line-contactinformation" role="tabpanel"
                                     aria-labelledby="line-contactinformation-tab">
                                     <div class="row">
-                                        <div class="col-sm-4">
+                                         <div class="col-sm-3">
                                             <div class="form-group">
-                                                <label for="contact_number">Contact Number<span class="text-danger"> *</span></label>
-                                                <input type="text" class="form-control " id="contact_number"
-                                                    name="contact_number" value="{{ old('contact_number') }}"
-                                                    placeholder="Enter Contact Numbers" required>
-                                                @error('contact_number') <span class="text-danger">{{ $message}}</span>
-                                                @enderror
+                                               <label for="email2">Mobile Number</label>
+                                               <input type="text" class="form-control custom-input custom-input" id="email2" placeholder="Type Valid Mobile Number">
                                             </div>
+                                         </div>
 
-                                        </div>
-                                        <div class="col-sm-4">
+                                         <div class="col-sm-3">
                                             <div class="form-group">
-                                                <label for="email">Email Address</label>
-                                                <input type="email" class="form-control  "
-                                                    id="email" name="email" value="{{ old('email') }}"
-                                                    placeholder="Email Address">
-                                                @error('email') <span class="text-danger">{{ $message
-                                                    }}</span>
-                                                @enderror
+                                               <label for="email2">Land Phone Number (If Any)</label>
+                                               <input type="text" class="form-control custom-input custom-input" id="email2" placeholder="Type Valid Phone Number">
                                             </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label>WhatsApp Number</label>
-                                                <input type="text" class="form-control  "
-                                                    id="whatsapp" name="whatsapp" value="{{ old('whatsapp') }}"
-                                                    placeholder="Whatsapp">
-                                                @error('whatsapp') <span class="text-danger">{{ $message
-                                                    }}</span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <div class="form-group">
-                                                <label for="pres_add">Present Address</label>
-                                                <input type="text" class="form-control" value="{{ old('pres_add') }}"
-                                                    id="pres_add" name="pres_add" placeholder="Full Address">
-                                                @error('pres_add') <span class="text-danger">{{ $message
-                                                    }}</span>
-                                                @enderror
-                                            </div>
-                                            <div class="form-check">
-                                                <input type="hidden" name="same_address" value="0">
-                                                <input type="checkbox" class="form-check-input" id="same_address"
-                                                    name="same_address" value="1">
-                                                <label class="form-check-label" for="same_address">Same as Present
-                                                    Address</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <div class="form-group">
-                                                <label for="district">District</label>
-                                                <select class="form-select form-control select2" id="district" name="district">
-                                                    <option value="" selected disabled>Select District</option>
-                                                    @foreach ($districts as $district )
-                                                    <option value="{{ $district->name }}" {{
-                                                        old('district')==$district->name ? 'selected' : '' }}>
-                                                        {{ $district->name }}
-                                                    </option>
-                                                    @endforeach
-                                                    @error('district') <span class="text-danger">{{ $message
-                                                        }}</span>
-                                                    @enderror
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-2">
-                                            <div class="form-group">
-                                                <label for="postal_code">Postal Code</label>
-                                                <input type="text" class="form-control" id="postal_code"
-                                                    name="postal_code" value="{{ old('postal_code') }}"
-                                                    placeholder="Postal Code">
-                                                @error('postal_code') <span class="text-danger">{{
-                                                    $message}}</span>@enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <div class="form-group">
-                                                <label for="permanent_add">Permanent Address</label>
-                                                <input type="text" class="form-control" id="permanent_add"
-                                                    name="permanent_add" value="{{ old('permanent_add') }}"
-                                                    placeholder="Full Address">
-                                                @error('permanent_add') <span class="text-danger">{{ $message}}</span>
-                                                @enderror
-                                            </div>
+                                         </div>
 
-                                        </div>
-                                        <div class="col-sm-3">
+                                         <div class="col-sm-3">
                                             <div class="form-group">
-                                                <label for="email2">District</label>
-                                                <select class="form-select form-control select2" id="permanent_district"
-                                                    name="permanent_district" placeholder="Expense Category">
-                                                    <option value="" selected disabled>Select District</option>
-                                                    @foreach ($districts as $district )
-                                                    <option value="{{ $district->name }}"
-                                                        {{
-                                                        old('permanent_district')==$district->name ? 'selected' : '' }}>
-                                                        {{ $district->name }}
-                                                    </option>
-                                                    @endforeach
-                                                </select>
-                                                @error('permanent_district') <span class="text-danger">{{
-                                                    $message}}</span>
-                                                @enderror
+                                               <label>WhatsApp Number</label>
+                                               <input type="text" class="form-control custom-input custom-input" id="email2" placeholder="Type Valid WhatsApp Number">
                                             </div>
-                                        </div>
-                                        <div class="col-sm-2">
+                                         </div>
+
+                                         <div class="col-sm-3">
                                             <div class="form-group">
-                                                <label for="permanent_postal_code">Postal Code</label>
-                                                <input type="text" class="form-control" id="permanent_postal_code"
-                                                    name="permanent_postal_code"
-                                                    value="{{ old('permanent_postal_code') }}"
-                                                    placeholder="Postal Code">
-                                                @error('permanent_postal_code') <span class="text-danger">{{
-                                                    $message}}</span>@enderror
+                                               <label for="email2">Email Address</label>
+                                               <input type="text" class="form-control custom-input custom-input" id="email2" placeholder="Type Valid Email Address">
                                             </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="card mb-0 mt-4 bg-info-subtle">
-                                                <div class="card-header">
-                                                    <h5 class="mb-0">Emergency Contact Information</h5>
-                                                </div>
-                                                <div class="card-body">
-                                                    <div class="row">
-                                                        <div class="col-sm-4">
-                                                            <div class="form-group">
-                                                                <label for="emergency_contact_person">Emergency Contact Person
-                                                                    Name</label>
-                                                                <input type="text" class="form-control" id="emergency_contact_person"
-                                                                    name="emergency_contact_person"
-                                                                    placeholder="Emergency Contact Person Name"
-                                                                    value="{{ old('emergency_contact_person') }}">
-                                                                @error('emergency_contact_person') <span
-                                                                    class="text-danger">{{$message}}</span>
-                                                                @enderror
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-4">
-                                                            <div class="form-group">
-                                                                <label for="relation">Relation</label>
-                                                                <select class="form-select form-control select2" id="relation" name="relation"
-                                                                    placeholder="Expense Category">
-                                                                    <option value="" selected disabled>Select Relation</option>
-                                                                    @foreach ($relations as $relation)
-                                                                    <option value="{{$relation->id}}">{{$relation->name}}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                                @error('relation') <span class="text-danger">{{ $message}}</span>
-                                                                @enderror
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-4">
-                                                            <div class="form-group">
-                                                                <label for="occupation">Occupation</label>
-                                                                <input type="text" class="form-control" id="occupation"
-                                                                    name="occupation" placeholder="Occupation"
-                                                                    value="{{ old('occupation') }}">
-                                                                @error('occupation') <span class="text-danger">{{ $message}}</span>
-                                                                @enderror
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-4">
-                                                            <div class="form-group">
-                                                                <label for="emergency_contact">Contact Number</label>
-                                                                <input type="text" class="form-control "
-                                                                    id="emergency_contact" name="emergency_contact"
-                                                                    placeholder="Contact Number" value="{{ old('emergency_contact') }}">
-                                                                @error('emergency_contact') <span class="text-danger">{{
-                                                                                $message}}</span>
-                                                                @enderror
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-4">
-                                                            <div class="form-group">
-                                                                <label for="emergency_email">Email</label>
-                                                                <input type="email" class="form-control "
-                                                                    id="emergency_email" name="emergency_email" placeholder="Email"
-                                                                    value="{{ old('emergency_email') }}">
-                                                                @error('emergency_email') <span class="text-danger">{{ $message}}</span>
-                                                                @enderror
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-4">
-                                                            <div class="form-group">
-                                                                <label for="emergency_address">Address</label>
-                                                                <input type="text" class="form-control" id="emergency_address"
-                                                                    name="emergency_address" placeholder="Full Address"
-                                                                    value="{{ old('emergency_address') }}">
-                                                                @error('emergency_address') <span class="text-danger">{{
-                                                                                $message}}</span>
-                                                                @enderror
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                         </div>
+                                         <div class="h_add" style="width: 100%;  margin-bottom:-15px; margin-top:10px">
+                                            <p style="color: white; background-color:#6c6cdd">Present Address</p>
+                                         </div>
+                                         
+                                         <div class="col-sm-3">
+                                            <div class="form-group">
+                                               <label for="email2">Division</label>
+                                               <select class="form-select form-control" id="defaultSelect" placeholder="Expense Category">
+                                                  <option>-Select-</option>
+                                                  <option>Dhaka</option>
+                                                  <option>Rajshahi</option>
+                                                  <option>Barishal</option>
+                                                  <option>Khulna</option>
+                                                  <option>Sylhet</option>
+                                                  <option>Chittagong</option>
+                                               </select>
                                             </div>
-                                        </div>
+                                         </div>
+
+                                         <div class="col-sm-3">
+                                            <div class="form-group">
+                                               <label for="email2">District</label>
+                                               <select class="form-select form-control" id="defaultSelect" placeholder="Expense Category">
+                                                  <option>-Select-</option>
+                                                  <option>Dhaka</option>
+                                                  <option>Rajshahi</option>
+                                                  <option>Barishal</option>
+                                                  <option>Khulna</option>
+                                                  <option>Sylhet</option>
+                                                  <option>Chittagong</option>
+                                               </select>
+                                            </div>
+                                         </div>
+
+                                         <div class="col-sm-3">
+                                            <div class="form-group">
+                                               <label for="email2">Thana/Upozila</label>
+                                               <select class="form-select form-control" id="defaultSelect" placeholder="Expense Category">
+                                                  <option>-Select-</option>
+                                                  <option>Dhaka</option>
+                                                  <option>Rajshahi</option>
+                                                  <option>Barishal</option>
+                                                  <option>Khulna</option>
+                                                  <option>Sylhet</option>
+                                                  <option>Chittagong</option>
+                                               </select>
+                                            </div>
+                                         </div>
+
+                                         <div class="col-sm-3">
+                                            <div class="form-group">
+                                               <label for="email2">Word/Union</label>
+                                               <select class="form-select form-control" id="defaultSelect" placeholder="Expense Category">
+                                                  <option>-Select-</option>
+                                                  <option>Dhaka</option>
+                                                  <option>Rajshahi</option>
+                                                  <option>Barishal</option>
+                                                  <option>Khulna</option>
+                                                  <option>Sylhet</option>
+                                                  <option>Chittagong</option>
+                                               </select>
+                                            </div>
+                                         </div>
+
+                                         <div class="col-sm-7">
+                                            <div class="form-group">
+                                               <label for="email2">Present Address</label>
+                                               <input type="text" class="form-control" id="email2" placeholder="Type Full Address">
+                                            </div>
+                                         </div>
+
+                                         <div class="col-sm-3">
+                                            <div class="form-group">
+                                               <label for="email2">Post Office</label>
+                                               <input type="text" class="form-control" id="email2" placeholder="Type Post Office Name">
+                                            </div>
+                                         </div>
+
+                                         <div class="col-sm-2">
+                                            <div class="form-group">
+                                               <label for="email2">Postal Code</label>
+                                               <input type="text" class="form-control" id="email2" placeholder="Type Post Code">
+                                            </div>
+                                         </div>
+
+                                         <div class="h_add" style="width: 100%; margin-bottom:-15px; margin-top:10px">
+                                            <p style="color: white; background-color:#6c6cdd">Permanent Address</p> <input type="checkbox"> Same As Present Address
+                                         </div>
+
+                                         <div class="col-sm-3">
+                                            <div class="form-group">
+                                               <label for="email2">Division</label>
+                                               <select class="form-select form-control" id="defaultSelect" placeholder="Expense Category">
+                                                  <option>-Select-</option>
+                                                  <option>Dhaka</option>
+                                                  <option>Rajshahi</option>
+                                                  <option>Barishal</option>
+                                                  <option>Khulna</option>
+                                                  <option>Sylhet</option>
+                                                  <option>Chittagong</option>
+                                               </select>
+                                            </div>
+                                         </div>
+
+                                         <div class="col-sm-3">
+                                            <div class="form-group">
+                                               <label for="email2">District</label>
+                                               <select class="form-select form-control" id="defaultSelect" placeholder="Expense Category">
+                                                  <option>-Select-</option>
+                                                  <option>Dhaka</option>
+                                                  <option>Rajshahi</option>
+                                                  <option>Barishal</option>
+                                                  <option>Khulna</option>
+                                                  <option>Sylhet</option>
+                                                  <option>Chittagong</option>
+                                               </select>
+                                            </div>
+                                         </div>
+
+                                         <div class="col-sm-3">
+                                            <div class="form-group">
+                                               <label for="email2">Thana/Upozila</label>
+                                               <select class="form-select form-control" id="defaultSelect" placeholder="Expense Category">
+                                                  <option>-Select-</option>
+                                                  <option>Dhaka</option>
+                                                  <option>Rajshahi</option>
+                                                  <option>Barishal</option>
+                                                  <option>Khulna</option>
+                                                  <option>Sylhet</option>
+                                                  <option>Chittagong</option>
+                                               </select>
+                                            </div>
+                                         </div>
+
+                                         <div class="col-sm-3">
+                                            <div class="form-group">
+                                               <label for="email2">Word/Union</label>
+                                               <select class="form-select form-control" id="defaultSelect" placeholder="Expense Category">
+                                                  <option>-Select-</option>
+                                                  <option>Dhaka</option>
+                                                  <option>Rajshahi</option>
+                                                  <option>Barishal</option>
+                                                  <option>Khulna</option>
+                                                  <option>Sylhet</option>
+                                                  <option>Chittagong</option>
+                                               </select>
+                                            </div>
+                                         </div>
+
+                                         <div class="col-sm-7">
+                                            <div class="form-group">
+                                               <label for="email2">Permanent Address</label>
+                                               <input type="text" class="form-control" id="email2" placeholder="Type Full Address">
+                                            </div>
+                                         </div>
+
+                                         <div class="col-sm-3">
+                                            <div class="form-group">
+                                               <label for="email2">Post Office</label>
+                                               <input type="text" class="form-control" id="email2" placeholder="Type Post Office Name">
+                                            </div>
+                                         </div>
+
+                                         <div class="col-sm-2">
+                                            <div class="form-group">
+                                               <label for="email2">Postal Code</label>
+                                               <input type="text" class="form-control" id="email2" placeholder="Type Post Code">
+                                            </div>
+                                         </div>
+
                                     </div>
                                 </div>
                                 <!--Official-->

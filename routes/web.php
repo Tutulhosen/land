@@ -33,6 +33,16 @@ use App\Http\Controllers\Admin\SystemConfiguration\AdditionalSetupController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\SystemConfiguration\PlotController;
 
+use Illuminate\Support\Facades\Artisan;
+
+Route::get('/clear-all', function () {
+    Artisan::call('cache:clear');
+    Artisan::call('route:clear');
+    Artisan::call('config:clear');
+    Artisan::call('view:clear');
+    return 'All caches cleared!';
+});
+
 //system setup routes
 Route::get('/setup', [SetupController::class, 'index'])->name('setup.welcome');
 Route::get('/setup/company', [SetupController::class, 'company'])->name('setup.company');
