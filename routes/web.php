@@ -104,11 +104,12 @@ Route::middleware(['auth:admin', 'verified'])->group(function () {
     });
 
     Route::prefix('/dashboard')->controller(EmployeeController::class)->group(function () {
-        Route::get('/employee/index', 'index')->name('employee.index');
-        Route::get('/employee/create', 'create')->name('employee.create');
-        Route::post('/employee/store', 'store')->name('employee.store');
-        Route::get('/employee/edit/{id}', 'edit')->name('employee.edit');
-        Route::put('/employee/update/{id}', 'update')->name('employee.update');
+        Route::get('/customer/index', 'index')->name('customer.index');
+        Route::get('/customer/create', 'create')->name('customer.create');
+        Route::post('/customer/store', 'store')->name('customer.store');
+        Route::get('/customer/edit/{id}', 'edit')->name('customer.edit');
+        Route::put('/customer/update/{id}', 'update')->name('employee.update');
+
         Route::delete('/employee/destroy/{id}', 'destroy')->name('employee.destroy');
         Route::get('/employee/designations/{departmentId}', 'getDesignations');
         Route::get('/employee/branch/employees/{branchId}', 'getEmployeesByBranch');

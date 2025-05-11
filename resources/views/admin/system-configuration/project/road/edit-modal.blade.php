@@ -38,7 +38,7 @@
                         <label for="block_edit">Block Name</label>
                         <select class="form-control block_edit" name="block" id="block_edit" required>
                            {{-- <option value="">--select Block--</option> --}}
-                           <option value="{{$road->block_id}}">{{$road->block->block_name}}</option>
+                           <option value="{{$road->block_id}}">{{$road->block->block_name ?? null}}</option>
                      
                         </select>
                         @error('block') <span class="text-danger">{{ $message }}</span> @enderror

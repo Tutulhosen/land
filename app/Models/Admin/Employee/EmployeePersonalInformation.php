@@ -2,8 +2,10 @@
 
 namespace App\Models\Admin\Employee;
 
+use App\Models\CustomerAttachment;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Admin\HrAdminSetup\Attendance;
+use App\Models\Admin\Employee\EmployeeGranter;
 use App\Models\Admin\SystemConfiguration\Gender;
 use App\Models\Admin\SystemConfiguration\Religion;
 use App\Models\Admin\SystemConfiguration\BloodGroup;
@@ -15,36 +17,77 @@ use App\Models\Admin\Employee\EmployeePayRollInformation;
 class EmployeePersonalInformation extends Model
 {
     use HasFactory;
-
+    protected $table = 'customers';
     protected $fillable = [
-        'emp_id',
-        'salutation',
-        'first_name',
-        'last_name',
+        'name',
+        'name_bangla',
+        'father_name',
+        'father_name_bangla',
+        'mother_name',
+        'mother_name_bangla',
+        'number',
+        'code',
+        'old_code',
+        'reg_date',
+        'contact_number_res',
+        'contact_number_emergency',
+        'email',
         'gender',
-        'religion',
-        'nationality',
-        'blood_group',
-        'identification_type',
-        'identification_number',
         'dob',
-        'fathers_name',
-        'mothers_name',
-        'marital_status',
-        'spouse_name',
-        'spouse_occupation',
-        'spouse_organization',
-        'spouse_mobile',
-        'spouse_nid_number',
-        'spouse_nid',
-        'spouse_dob',
-        'status',
-        'is_confirmed',
+        'nid_no',
+        'passport_no',
+        'region',
+        'nationality',
+        'occupation',
+        'designation',
+        'office_name',
+        'office_phone_no',
+        'office_address',
+        'mailing_address',
+        'mailing_address_bn',
+        'permanent_address',
+        'permanent_address_bn',
+        'note',
+        'photo',
+        'sign',
+        'blood_id',
+        'age',
+        'id_type',
+        'religion',
+        'agency',
+        'salesman',
+        'customer_div_pre',
+        'customer_dis_pre',
+        'customer_upa_pre',
+        'customer_union_pre',
+        'customer_add_pre',
+        'customer_post_off_pre',
+        'customer_post_code_pre',
+        'customer_div_per',
+        'customer_dis_per',
+        'customer_upa_per',
+        'customer_union_pers',
+        'customer_post_off_per',
+        'customer_post_code_per',
+        'customer_login_access',
+        'password',
+        'is_active',
+
     ];
-    // public function Employee()
-    // {
-    //     return $this->belongsTo(EmployeePersonalInformation::class);
-    // }
+    public function nominees()
+    {
+        return $this->hasMany(EmployeeGranter::class, 'customer_id', 'id');
+    }
+
+    public function gong()
+    {
+        return $this->hasMany(EmployeeReference::class, 'customer_id', 'id');
+    }
+
+    public function attachments()
+    {
+        return $this->hasMany(CustomerAttachment::class, 'customer_id', 'id');
+    }
 
     public function salutations()
     {

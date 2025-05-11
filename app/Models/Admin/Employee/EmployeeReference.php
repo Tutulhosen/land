@@ -9,15 +9,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class EmployeeReference extends Model
 {
     use HasFactory;
+    protected $table = 'customer_gongs';
     protected $fillable = [
-        'emp_personal_id',
-        'reference_name',
-        'reference_occupation',
-        'reference_contact_number',
-        'reference_relation',
-        'reference_address',
-        'reference_id_number',
-        'reference_id_doc',
+        'customer_id',
+        'share',
+        'gong_name',
+        'gong_relationship',
+        'gong_contact_number',
+        'gong_address',
+        'present_address',
+        'mailing_address',
+        'gong_id_type',
+        'gong_id',
+        'gong_photo',
     ];
 
     public function personalInformation()

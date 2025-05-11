@@ -18,7 +18,7 @@
     <div class="page-inner">
         <div class="row">
             <div class="col-md-12">
-                <form method="POST" id="employeeForm" action="{{ route('employee.store') }}"
+                <form method="POST" id="employeeForm" action="{{ route('customer.store') }}"
                     enctype="multipart/form-data">
                     @csrf
                     <div class="card">
@@ -324,8 +324,7 @@
                                          <div class="col-sm-3">
                                             <div class="form-group">
                                                <label for="customer_union_pre">Word/Union</label>
-                                               <select class="form-select form-control customer_union_pre" id="customer_union_pre" placeholder="Expense Category" name="customer_union_pre">
-                                                  <option>-Select-</option>
+                                               <input type="text" class="form-control customer_union_pre" name="customer_union_pre" id="customer_union_pre" placeholder="Word/Union">
             
                                                </select>
                                             </div>
@@ -353,7 +352,7 @@
                                          </div>
 
                                          <div class="h_add" style="width: 100%; margin-bottom:-15px; margin-top:10px">
-                                            <p style="color: white; background-color:#6c6cdd">Permanent Address</p> <input type="checkbox"> Same As Present Address
+                                            <p style="color: white; background-color:#6c6cdd">Permanent Address</p> <input type="checkbox" id="same_as_present"> Same As Present Address
                                          </div>
 
                                          <div class="col-sm-3">
@@ -391,8 +390,7 @@
                                          <div class="col-sm-3">
                                             <div class="form-group">
                                                <label for="customer_union_per">Word/Union</label>
-                                               <select class="form-select form-control customer_union_per" id="customer_union_per" name="customer_union_per" placeholder="Expense Category">
-                                                  <option>-Select-</option>
+                                               <input type="text" class="form-control customer_union_per" name="customer_union_pers" id="customer_union_per" placeholder="Word/Union">
 
                                                </select>
                                             </div>
@@ -587,6 +585,43 @@
             } else {
                 $('.customer_upa_per').empty();
                 $('.customer_upa_per').append('<option value="">--select--</option>');
+            }
+        });
+
+        $('#same_as_present').on('change', function () {
+            if ($(this).is(':checked')) {
+
+                // 1. Set and trigger Division for Permanent
+                let divId = $('#customer_div_pre').val();
+                $('#customer_div_per').val(divId).trigger('change');
+
+                // Wait for Districts to load after AJAX call
+                setTimeout(function () {
+                    let disId = $('#customer_dis_pre').val();
+                    $('#customer_dis_per').val(disId).trigger('change');
+
+                    // Wait for Upazilas to load after AJAX call
+                    setTimeout(function () {
+                        let upaId = $('#customer_upa_pre').val();
+                        $('#customer_upa_per').val(upaId);
+                    }, 600); // Wait for Upazila data
+                }, 600); // Wait for District data
+
+                // 2. Copy other simple fields
+                $('#customer_union_per').val($('#customer_union_pre').val());
+                $('#customer_add_per').val($('#customer_add_pre').val());
+                $('#customer_post_off_per').val($('#customer_post_off_pre').val());
+                $('#customer_post_code_per').val($('#customer_post_code_pre').val());
+
+            } else {
+                // Clear all Permanent fields if unchecked
+                $('#customer_div_per').val('').trigger('change');
+                $('#customer_dis_per').val('');
+                $('#customer_upa_per').val('');
+                $('#customer_union_per').val('');
+                $('#customer_add_per').val('');
+                $('#customer_post_off_per').val('');
+                $('#customer_post_code_per').val('');
             }
         });
 
@@ -912,7 +947,7 @@
             <div class="col-sm-4">
                 <div class="form-group">
                     <label for="nominee_relation">Relation With Nominee</label>
-                    <select class="form-select form-control" name="nominee_relation" id="nominee_relation[]" placeholder="Expense Category">
+                    <select class="form-select form-control" name="nominee_relation[]" id="nominee_relation" placeholder="Expense Category">
                         <option>-Select-</option>
                         @foreach ($relations as $relation)
                             <option value="{{$relation->id}}">{{$relation->name}}</option>
@@ -978,7 +1013,7 @@
             <div class="col-sm-4">
                 <div class="form-group">
                     <label for="nominee_id_pic">Upload ID Picture</label>
-                    <input type="file" class="form-control" id="nominee_id_pic" name="nominee_id_pic" placeholder="Upload Office ID">
+                    <input type="file" class="form-control" id="nominee_id_pic" name="nominee_id_pic[]" placeholder="Upload Office ID">
                 </div>
             </div>
 

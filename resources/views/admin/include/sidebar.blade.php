@@ -32,17 +32,17 @@
                     </a>
                 </li>
 
-                @can('ShowSideBar Employee')
-                    <li class="nav-item {{ Request::routeIs('employee.*') ? 'active submenu' : '' }}">
+                @can('ShowSideBar customer')
+                    <li class="nav-item {{ Request::routeIs('customer.*') ? 'active submenu' : '' }}">
                         <a data-bs-toggle="collapse" href="#employees">
                             <i class="fas fa-users"></i>
                             <p>Customer</p>
                             <span class="caret"></span>
                         </a>
-                        <div class="collapse {{ Request::routeIs('employee.*') ? 'show' : '' }}" id="employees">
+                        <div class="collapse {{ Request::routeIs('customer.*') ? 'show' : '' }}" id="employees">
                             <ul class="nav nav-collapse">
-                                <li class="{{ Route::currentRouteName() == 'employee.index' ? 'active' : '' }}">
-                                    <a href="{{route('employee.index')}}">
+                                <li class="{{ Route::currentRouteName() == 'customer.index' ? 'active' : '' }}">
+                                    <a href="{{route('customer.index')}}">
                                         <i class="fas fa-user-friends"></i>
                                     <span class="sub-item">Customer</span>
                                     </a>

@@ -63,14 +63,14 @@
                 <div class="card card-round">
                     <div class="card-header project-details-card-header">
                         <div class="d-flex align-items-center">
-                            <h4 class="project-details-card-header-title"><i class='bx bx-group bx-tada'></i> Employees
+                            <h4 class="project-details-card-header-title"><i class='bx bx-group bx-tada'></i> Customer
                             </h4>
                             @can('Create Employee')
-                            <a href="{{ route('employee.create') }}" class="purchase-button ms-auto" ><i class='bx bx-message-square-add bx-tada' ></i> Add Employee</a>
+                            <a href="{{ route('customer.create') }}" class="purchase-button ms-auto" ><i class='bx bx-message-square-add bx-tada' ></i> Add Customer</a>
                             @else
 
                             <a class="ms-auto alert alert-danger" role="alert">
-                                <strong>Sorry!</strong> You don't have permission to Create employee.
+                                <strong>Sorry!</strong> You don't have permission to Create Customer.
                             </a>
                             @endcan
                         </div>
@@ -85,22 +85,85 @@
                                             aria-describedby="add-row_info" id="employeeTable">
                                             <thead class="">
                                                 <tr role="row">
-                                                    <th class="text-center">Sl</th>
-                                                    <th class="text-center">Employee</th>
-                                                    <th class="text-center">Official</th>
-                                                    <th class="text-center">Contact Information</th>
-                                                    <th class="text-center">Shift</th>
-                                                    {{-- <th class="text-center">Week Off </th> --}}
-                                                    <th class="text-center">Status</th>
-                                                    <th class="text-center">Additional</th>
-                                                    <th class="text-center">Action</th>
+                                                <th>Sl</th>
+                                                <th>Customer </th>
+                                                <th>Father's Name </th>
+                                                <th>Contact Information </th>
+                                                <th>Plot No </th>
+                                                <th>NID Number</th>
+                                                <th>Status</th>
+                                                <th>Additional</th>
+                                                <th>Action</th>
                                                 </tr>
                                             </thead>
-                                             <tbody>
-
+                                            <tbody>
+                                            
+                                                @foreach($customers as $key => $customer)
+                                                    <tr role="row">
+                                                        <td class="text-center">{{ $customers->firstItem() + $key }}</td>
+                                                        <td>
+                                                            <i class='bx bx-user-circle'></i> {{ $customer->name }} 
+                                                            <br/>{{ $customer->permanent_address ?? 'N/A' }}
+                                                            <br/><i class='bx bx-id-card bx-flashing'></i> ID-{{ $customer->code }}
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <a href="#" class="client-info">
+                                                                <i class='bx bx-user-voice'></i> {{ $customer->father_name ?? 'N/A' }}
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <a href="tel:{{ $customer->number }}" class="client-info">
+                                                                <i class='bx bx-phone-outgoing bx-tada'></i> {{ $customer->number }}
+                                                            </a><br/>
+                                                            <a href="tel:{{ $customer->contact_number_emergency ?? $customer->contact_number_emergency }}" class="client-info">
+                                                                <i class='bx bxl-whatsapp bx-tada'></i> {{ $customer->contact_number_emergency ?? 'N/A' }}
+                                                            </a><br/>
+                                                            <a href="mailto:{{ $customer->email }}" class="client-info">
+                                                                <i class='bx bx-mail-send bx-tada'></i> {{ $customer->email ?? 'N/A' }}
+                                                            </a>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            {{ $customer->plot_no ?? 'N/A' }}
+                                                        </td>
+                                                        <td class="text-center">
+                                                            {{ $customer->passport_no ?? 'N/A' }}
+                                                        </td>
+                                                        <td>
+                                                            <button class="btn {{ $customer->is_active == 1 ? 'status-box-1' : 'status-box-2' }}">
+                                                                {{ $customer->is_active == 1 ? 'Active' : 'Inactive' }}
+                                                            </button>
+                                                        </td>
+                                                        <td>
+                                                            <button class="btn btn-label-primary btn-round btn-xs" data-bs-toggle="modal" data-bs-target="#addRowModal-documents">
+                                                                <i class='bx bx-cloud-download bx-flashing me-1'></i> Documents
+                                                            </button>
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-button-action">
+                                                                <a href="" class="btn btn-link btn-secondary btn-lg" title="View">
+                                                                    <i class='bx bx-show'></i>
+                                                                </a>
+                                                                <a href="{{route('customer.edit', $customer->id)}}" class="btn btn-link btn-success btn-lg" title="Edit">
+                                                                    <i class='bx bxs-edit'></i>
+                                                                </a>
+                                                                <form action="" method="POST" style="display:inline;">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit" class="btn btn-link btn-danger btn-lg" onclick="return confirm('Are you sure?')">
+                                                                        <i class='bx bx-trash-alt'></i>
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
                                             </tbody>
+                                        
                                         </table>
-
+                                        
+                                        <div class="d-flex justify-content-center mt-3">
+                                            {{ $customers->links('pagination::bootstrap-4') }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -140,7 +203,7 @@
             processing: true,
             serverSide: true,
             ajax: {
-                url: "{{ route('employee.index') }}", // Your route to fetch data
+                url: "{{ route('customer.index') }}", // Your route to fetch data
                 data: function (d) {
                     d.branch_id = $('#selectBranch').val();
                     d.department_id = $('#selectDepartment').val();
