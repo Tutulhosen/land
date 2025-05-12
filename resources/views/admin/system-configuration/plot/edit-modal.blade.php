@@ -40,8 +40,7 @@
                                 <label for="block">Block <span class="text-danger">*</span></label>
                                 <select name="block" class="form-select form-control custom-input block" id="block"
                                     placeholder="block" required>
-                                    <option value="{{$plot->block_id}}" >{{$plot->block->block_name}}</option>
-
+                                    <option value="{{$plot->block_id}}" >{{$plot->block->block_name ?? null}}</option>
                                 </select>
                                 @error('block') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
@@ -52,7 +51,7 @@
                                 <label for="road">Road <span class="text-danger">*</span></label>
                                 <select name="road" class="form-select form-control custom-input road" id="road"
                                     placeholder="road" required>
-                                    <option value="{{$plot->road_id}}">{{$plot->road->road_name}}</option>
+                                    <option value="{{$plot->road_id}}">{{$plot->road->road_name ?? null}}</option>
 
                                 </select>
                                 @error('road') <span class="text-danger">{{ $message }}</span> @enderror
@@ -86,7 +85,7 @@
                                 <label for="plot_size">Plot Size <span class="text-danger">*</span></label>
                                 <select name="plot_size" class="form-select form-control custom-input plot_size" id="plot_size"
                                     placeholder="plot_size" required>
-                                    <option value="{{$plot->plot_size_id}}">{{$plot->plot_size->size_name}}</option>
+                                    <option value="{{$plot->plot_size_id}}">{{$plot->plot_size->size_name ?? null}}</option>
 
                                 </select>
                                 @error('plot_size') <span class="text-danger">{{ $message }}</span> @enderror

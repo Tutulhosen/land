@@ -5,12 +5,15 @@ namespace App\Http\Controllers\Admin\Employee;
 
 use ZipArchive;
 use App\Models\District;
+use App\Models\Division;
 use App\Models\UserBranch;
 use Illuminate\Http\Request;
+use App\Models\CustomerAttachment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\EmployeeRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Admin\HrAdminSetup\Shift;
@@ -24,6 +27,7 @@ use App\Models\Admin\Employee\EmployeeOfficial;
 use App\Models\Admin\Employee\EmployeeTraining;
 use App\Models\Admin\Employee\EmployeeTransfer;
 use App\Models\Admin\SystemConfiguration\Grade;
+use App\Models\Admin\SystemConfiguration\Agency;
 use App\Models\Admin\SystemConfiguration\Branch;
 use App\Models\Admin\SystemConfiguration\Gender;
 use App\Models\Admin\SystemConfiguration\WeekOff;
@@ -32,11 +36,11 @@ use App\Models\Admin\SystemConfiguration\Religion;
 use App\Models\Admin\SystemConfiguration\Education;
 use App\Models\Admin\Employee\EmployeeOtherDocument;
 use App\Models\Admin\SystemConfiguration\BloodGroup;
+
 use App\Models\Admin\SystemConfiguration\Salutation;
 use App\Models\Admin\HrAdminSetup\ShiftAndDepartment;
 use App\Models\Admin\SystemConfiguration\Nationality;
 use App\Models\Admin\SystemConfiguration\ProjectList;
-
 use App\Models\Admin\SystemConfiguration\EmployeeType;
 use App\Models\Admin\Employee\EmployeeEmergencyContact;
 use App\Models\Admin\SystemConfiguration\EducationType;
@@ -205,7 +209,9 @@ class EmployeeController extends Controller
 
         $branches = Branch::where('status', 1)->orderBy('name', 'asc')->get();
         $departments = Department::where('status', 1)->get();
-        return view('admin.employee.index',compact('branches', 'departments'));
+        $customers = EmployeePersonalInformation::with(['nominees', 'gong', 'attachments'])->paginate(20);
+
+        return view('admin.employee.index',compact('branches', 'departments', 'customers'));
     }
     public function create() {
 
@@ -228,7 +234,9 @@ class EmployeeController extends Controller
         $branches =  Branch::where('status', true)->orderBy('name', 'asc')->get();
         $employee_types  = EmployeeType::where('status', true)->get();
         $religions = Religion::where('status', true)->get();
-
+        $agencies = Agency::orderBy('id','desc')->get();
+        $divisions = Division::orderBy('id','desc')->get();
+        
         return view('admin.employee.create',compact(
             'departments',
             'designations',
@@ -249,6 +257,8 @@ class EmployeeController extends Controller
             'religions',
             'grades',
             'projects',
+            'agencies',
+            'divisions',
         ));
     }
     private function handleFileUpload($file, $path)
@@ -268,27 +278,22 @@ class EmployeeController extends Controller
 
     public function store(EmployeeRequest $request)
     {
+   
+        // dd($request->all());
         DB::beginTransaction();
         try {
 
-            $employee = $this->storePersonalInfo($request);
-            $this->storeContactInfo($request, $employee->id);
-            $this->storeOfficialInfo($request, $employee->id);
-            $this->storeGranterInfo($request, $employee->id);
-            $this->storeReferenceInfo($request, $employee->id);
-            $this->storeEducationInfo($request, $employee->id);
-            $this->storeExperienceInfo($request, $employee->id);
-            $this->storeTrainingInfo($request, $employee->id);
-            $this->storePayRollInfo($request, $employee->id);
+            $customer = $this->storeCustomerInfo($request);
+            $this->storeNomineeInfo($request, $customer->id);
+            $this->storeGongInfo($request, $customer->id);
 
             DB::commit();
-            return redirect()->route('employee.index')->with('success', 'Employee Information successfully added!');
+            return redirect()->route('customer.index')->with('success', 'Customer Information successfully added!');
         } catch (\Exception $e) {
             DB::rollback();
-            Log::error("Error saving Employee: " . $e->getMessage());
-            return redirect()->back()->with('danger', 'There was an error adding the Employee. Please try again later.');
+            Log::error("Error saving Customer: " . $e->getMessage());
+            return redirect()->back()->with('danger', 'There was an error adding the Customer. Please try again later.');
 
-            // return response()->json(['error' => 'Failed to store employee', 'message' => $e->getMessage()], 500);
         }
     }
 
@@ -296,66 +301,52 @@ class EmployeeController extends Controller
 
     public function edit($id)
     {
-        $employeeinfos = EmployeePersonalInformation::where('id', '!=', $id)->with('salutations','genders')->get();
-        $employee = EmployeePersonalInformation::findOrFail($id);
-        $departments = Department::all();
-        $designations = Designation::all();
-        $districts = District::all();
-        $week_offs = WeekOff::all();
-        $shifts = Shift::all();
+        $employeeinfos = EmployeePersonalInformation::with('salutations','genders')->get();
+        $salutations = Salutation::where('status', true)->get();
         $grades = Grade::where('status', true)->get();
         $projects = ProjectList::where('status', true)->get();
-
         $genders = Gender::where('status', true)->get();
         $nationalities =Nationality::where('status', true)->get();
+        $departments = Department::where('status', true)->orderBy('department_name', 'asc')->get();
+        $designations = Designation::where('status', true)->orderBy('designation_name', 'asc')->get();
         $districts = District::all();
+        $shifts = Shift::all();
+        $week_offs = WeekOff::all();
         $bloodgroups = BloodGroup::all();
         $probationPeriods = ProbationPeriod::where('status', true)->get();
         $relations = Relation::where('status', true)->get();
         $educations = Education::where('status', true)->get();
         $educationtypes = EducationType::where('status', true)->get();
-
-        $salutations = Salutation::where('status', true)->get();
-        $employeeContact = EmployeeContact::where('emp_personal_id', $id)->first();
-        $officialInformation = EmployeeOfficialInformation::where('emp_personal_id', $id)->first();
-        $granterInformations = EmployeeGranter::where('emp_personal_id', $id)->get();
-        $referenceInformations = EmployeeReference::where('emp_personal_id', $id)->get();
-        $employeeEducations =  EmployeeEducation::where('emp_personal_id', $id)->get();
-        $employeeExperiences =  EmployeeExperience::where('emp_personal_id', $id)->get();
-        $employeeTrainings = EmployeeTraining::where('emp_personal_id', $id)->get();
-        $employeePayRoll = EmployeePayRollInformation::where('emp_personal_id', $id)->first();
-        $employee_types = EmployeeType::where('status', true)->get();
-        $branches =  Branch::where('status', true)->get();
+        $branches =  Branch::where('status', true)->orderBy('name', 'asc')->get();
+        $employee_types  = EmployeeType::where('status', true)->get();
         $religions = Religion::where('status', true)->get();
+        $agencies = Agency::orderBy('id','desc')->get();
+        $divisions = Division::orderBy('id','desc')->get();
+        $customers = EmployeePersonalInformation::with(['nominees', 'gong', 'attachments'])->findOrFail($id);
+
         return view('admin.employee.edit', compact(
-            'employee',
+            'employeeinfos',
+            'salutations',
+            'grades',
+            'projects',
+            'genders',
+            'nationalities',
             'departments',
             'designations',
             'districts',
-            'week_offs',
             'shifts',
-            'employeeContact',
-            'officialInformation',
-            'granterInformations',
-            'referenceInformations',
-            'employeeEducations',
-            'employeeExperiences',
-            'employeeTrainings',
-            'employeePayRoll',
-            'salutations',
-            'genders',
-            'nationalities',
+            'week_offs',
             'bloodgroups',
             'probationPeriods',
-            'educationtypes',
-            'educations',
             'relations',
-            'employeeinfos',
+            'educations',
+            'educationtypes',
             'employee_types',
-            'branches',
             'religions',
-            'grades',
-            'projects',
+            'agencies',
+            'divisions',
+            'customers',
+            
 
         ));
     }
@@ -1110,238 +1101,177 @@ class EmployeeController extends Controller
     }
 
 
-    //Employee Store function start here
-
     //personal information store
-    private function storePersonalInfo($request)
+    private function storeCustomerInfo($request)
     {
-        $personalInfo = EmployeePersonalInformation::create([
-            'salutation' => $request->salutation,
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'emp_id' => $request->emp_id,
-            'gender' => $request->gender,
-            'religion' => $request->religion,
-            'nationality'=> $request->nationality,
-            'blood_group'=> $request->blood_group,
-            'identification_type'=>$request->identification_type,
-            'identification_number'=>$request->identification_number,
-            'dob' => $request->dob,
-            'fathers_name' => $request->fathers_name,
-            'mothers_name' => $request->mothers_name,
-            'marital_status' => $request->marital_status,
-            'spouse_name' => $request->spouse_name,
-            'spouse_occupation' => $request->spouse_occupation,
-            'spouse_organization' => $request->spouse_organization,
-            'spouse_mobile' => $request->spouse_mobile,
-            'spouse_nid_number' => $request->spouse_nid_number,
-            'spouse_dob' => $request->spouse_dob,
-            'spouse_nid' => $request->hasFile('spouse_nid') ? $this->handleFileUpload($request->file('spouse_nid'), 'Employee/Spouse-NID') : null,
+         $personalInfo = EmployeePersonalInformation::create([
+            'name' => $request->customer_name_en,
+            'name_bangla' => $request->customer_name_bn,
+            'father_name' => $request->customer_father_en,
+            'father_name_bangla' => $request->customer_father_bn,
+            'mother_name' => $request->customer_mother_en,
+            'mother_name_bangla' => $request->customer_mother_bn,
+            'number'=> $request->customer_phone,
+            'code'=> $request->customer_id,
+            'old_code'=>$request->customer_id_old,
+            'contact_number_res' => $request->customer_land,
+            'contact_number_emergency' => $request->customer_whatsapp,
+            'email' => $request->customer_email,
+            'gender' => $request->customer_gender,
+            'dob' => $request->customer_dob,
+            'nid_no' => $request->customer_id_number,
+            'passport_no' => $request->spouse_organization,
+            'region' => $request->spouse_mobile,
+            'nationality' => $request->customer_nation,
+            'occupation' => $request->customer_profession,
+            'permanent_address' => $request->customer_add_per,
+            'blood_id' => $request->customer_blood,
+            'age' => $request->customer_age,
+            'salesman' => $request->customer_salesman_name,
+            'id_type' => $request->customer_id_type,
+            'religion' => $request->customer_religion,
+            'agency' => $request->customer_agency_name,
+            'customer_div_pre' => $request->customer_div_pre,
+            'customer_dis_pre' => $request->customer_dis_pre,
+            'customer_upa_pre' => $request->customer_upa_pre,
+            'customer_union_pre' => $request->customer_union_pre,
+            'customer_add_pre' => $request->customer_add_pre,
+            'customer_post_off_pre' => $request->customer_post_off_pre,
+            'customer_post_code_pre' => $request->customer_post_code_pre,
+            'customer_div_per' => $request->customer_div_per,
+            'customer_dis_per' => $request->customer_dis_per,
+            'customer_upa_per' => $request->customer_upa_per,
+            'customer_union_pers' => $request->customer_union_pers,
+            'customer_post_off_per' => $request->customer_post_off_per,
+            'customer_post_code_per' => $request->customer_post_code_per,
+            'customer_login_access' => $request->customer_login_access,
+            'password' => Hash::make('12345678'),
         ]);
+
+        if ($request->hasFile('customer_id_card')) {
+            $file = $request->file('customer_id_card');
+
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+            $file->storeAs('public/customer_attachment', $filename);
+    
+
+            CustomerAttachment::create([
+                'customer_id' => $personalInfo->id,
+                'file_for' => 'customer_id_card',
+                'file_path' => 'customer_attachment/' . $filename, 
+            ]);
+        }
+
+        
+
 
         return $personalInfo;
     }
-    //Employee contact information store
-    private function storeContactInfo($request, $empId)
-    {
-        EmployeeContact::create([
-            'emp_personal_id' => $empId,
-            'contact_number' => $request->contact_number,
-            'email' => $request->email,
-            'whatsapp' => $request->whatsapp,
-            'pres_add' => $request->pres_add,
-            'district' => $request->district,
-            'postal_code' => $request->postal_code,
-            'permanent_add' => $request->same_address ? $request->pres_add : $request->permanent_add,
-            'permanent_district' => $request->same_address ? $request->district : $request->permanent_district,
-            'permanent_postal_code' => $request->same_address ? $request->postal_code : $request->permanent_postal_code,
-            'same_address' => $request->same_address,
-            'emergency_contact_person' => $request->emergency_contact_person,
-            'relation' => $request->relation,
-            'occupation' => $request->occupation,
-            'emergency_contact' => $request->emergency_contact,
-            'emergency_email' => $request->emergency_email,
-            'emergency_address' => $request->emergency_address,
-        ]);
-    }
-    //Employee official Information store
-    private function storeOfficialInfo($request, $empId)
-    {
-        EmployeeOfficialInformation::create([
-            'emp_personal_id' => $empId,
-            'employee_type' => $request->employee_type,
-            'department_id' => $request->department_id,
-            'designation_id' => $request->designation_id,
-            'branch_id' => $request->branch_id,
-            'reporting_to_first' => $request->reporting_to_first,
-            'reporting_to_second' => $request->reporting_to_second,
-            'reporting_to_third' => $request->reporting_to_third,
-            'grade_id' => $request->grade_id,
-            'project_id' => $request->project_id,
-            'notice_start_date' => $request->notice_start_date,
-            'notice_end_date' => $request->notice_end_date,
-            'official_phone' => $request->official_phone,
-            'official_email' => $request->official_email,
-            'official_whatsapp' => $request->official_whatsapp,
-            'user_email' => $request->user_email,
-            'password' => $request->filled('password') ? bcrypt($request->password) : null,
-            'login_allowed' => $request->login_allowed,
-        ]);
-    }
-    //Employee Grantor Information store
-    private function storeGranterInfo($request, $empId)
-    {
-        if ($request->granter_name) {
-            foreach ($request->granter_name as $key => $value) {
-                $granterIdDoc = null;
 
-                if ($request->hasFile("granter_id_doc.$key")) {
-                    $granterIdDoc = $this->handleFileUpload($request->file("granter_id_doc")[$key], 'Employee/Granter-ID');
+
+    //Customer Nominee Information store
+    private function storeNomineeInfo($request, $empId)
+    {
+        if ($request->nominee_name) {
+            foreach ($request->nominee_name as $key => $value) {
+
+                if (isset($request->nominee_pic[$key])) {
+                    $file = $request->nominee_pic[$key];
+                    $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $destinationPath = public_path('customer_attachment');
+                    $file->move($destinationPath, $filename);
+    
+
+                    CustomerAttachment::create([
+                        'customer_id' => $empId,
+                        'file_for' => 'nominee_pic',
+                        'file_path' => 'customer_attachment/' . $filename, 
+                    ]);
                 }
 
+                if (isset($request->nominee_id_pic[$key])) {
+                    $file_nominee = $request->nominee_id_pic[$key];
+                    $filename_nominee = time() . '_' . uniqid() . '.' . $file_nominee->getClientOriginalExtension();
+                    $destinationPath = public_path('customer_attachment');
+                    $file_nominee->move($destinationPath, $filename_nominee);
+    
+
+                    CustomerAttachment::create([
+                        'customer_id' => $empId,
+                        'file_for' => 'nominee_id_pic',
+                        'file_path' => 'customer_attachment/' . $filename_nominee, 
+                    ]);
+                }
+    
+                // Save nominee information
                 EmployeeGranter::create([
-                    'emp_personal_id' => $empId,
-                    'granter_name' => $value ?? null,
-                    'granter_occupation' => $request->granter_occupation[$key] ?? null,
-                    'granter_contact_number' => $request->granter_contact_number[$key] ?? null,
-                    'granter_relation' => $request->granter_relation[$key] ?? null,
-                    'granter_address' => $request->granter_address[$key] ?? null,
-                    'granter_id_number' => $request->granter_id_number[$key] ?? null,
-                    'granter_id_doc' => $granterIdDoc,
+                    'customer_id' => $empId,
+                    'share' => $request->nominee_share[$key] ?? null,
+                    'name' => $request->nominee_name[$key] ?? null,
+                    'relationship' => $request->nominee_relation[$key] ?? null,
+                    'contact_number_res' => $request->granter_relation[$key] ?? null,
+                    'contact_number' => $request->nominee_phone[$key] ?? null,
+                    'mailing_address' => $request->nominee_email[$key] ?? null,
+                    'permanent_address' => $request->nominee_per_add[$key] ?? null,
+                    'present_address' => $request->nominee_pre_add[$key] ?? null,
+                    'nominee_id_type' => $request->nominee_id_type[$key] ?? null,
+                    'nominee_id' => $request->nominee_id[$key] ?? null,
                 ]);
             }
         }
     }
-    //Employee Referance Information store
-    private function storeReferenceInfo($request, $empId)
+    //Customer Gong Information store
+    private function storeGongInfo($request, $empId)
     {
-        // Employee Reference History
-        if($request->reference_name){
-            foreach ($request->reference_name as $key => $value) {
-                $reference_id_doc = null;
+        // Customer Gong History
+        if($request->gong_name){
+            foreach ($request->gong_name as $key => $value) {
 
-                if ($request->hasFile("reference_id_doc.$key")) {
-                    $reference_id_doc = $this->handleFileUpload($request->file("reference_id_doc")[$key], 'Employee/Reference-ID');
+                if (isset($request->gong_pic[$key])) {
+                    $file_gong = $request->gong_pic[$key];
+                    $filename_gong = time() . '_' . uniqid() . '.' . $file_gong->getClientOriginalExtension();
+                    $destinationPath = public_path('customer_attachment');
+                    $file_gong->move($destinationPath, $filename_gong);
+    
+
+                    CustomerAttachment::create([
+                        'customer_id' => $empId,
+                        'file_for' => 'gong_pic',
+                        'file_path' => 'customer_attachment/' . $filename_gong, 
+                    ]);
+                }
+                if (isset($request->gong_id_pic[$key])) {
+                    $file_gong_id = $request->gong_id_pic[$key];
+                    $filename_gong_id = time() . '_' . uniqid() . '.' . $file_gong_id->getClientOriginalExtension();
+                    $destinationPath = public_path('customer_attachment');
+                    $file_gong_id->move($destinationPath, $filename_gong_id);
+    
+
+                    CustomerAttachment::create([
+                        'customer_id' => $empId,
+                        'file_for' => 'gong_id_pic',
+                        'file_path' => 'customer_attachment/' . $filename_gong_id, 
+                    ]);
                 }
 
                 EmployeeReference::create([
-                    'emp_personal_id' => $empId,
-                    'reference_name' => $value ?? null,
-                    'reference_occupation' => $request->reference_occupation[$key] ?? null,
-                    'reference_contact_number' => $request->reference_contact_number[$key] ?? null,
-                    'reference_relation' => $request->reference_relation[$key] ?? null,
-                    'reference_address' => $request->reference_address[$key] ?? null,
-                    'reference_id_number' => $request->reference_id_number[$key] ?? null,
-                    'reference_id_doc' => $reference_id_doc,
+                    'customer_id' => $empId,
+                    'share' => $request->gong_share[$key] ?? null,
+                    'gong_name' => $request->gong_name[$key] ?? null,
+                    'gong_relationship' => $request->gong_relation[$key] ?? null,
+                    'gong_contact_number' => $request->gong_phone[$key] ?? null,
+                    'mailing_address' => $request->gong_email[$key] ?? null,
+                    'gong_address' => $request->gong_per_add[$key] ?? null,
+                    'present_address' => $request->gong_pre_add[$key] ?? null,
+                    'gong_id_type' => $request->gong_id_type[$key] ?? null,
+                    'gong_id' => $request->gong_id[$key] ?? null,
+
                 ]);
             }
         }
     }
-    //Employee Eduction information store
-    private function storeEducationInfo($request, $empId)
-    {
-        // Employee Education History
-        if($request->education_type){
-            foreach ($request->education_type as $key => $value) {
-                $education_doc = null;
-
-                if ($request->hasFile("education_doc.$key")) {
-                    $education_doc = $this->handleFileUpload($request->file("education_doc")[$key], 'Employee/Education-Document');
-                }
-                EmployeeEducation::create([
-                    'emp_personal_id' => $empId,
-                    'education_type' => $value ?? null,
-                    'education' => $request->education[$key] ?? null,
-                    'group_major_subject' => $request->group_major_subject[$key] ?? null,
-                    'passing_year' => $request->passing_year[$key] ?? null,
-                    'institute_name' => $request->institute_name[$key] ?? null,
-                    'board_university' => $request->board_university[$key] ?? null,
-                    'result_university' => $request->result[$key] ?? null,
-                    'education_doc' => $education_doc,
-                ]);
-            }
-        }
-    }
-    //Employee Experience Information store
-    private function storeExperienceInfo($request, $empId)
-    {
-            // Employee Experiance History
-        if($request->company_name){
-            foreach ($request->company_name as $key => $value) {
-                $experiance_doc = null;
-
-                if ($request->hasFile("experiance_doc.$key")) {
-                    $experiance_doc = $this->handleFileUpload($request->file("experiance_doc")[$key], 'Employee/Experiance-Document');
-                }
-                EmployeeExperience::create([
-                    'emp_personal_id' => $empId,
-                    'company_name' => $value ?? null,
-                    'job_position' => $request->job_position[$key] ?? null,
-                    'department' => $request->department[$key] ?? null,
-                    'job_respons' => $request->job_respons[$key] ?? null,
-                    'from_date' => $request->from_date[$key] ?? null,
-                    'to_date' => $request->to_date[$key] ?? null,
-                    'duration' => $request->duration[$key] ?? null,
-                    'projects' => $request->projects[$key] ?? null,
-                    'years_of_experience' => $request->years_of_experience[$key] ?? null,
-                    'experiance_doc' => $experiance_doc,
-                ]);
-            }
-        }
-
-    }
-    //Employee Training Information Store
-    private function storeTrainingInfo($request, $empId)
-    {
-        // Employee Training History
-        if($request->train_type){
-            foreach ($request->train_type as $key => $value) {
-                $training_doc = null;
-
-                if ($request->hasFile("training_doc.$key")) {
-                    $training_doc = $this->handleFileUpload($request->file("training_doc")[$key], 'Employee/Training-Document');
-                }
-                EmployeeTraining::create([
-                    'emp_personal_id' => $empId,
-                    'train_type' => $value ?? null,
-                    'course_title' => $request->course_title[$key] ?? null,
-                    'description' => $request->description[$key] ?? null,
-                    'course_duration' => $request->course_duration[$key] ?? null,
-                    'course_start' => $request->course_start[$key] ?? null,
-                    'course_end' => $request->course_end[$key] ?? null,
-                    'year' => $request->year[$key] ?? null,
-                    'institute_name' => $request->training_institute_name[$key] ?? null,
-                    'institute_address' => $request->institute_address[$key] ?? null,
-                    'resource' => $request->resource[$key] ?? null,
-                    'result' => $request->course_result[$key] ?? null,
-                    'training_doc' => $training_doc,
-                ]);
-            }
-        }
-    }
-    //Employee PayRoll Information store
-    private function storePayRollInfo($request, $empId)
-    {
-        EmployeePayRollInformation::create([
-            'emp_personal_id' => $empId,
-            'holiday_id' => $request->holiday_id,
-            'shift_id' => $request->shift_id,
-            'overtime_enable' => $request->overtime_enable,
-            'sallery_payment_by' => $request->sallery_payment_by,
-            'bank_name' => $request->bank_name,
-            'account_holder_name' => $request->account_holder_name,
-            'branch_name' => $request->branch_name,
-            'account_number' => $request->account_number,
-            'tin_number' => $request->tin_number,
-            'joining_date' => $request->joining_date,
-            'joining_sallery' => $request->joining_sallery,
-            'probation_period' => $request->probation_period,
-            'probation_period_starting_date' => $request->probation_period_starting_date,
-            'probation_period_end_date' => $request->probation_period_end_date,
-            'salary_type' => $request->salary_type,
-        ]);
-    }
-    //Employee store function end here.
+    
 
 }
 

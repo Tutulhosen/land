@@ -32,6 +32,16 @@ use App\Http\Controllers\Admin\LeaveManagement\LeaveApplicationController;
 use App\Http\Controllers\Admin\SystemConfiguration\AdditionalSetupController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\SystemConfiguration\PlotController;
+use App\Http\Controllers\DependencyController;
+use Illuminate\Support\Facades\Artisan;
+
+Route::get('/clear-all', function () {
+    Artisan::call('cache:clear');
+    Artisan::call('route:clear');
+    Artisan::call('config:clear');
+    Artisan::call('view:clear');
+    return 'All caches cleared!';
+});
 
 //system setup routes
 Route::get('/setup', [SetupController::class, 'index'])->name('setup.welcome');
@@ -94,11 +104,12 @@ Route::middleware(['auth:admin', 'verified'])->group(function () {
     });
 
     Route::prefix('/dashboard')->controller(EmployeeController::class)->group(function () {
-        Route::get('/employee/index', 'index')->name('employee.index');
-        Route::get('/employee/create', 'create')->name('employee.create');
-        Route::post('/employee/store', 'store')->name('employee.store');
-        Route::get('/employee/edit/{id}', 'edit')->name('employee.edit');
-        Route::put('/employee/update/{id}', 'update')->name('employee.update');
+        Route::get('/customer/index', 'index')->name('customer.index');
+        Route::get('/customer/create', 'create')->name('customer.create');
+        Route::post('/customer/store', 'store')->name('customer.store');
+        Route::get('/customer/edit/{id}', 'edit')->name('customer.edit');
+        Route::put('/customer/update/{id}', 'update')->name('employee.update');
+
         Route::delete('/employee/destroy/{id}', 'destroy')->name('employee.destroy');
         Route::get('/employee/designations/{departmentId}', 'getDesignations');
         Route::get('/employee/branch/employees/{branchId}', 'getEmployeesByBranch');
@@ -383,16 +394,23 @@ Route::middleware(['auth:admin', 'verified'])->group(function () {
         Route::delete('/additional-setup/carryforwardlimit/destroy/{id}', 'carryforwardlimitDestroy')->name('carryforwardlimit.destroy');
     });
 
-    //project setup
-    Route::prefix('/dashboard')->controller(ProjectController::class)->group(function () {
+    //dependency route
+    Route::prefix('/dashboard')->controller(DependencyController::class)->group(function () {
 
-        //dependency route
         Route::get('/get_block_by_sector/{id}', 'get_block_by_sector')->name('get.block.by.sector');
         Route::get('/get_road_by_block/{id}', 'get_road_by_block')->name('get.road.by.block');
         Route::get('/get_plot_size_by_plot/{id}', 'get_plot_size_by_plot')->name('get.plot.size.by.plot');
         Route::get('/get_plot_price_by_size/{id}', 'get_plot_price_by_size')->name('get.plot.price.by.size');
 
+        Route::get('/get_salesman_by_agency/{id}', 'get_salesman_by_agency')->name('get.salesman.by.agency');
 
+        Route::get('/get_dis_by_div/{id}', 'get_dis_by_div')->name('get.dis.by.div');
+        Route::get('/get_upa_by_dis/{id}', 'get_upa_by_dis')->name('get.upa.by.dis');
+
+    });
+
+    //project setup
+    Route::prefix('/dashboard')->controller(ProjectController::class)->group(function () {
 
         Route::get('/project-setup', 'index')->name('project-setup.index');
         // sector setup

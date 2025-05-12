@@ -5,7 +5,7 @@
     <div class="page-inner">
         <div class="row">
             <div class="col-md-12">
-                <form action="{{ route('employee.update', $employee->id) }}" id="employeeForm" method="POST"
+                <form action="{{ route('customer.update', $customers->id) }}" id="employeeForm" method="POST"
                     enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
