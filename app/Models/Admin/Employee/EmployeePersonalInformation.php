@@ -13,6 +13,9 @@ use App\Models\Admin\SystemConfiguration\Salutation;
 use App\Models\Admin\SystemConfiguration\ProjectList;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Admin\Employee\EmployeePayRollInformation;
+use App\Models\Admin\SystemConfiguration\Salesman;
+use App\Models\District;
+use App\Models\Upazila;
 
 class EmployeePersonalInformation extends Model
 {
@@ -88,6 +91,22 @@ class EmployeePersonalInformation extends Model
     {
         return $this->hasMany(CustomerAttachment::class, 'customer_id', 'id');
     }
+
+    public function get_salesman()
+    {
+        return $this->belongsTo(Salesman::class, 'salesman');
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     public function salutations()
     {

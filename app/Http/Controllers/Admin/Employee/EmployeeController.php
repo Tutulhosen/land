@@ -209,7 +209,7 @@ class EmployeeController extends Controller
 
         $branches = Branch::where('status', 1)->orderBy('name', 'asc')->get();
         $departments = Department::where('status', 1)->get();
-        $customers = EmployeePersonalInformation::with(['nominees', 'gong', 'attachments'])->paginate(20);
+        $customers = EmployeePersonalInformation::with(['nominees', 'gong', 'attachments'])->orderBy('id', 'desc')->paginate(20);
 
         return view('admin.employee.index',compact('branches', 'departments', 'customers'));
     }
@@ -323,7 +323,7 @@ class EmployeeController extends Controller
         $agencies = Agency::orderBy('id','desc')->get();
         $divisions = Division::orderBy('id','desc')->get();
         $customers = EmployeePersonalInformation::with(['nominees', 'gong', 'attachments'])->findOrFail($id);
-
+        // dd($customers->gong);
         return view('admin.employee.edit', compact(
             'employeeinfos',
             'salutations',
@@ -353,7 +353,38 @@ class EmployeeController extends Controller
     public function update(EmployeeRequest $request, $id)
     {
 
-        $personalInformation = EmployeePersonalInformation::findOrFail($id);
+        $personalInformation = EmployeePersonalInformation::with(['nominees', 'gong', 'attachments'])->findOrFail($id);
+
+        // $a=$this->updateCustomerInfo($request, $personalInformation);
+        $b=$this->updateNomineeInfo($request, $personalInformation);
+        dd($b);
+        $c=$this->updateGongInfo($request, $personalInformation);
+       
+        DB::beginTransaction();
+        try {
+
+            $this->storeCustomerInfo($request, $personalInformation);
+            $this->storeNomineeInfo($request, $personalInformation);
+            $this->storeGongInfo($request, $personalInformation);
+
+            DB::commit();
+            return redirect()->route('customer.index')->with('success', 'Customer Information successfully added!');
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error("Error saving Customer: " . $e->getMessage());
+            return redirect()->back()->with('danger', 'There was an error adding the Customer. Please try again later.');
+
+        }
+
+
+
+        return redirect()->route('employee.index')->with('success', 'Employee updated successfully!');
+    }
+
+    public function update_old(EmployeeRequest $request, $id)
+    {
+
+        $personalInformation = EmployeePersonalInformation::with(['nominees', 'gong', 'attachments'])->findOrFail($id);
         $personalInformation->salutation = $request->salutation;
         $personalInformation->first_name = $request->first_name;
         $personalInformation->last_name = $request->last_name;
@@ -1120,7 +1151,6 @@ class EmployeeController extends Controller
             'gender' => $request->customer_gender,
             'dob' => $request->customer_dob,
             'nid_no' => $request->customer_id_number,
-            'passport_no' => $request->spouse_organization,
             'region' => $request->spouse_mobile,
             'nationality' => $request->customer_nation,
             'occupation' => $request->customer_profession,
@@ -1168,8 +1198,6 @@ class EmployeeController extends Controller
 
         return $personalInfo;
     }
-
-
     //Customer Nominee Information store
     private function storeNomineeInfo($request, $empId)
     {
@@ -1272,6 +1300,189 @@ class EmployeeController extends Controller
         }
     }
     
+    //personal information update
+    private function updateCustomerInfo($request, $personalInformation)
+    {   
+        $personalInfo = EmployeePersonalInformation::findOrFail($personalInformation->id);
+
+        $personalInfos = $personalInfo->update([
+            'name' => $request->customer_name_en,
+            'name_bangla' => $request->customer_name_bn,
+            'father_name' => $request->customer_father_en,
+            'father_name_bangla' => $request->customer_father_bn,
+            'mother_name' => $request->customer_mother_en,
+            'mother_name_bangla' => $request->customer_mother_bn,
+            'number'=> $request->customer_phone,
+            'code'=> $request->customer_id,
+            'old_code'=>$request->customer_id_old,
+            'contact_number_res' => $request->customer_land,
+            'contact_number_emergency' => $request->customer_whatsapp,
+            'email' => $request->customer_email,
+            'gender' => $request->customer_gender,
+            'dob' => $request->customer_dob,
+            'nid_no' => $request->customer_id_number,
+            'region' => $request->spouse_mobile,
+            'nationality' => $request->customer_nation,
+            'occupation' => $request->customer_profession,
+            'permanent_address' => $request->customer_add_per,
+            'blood_id' => $request->customer_blood,
+            'age' => $request->customer_age,
+            'salesman' => $request->customer_salesman_name,
+            'id_type' => $request->customer_id_type,
+            'religion' => $request->customer_religion,
+            'agency' => $request->customer_agency_name,
+            'customer_div_pre' => $request->customer_div_pre,
+            'customer_dis_pre' => $request->customer_dis_pre,
+            'customer_upa_pre' => $request->customer_upa_pre,
+            'customer_union_pre' => $request->customer_union_pre,
+            'customer_add_pre' => $request->customer_add_pre,
+            'customer_post_off_pre' => $request->customer_post_off_pre,
+            'customer_post_code_pre' => $request->customer_post_code_pre,
+            'customer_div_per' => $request->customer_div_per,
+            'customer_dis_per' => $request->customer_dis_per,
+            'customer_upa_per' => $request->customer_upa_per,
+            'customer_union_pers' => $request->customer_union_pers,
+            'customer_post_off_per' => $request->customer_post_off_per,
+            'customer_post_code_per' => $request->customer_post_code_per,
+            'customer_login_access' => $request->customer_login_access,
+        ]);
+
+
+        if ($request->hasFile('customer_id_card')) {
+            $file = $request->file('customer_id_card');
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $storagePath = 'customer_attachment/' . $filename;
+
+            $attachment = $personalInformation->attachments->firstWhere('file_for', 'customer_id_card');
+
+            if ($attachment) {
+                // Delete old file if it exists
+                if (Storage::exists('public/' . $attachment->file_path)) {
+                    Storage::delete('public/' . $attachment->file_path);
+                }
+
+                // Upload new file
+                $file->storeAs('public/customer_attachment', $filename);
+
+                // Update the existing attachment record
+                $attachment->update([
+                    'file_path' => $storagePath,
+                ]);
+            } else {
+                // Upload new file and create new record
+                $file->storeAs('public/customer_attachment', $filename);
+
+                CustomerAttachment::create([
+                    'customer_id' => $personalInfo->id,
+                    'file_for' => 'customer_id_card',
+                    'file_path' => $storagePath,
+                ]);
+            }
+        }
+    }
+    //Customer Nominee Information update
+    private function updateNomineeInfo($request, $personalInformation)
+    {
+      return $nominee_info=$personalInformation->nominee;
+
+        if ($request->nominee_name) {
+            foreach ($request->nominee_name as $key => $value) {
+
+                if (isset($request->nominee_pic[$key])) {
+                    $file = $request->nominee_pic[$key];
+                    $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $destinationPath = public_path('customer_attachment');
+                    $file->move($destinationPath, $filename);
+    
+
+                    CustomerAttachment::create([
+                        'customer_id' => $empId,
+                        'file_for' => 'nominee_pic',
+                        'file_path' => 'customer_attachment/' . $filename, 
+                    ]);
+                }
+
+                if (isset($request->nominee_id_pic[$key])) {
+                    $file_nominee = $request->nominee_id_pic[$key];
+                    $filename_nominee = time() . '_' . uniqid() . '.' . $file_nominee->getClientOriginalExtension();
+                    $destinationPath = public_path('customer_attachment');
+                    $file_nominee->move($destinationPath, $filename_nominee);
+    
+
+                    CustomerAttachment::create([
+                        'customer_id' => $empId,
+                        'file_for' => 'nominee_id_pic',
+                        'file_path' => 'customer_attachment/' . $filename_nominee, 
+                    ]);
+                }
+    
+                // Save nominee information
+                EmployeeGranter::create([
+                    'customer_id' => $empId,
+                    'share' => $request->nominee_share[$key] ?? null,
+                    'name' => $request->nominee_name[$key] ?? null,
+                    'relationship' => $request->nominee_relation[$key] ?? null,
+                    'contact_number_res' => $request->granter_relation[$key] ?? null,
+                    'contact_number' => $request->nominee_phone[$key] ?? null,
+                    'mailing_address' => $request->nominee_email[$key] ?? null,
+                    'permanent_address' => $request->nominee_per_add[$key] ?? null,
+                    'present_address' => $request->nominee_pre_add[$key] ?? null,
+                    'nominee_id_type' => $request->nominee_id_type[$key] ?? null,
+                    'nominee_id' => $request->nominee_id[$key] ?? null,
+                ]);
+            }
+        }
+    }
+    //Customer Gong Information update
+    private function updateGongInfo($request, $empId)
+    {
+        // Customer Gong History
+        if($request->gong_name){
+            foreach ($request->gong_name as $key => $value) {
+
+                if (isset($request->gong_pic[$key])) {
+                    $file_gong = $request->gong_pic[$key];
+                    $filename_gong = time() . '_' . uniqid() . '.' . $file_gong->getClientOriginalExtension();
+                    $destinationPath = public_path('customer_attachment');
+                    $file_gong->move($destinationPath, $filename_gong);
+    
+
+                    CustomerAttachment::create([
+                        'customer_id' => $empId,
+                        'file_for' => 'gong_pic',
+                        'file_path' => 'customer_attachment/' . $filename_gong, 
+                    ]);
+                }
+                if (isset($request->gong_id_pic[$key])) {
+                    $file_gong_id = $request->gong_id_pic[$key];
+                    $filename_gong_id = time() . '_' . uniqid() . '.' . $file_gong_id->getClientOriginalExtension();
+                    $destinationPath = public_path('customer_attachment');
+                    $file_gong_id->move($destinationPath, $filename_gong_id);
+    
+
+                    CustomerAttachment::create([
+                        'customer_id' => $empId,
+                        'file_for' => 'gong_id_pic',
+                        'file_path' => 'customer_attachment/' . $filename_gong_id, 
+                    ]);
+                }
+
+                EmployeeReference::create([
+                    'customer_id' => $empId,
+                    'share' => $request->gong_share[$key] ?? null,
+                    'gong_name' => $request->gong_name[$key] ?? null,
+                    'gong_relationship' => $request->gong_relation[$key] ?? null,
+                    'gong_contact_number' => $request->gong_phone[$key] ?? null,
+                    'mailing_address' => $request->gong_email[$key] ?? null,
+                    'gong_address' => $request->gong_per_add[$key] ?? null,
+                    'present_address' => $request->gong_pre_add[$key] ?? null,
+                    'gong_id_type' => $request->gong_id_type[$key] ?? null,
+                    'gong_id' => $request->gong_id[$key] ?? null,
+
+                ]);
+            }
+        }
+    }
 
 }
 

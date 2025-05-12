@@ -108,7 +108,7 @@ Route::middleware(['auth:admin', 'verified'])->group(function () {
         Route::get('/customer/create', 'create')->name('customer.create');
         Route::post('/customer/store', 'store')->name('customer.store');
         Route::get('/customer/edit/{id}', 'edit')->name('customer.edit');
-        Route::put('/customer/update/{id}', 'update')->name('employee.update');
+        Route::put('/customer/update/{id}', 'update')->name('customer.update');
 
         Route::delete('/employee/destroy/{id}', 'destroy')->name('employee.destroy');
         Route::get('/employee/designations/{departmentId}', 'getDesignations');
