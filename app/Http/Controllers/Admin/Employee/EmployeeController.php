@@ -301,6 +301,7 @@ class EmployeeController extends Controller
 
     public function edit($id)
     {
+        // dd(dis_id_to_name(12));
         $employeeinfos = EmployeePersonalInformation::with('salutations','genders')->get();
         $salutations = Salutation::where('status', true)->get();
         $grades = Grade::where('status', true)->get();
@@ -355,20 +356,17 @@ class EmployeeController extends Controller
 
         $personalInformation = EmployeePersonalInformation::with(['nominees', 'gong', 'attachments'])->findOrFail($id);
 
-        // $a=$this->updateCustomerInfo($request, $personalInformation);
-        $b=$this->updateNomineeInfo($request, $personalInformation);
-        dd($b);
-        $c=$this->updateGongInfo($request, $personalInformation);
+
        
         DB::beginTransaction();
         try {
 
-            $this->storeCustomerInfo($request, $personalInformation);
-            $this->storeNomineeInfo($request, $personalInformation);
-            $this->storeGongInfo($request, $personalInformation);
+            $this->updateCustomerInfo($request, $personalInformation);
+            $this->updateNomineeInfo($request, $personalInformation);
+            $this->updateGongInfo($request, $personalInformation);
 
             DB::commit();
-            return redirect()->route('customer.index')->with('success', 'Customer Information successfully added!');
+            return redirect()->route('customer.index')->with('success', 'Customer Information updated successfully!');
         } catch (\Exception $e) {
             DB::rollback();
             Log::error("Error saving Customer: " . $e->getMessage());
@@ -376,9 +374,6 @@ class EmployeeController extends Controller
 
         }
 
-
-
-        return redirect()->route('employee.index')->with('success', 'Employee updated successfully!');
     }
 
     public function update_old(EmployeeRequest $request, $id)
@@ -785,99 +780,36 @@ class EmployeeController extends Controller
 
     public function destroy($id)
     {
-        $employee = EmployeePersonalInformation::findOrFail($id);
+        try {
+            $customer = EmployeePersonalInformation::with(['nominees', 'gong', 'attachments'])->findOrFail($id);
 
-        $granters = EmployeeGranter::where('emp_personal_id', $employee->id)->get();
-
-        if($granters){
-            foreach ($granters as $granter) {
-                $this->handleFileDelete($granter->granter_id_doc);
-                $granter->delete();
+            // Delete all attachments and unlink files
+            foreach ($customer->attachments as $attachment) {
+                $filePath = public_path($attachment->file_path);
+                if (file_exists($filePath)) {
+                    @unlink($filePath);
+                }
+                $attachment->delete();
             }
+
+            // Delete related nominees and gongs
+            $customer->nominees()->delete();
+            $customer->gong()->delete();
+
+            // Delete main customer record
+            $customer->delete();
+
+            return response()->json(['success' => 'Employee deleted successfully.']);
+
+        } catch (\Exception $e) {
+            \Log::error('Customer Deletion Error: ' . $e->getMessage());
+            return response()->json([
+                'error' => 'Something went wrong while deleting the employee.',
+                'message' => $e->getMessage()
+            ], 500);
         }
-
-
-        $references = EmployeeReference::where('emp_personal_id', $employee->id)->get();
-
-        if($references){
-            foreach ($references as $reference) {
-                $this->handleFileDelete($reference->reference_id_doc);
-                $reference->delete();
-            }
-        }
-
-
-        $educations = EmployeeEducation::where('emp_personal_id', $employee->id)->get();
-
-        if($educations){
-            foreach ($educations as $education) {
-                $this->handleFileDelete($education->education_doc);
-                $education->delete();
-            }
-        }
-
-
-        $experiences = EmployeeExperience::where('emp_personal_id', $employee->id)->get();
-
-        if($experiences){
-            foreach ($experiences as $experience) {
-                $this->handleFileDelete($experience->experiance_doc);
-                $experience->delete();
-            }
-        }
-
-
-
-        $trainings = EmployeeTraining::where('emp_personal_id', $employee->id)->get();
-
-        if($trainings){
-            foreach ($trainings as $training) {
-                $this->handleFileDelete($training->training_doc);
-                $training->delete();
-            }
-        }
-
-        $fileFields = [
-            'profile_picture',
-            'signature',
-            'nid_card_front',
-            'nid_card_back',
-            'cv',
-            'trade_licence',
-            'vat',
-            'tax',
-            'gong_picture',
-        ];
-
-
-        $document = EmployeeDocument::where('employee_id', $employee->id)->first();
-        // dd($document);
-
-
-       if( $document){
-        foreach ($fileFields as $field) {
-            $this->handleFileDelete($document->{$field});
-        }
-
-        $document->delete();
-       }
-
-        $otherdocuments = EmployeeOtherDocument::where('employee_id', $employee->id)->get();
-
-        if($otherdocuments){
-            foreach ($otherdocuments as $otherdocument) {
-                $this->handleFileDelete($otherdocument->file_path);
-                $otherdocument->delete();
-            }
-        }
-
-        if ($employee->spouse_nid) {
-            Storage::disk('public')->delete($employee->spouse_nid);
-        }
-        $employee->delete();
-        return response()->json(['success' => 'Employee deleted successfully.']);
-        // return redirect()->route('employee.index')->with('success', 'Employee deleted successfully.');
     }
+
 
     public function createDocument($id)
     {
@@ -1145,8 +1077,8 @@ class EmployeeController extends Controller
             'number'=> $request->customer_phone,
             'code'=> $request->customer_id,
             'old_code'=>$request->customer_id_old,
-            'contact_number_res' => $request->customer_land,
-            'contact_number_emergency' => $request->customer_whatsapp,
+            'contact_number_res' => $request->customer_whatsapp,
+            'contact_number_emergency' => $request->customer_land,
             'email' => $request->customer_email,
             'gender' => $request->customer_gender,
             'dob' => $request->customer_dob,
@@ -1238,7 +1170,6 @@ class EmployeeController extends Controller
                     'share' => $request->nominee_share[$key] ?? null,
                     'name' => $request->nominee_name[$key] ?? null,
                     'relationship' => $request->nominee_relation[$key] ?? null,
-                    'contact_number_res' => $request->granter_relation[$key] ?? null,
                     'contact_number' => $request->nominee_phone[$key] ?? null,
                     'mailing_address' => $request->nominee_email[$key] ?? null,
                     'permanent_address' => $request->nominee_per_add[$key] ?? null,
@@ -1315,8 +1246,8 @@ class EmployeeController extends Controller
             'number'=> $request->customer_phone,
             'code'=> $request->customer_id,
             'old_code'=>$request->customer_id_old,
-            'contact_number_res' => $request->customer_land,
-            'contact_number_emergency' => $request->customer_whatsapp,
+            'contact_number_res' => $request->customer_whatsapp,
+            'contact_number_emergency' => $request->customer_land,
             'email' => $request->customer_email,
             'gender' => $request->customer_gender,
             'dob' => $request->customer_dob,
@@ -1383,106 +1314,181 @@ class EmployeeController extends Controller
     //Customer Nominee Information update
     private function updateNomineeInfo($request, $personalInformation)
     {
-      return $nominee_info=$personalInformation->nominees;
+        $existingNominees = $personalInformation->nominees; 
+        $existingAttachments = $personalInformation->attachments; 
 
         if ($request->nominee_name) {
-            foreach ($request->nominee_name as $key => $value) {
+            foreach ($request->nominee_name as $key => $name) {
+                // Check if nominee already exists
+                $existingNominee = $existingNominees[$key] ?? null;
 
+                if ($existingNominee) {
+                    // Update nominee data
+                    $existingNominee->update([
+                        'share' => $request->nominee_share[$key] ?? null,
+                        'name' => $name ?? null,
+                        'relationship' => $request->nominee_relation[$key] ?? null,
+                        'contact_number' => $request->nominee_phone[$key] ?? null,
+                        'mailing_address' => $request->nominee_email[$key] ?? null,
+                        'permanent_address' => $request->nominee_per_add[$key] ?? null,
+                        'present_address' => $request->nominee_pre_add[$key] ?? null,
+                        'nominee_id_type' => $request->nominee_id_type[$key] ?? null,
+                        'nominee_id' => $request->nominee_id[$key] ?? null,
+                    ]);
+
+                } else {
+                    // Create new nominee
+                    EmployeeGranter::create([
+                        'customer_id' => $personalInformation->id,
+                        'share' => $request->nominee_share[$key] ?? null,
+                        'name' => $name ?? null,
+                        'relationship' => $request->nominee_relation[$key] ?? null,
+                        'contact_number' => $request->nominee_phone[$key] ?? null,
+                        'mailing_address' => $request->nominee_email[$key] ?? null,
+                        'permanent_address' => $request->nominee_per_add[$key] ?? null,
+                        'present_address' => $request->nominee_pre_add[$key] ?? null,
+                        'nominee_id_type' => $request->nominee_id_type[$key] ?? null,
+                        'nominee_id' => $request->nominee_id[$key] ?? null,
+                    ]);
+                }
+
+                // nominee_pic
                 if (isset($request->nominee_pic[$key])) {
+                    $oldPic = $existingAttachments->where('file_for', 'nominee_pic')->values()->get($key);
+                    if ($oldPic) {
+                        @unlink(public_path($oldPic->file_path)); // Delete old file
+                        $oldPic->delete();
+                    }
+
                     $file = $request->nominee_pic[$key];
                     $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
                     $destinationPath = public_path('customer_attachment');
                     $file->move($destinationPath, $filename);
-    
 
                     CustomerAttachment::create([
-                        'customer_id' => $empId,
+                        'customer_id' => $personalInformation->id,
                         'file_for' => 'nominee_pic',
-                        'file_path' => 'customer_attachment/' . $filename, 
+                        'file_path' => 'customer_attachment/' . $filename,
                     ]);
                 }
 
+                // nominee_id_pic
                 if (isset($request->nominee_id_pic[$key])) {
+                    $oldIdPic = $existingAttachments->where('file_for', 'nominee_id_pic')->values()->get($key);
+                    if ($oldIdPic) {
+                        @unlink(public_path($oldIdPic->file_path)); // Delete old file
+                        $oldIdPic->delete();
+                    }
+
                     $file_nominee = $request->nominee_id_pic[$key];
                     $filename_nominee = time() . '_' . uniqid() . '.' . $file_nominee->getClientOriginalExtension();
                     $destinationPath = public_path('customer_attachment');
                     $file_nominee->move($destinationPath, $filename_nominee);
-    
 
                     CustomerAttachment::create([
-                        'customer_id' => $empId,
+                        'customer_id' => $personalInformation->id,
                         'file_for' => 'nominee_id_pic',
-                        'file_path' => 'customer_attachment/' . $filename_nominee, 
+                        'file_path' => 'customer_attachment/' . $filename_nominee,
                     ]);
                 }
-    
-                // Save nominee information
-                EmployeeGranter::create([
-                    'customer_id' => $empId,
-                    'share' => $request->nominee_share[$key] ?? null,
-                    'name' => $request->nominee_name[$key] ?? null,
-                    'relationship' => $request->nominee_relation[$key] ?? null,
-                    'contact_number_res' => $request->granter_relation[$key] ?? null,
-                    'contact_number' => $request->nominee_phone[$key] ?? null,
-                    'mailing_address' => $request->nominee_email[$key] ?? null,
-                    'permanent_address' => $request->nominee_per_add[$key] ?? null,
-                    'present_address' => $request->nominee_pre_add[$key] ?? null,
-                    'nominee_id_type' => $request->nominee_id_type[$key] ?? null,
-                    'nominee_id' => $request->nominee_id[$key] ?? null,
-                ]);
             }
         }
     }
+
     //Customer Gong Information update
-    private function updateGongInfo($request, $empId)
+    private function updateGongInfo($request, $personalInformation)
     {
-        // Customer Gong History
-        if($request->gong_name){
+        $existingGongs = $personalInformation->gong;
+        $existingAttachments = $personalInformation->attachments;
+
+        // Track updated gong IDs to detect which were removed
+        $updatedGongIds = [];
+
+        if ($request->gong_name) {
             foreach ($request->gong_name as $key => $value) {
 
+                $gongId = $request->gong_id_hidden[$key] ?? null;
+
+                if ($gongId && $existingGong = $existingGongs->firstWhere('id', $gongId)) {
+                    // Update existing gong
+                    $existingGong->update([
+                        'share' => $request->gong_share[$key] ?? null,
+                        'gong_name' => $request->gong_name[$key] ?? null,
+                        'gong_relationship' => $request->gong_relation[$key] ?? null,
+                        'gong_contact_number' => $request->gong_phone[$key] ?? null,
+                        'mailing_address' => $request->gong_email[$key] ?? null,
+                        'gong_address' => $request->gong_per_add[$key] ?? null,
+                        'present_address' => $request->gong_pre_add[$key] ?? null,
+                        'gong_id_type' => $request->gong_id_type[$key] ?? null,
+                        'gong_id' => $request->gong_id[$key] ?? null,
+                    ]);
+
+                    $updatedGongIds[] = $gongId;
+                } else {
+                    // Create new gong
+                    $existingGong = EmployeeReference::create([
+                        'customer_id' => $personalInformation->id,
+                        'share' => $request->gong_share[$key] ?? null,
+                        'gong_name' => $request->gong_name[$key] ?? null,
+                        'gong_relationship' => $request->gong_relation[$key] ?? null,
+                        'gong_contact_number' => $request->gong_phone[$key] ?? null,
+                        'mailing_address' => $request->gong_email[$key] ?? null,
+                        'gong_address' => $request->gong_per_add[$key] ?? null,
+                        'present_address' => $request->gong_pre_add[$key] ?? null,
+                        'gong_id_type' => $request->gong_id_type[$key] ?? null,
+                        'gong_id' => $request->gong_id[$key] ?? null,
+                    ]);
+                    $gongId = $existingGong->id;
+                    $updatedGongIds[] = $gongId;
+                }
+
+                // Handle gong_pic
                 if (isset($request->gong_pic[$key])) {
-                    $file_gong = $request->gong_pic[$key];
-                    $filename_gong = time() . '_' . uniqid() . '.' . $file_gong->getClientOriginalExtension();
-                    $destinationPath = public_path('customer_attachment');
-                    $file_gong->move($destinationPath, $filename_gong);
-    
+                    $oldAttachment = $existingAttachments->firstWhere('file_for', 'gong_pic');
+                    if ($oldAttachment && file_exists(public_path($oldAttachment->file_path))) {
+                        unlink(public_path($oldAttachment->file_path));
+                        $oldAttachment->delete();
+                    }
+
+                    $file = $request->gong_pic[$key];
+                    $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $file->move(public_path('customer_attachment'), $filename);
 
                     CustomerAttachment::create([
-                        'customer_id' => $empId,
+                        'customer_id' => $personalInformation->id,
                         'file_for' => 'gong_pic',
-                        'file_path' => 'customer_attachment/' . $filename_gong, 
+                        'file_path' => 'customer_attachment/' . $filename,
                     ]);
                 }
+
+                // Handle gong_id_pic
                 if (isset($request->gong_id_pic[$key])) {
-                    $file_gong_id = $request->gong_id_pic[$key];
-                    $filename_gong_id = time() . '_' . uniqid() . '.' . $file_gong_id->getClientOriginalExtension();
-                    $destinationPath = public_path('customer_attachment');
-                    $file_gong_id->move($destinationPath, $filename_gong_id);
-    
+                    $oldAttachment = $existingAttachments->firstWhere('file_for', 'gong_id_pic');
+                    if ($oldAttachment && file_exists(public_path($oldAttachment->file_path))) {
+                        unlink(public_path($oldAttachment->file_path));
+                        $oldAttachment->delete();
+                    }
+
+                    $file = $request->gong_id_pic[$key];
+                    $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $file->move(public_path('customer_attachment'), $filename);
 
                     CustomerAttachment::create([
-                        'customer_id' => $empId,
+                        'customer_id' => $personalInformation->id,
                         'file_for' => 'gong_id_pic',
-                        'file_path' => 'customer_attachment/' . $filename_gong_id, 
+                        'file_path' => 'customer_attachment/' . $filename,
                     ]);
                 }
-
-                EmployeeReference::create([
-                    'customer_id' => $empId,
-                    'share' => $request->gong_share[$key] ?? null,
-                    'gong_name' => $request->gong_name[$key] ?? null,
-                    'gong_relationship' => $request->gong_relation[$key] ?? null,
-                    'gong_contact_number' => $request->gong_phone[$key] ?? null,
-                    'mailing_address' => $request->gong_email[$key] ?? null,
-                    'gong_address' => $request->gong_per_add[$key] ?? null,
-                    'present_address' => $request->gong_pre_add[$key] ?? null,
-                    'gong_id_type' => $request->gong_id_type[$key] ?? null,
-                    'gong_id' => $request->gong_id[$key] ?? null,
-
-                ]);
             }
         }
+
+        // Delete gongs not in the updated list
+        $toDelete = $existingGongs->whereNotIn('id', $updatedGongIds);
+        foreach ($toDelete as $gong) {
+            $gong->delete();
+        }
     }
+
 
 }
 

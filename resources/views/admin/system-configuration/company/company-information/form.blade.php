@@ -61,7 +61,7 @@
         <div class="col-lg-4">
             <div class="form-group">
                 <label for="working_days">Working Days</label>
-                <select class="form-select form-control custom-input multipleSelect2" id="working_days" name="working_days[]" multiple="multiple">
+                {{-- <select class="form-select form-control custom-input multipleSelect2" id="working_days" name="working_days[]" multiple="multiple">
                     <option value="Saturday" {{ in_array('Saturday', $companyInformation->working_days) ? 'selected' : '' }}>Saturday</option>
                     <option value="Sunday" {{ in_array('Sunday', $companyInformation->working_days) ? 'selected' : '' }}>Sunday</option>
                     <option value="Monday" {{ in_array('Monday', $companyInformation->working_days) ? 'selected' : '' }}>Monday</option>
@@ -69,7 +69,7 @@
                     <option value="Wednesday" {{ in_array('Wednesday', $companyInformation->working_days) ? 'selected' : '' }}>Wednesday</option>
                     <option value="Thursday" {{ in_array('Thursday', $companyInformation->working_days) ? 'selected' : '' }}>Thursday</option>
                     <option value="Friday" {{ in_array('Friday', $companyInformation->working_days) ? 'selected' : '' }}>Friday</option>
-                </select>
+                </select> --}}
             </div>
         </div>
 

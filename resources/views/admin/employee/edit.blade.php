@@ -309,14 +309,14 @@
                                          <div class="col-sm-3">
                                             <div class="form-group">
                                                <label for="customer_land">Land Phone Number (If Any)</label>
-                                               <input type="text" class="form-control custom-input custom-input customer_land" id="customer_land" value="{{$customers->contact_number_res}}" name="customer_land" placeholder="Type Valid Phone Number">
+                                               <input type="text" class="form-control custom-input custom-input customer_land" id="customer_land" value="{{$customers->contact_number_emergency}}" name="customer_land" placeholder="Type Valid Phone Number">
                                             </div>
                                          </div>
 
                                          <div class="col-sm-3">
                                             <div class="form-group">
                                                <label>WhatsApp Number</label>
-                                               <input type="text" class="form-control custom-input custom-input customer_whatsapp" id="customer_whatsapp" value="{{$customers->contact_number_emergency}}" name="customer_whatsapp" placeholder="Type Valid WhatsApp Number">
+                                               <input type="text" class="form-control custom-input custom-input customer_whatsapp" id="customer_whatsapp" value="{{$customers->contact_number_res}}" name="customer_whatsapp" placeholder="Type Valid WhatsApp Number">
                                             </div>
                                          </div>
 

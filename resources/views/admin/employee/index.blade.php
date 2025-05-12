@@ -115,8 +115,8 @@
                                                             <a href="tel:{{ $customer->number }}" class="client-info">
                                                                 <i class='bx bx-phone-outgoing bx-tada'></i> {{ $customer->number }}
                                                             </a><br/>
-                                                            <a href="tel:{{ $customer->contact_number_emergency ?? $customer->contact_number_emergency }}" class="client-info">
-                                                                <i class='bx bxl-whatsapp bx-tada'></i> {{ $customer->contact_number_emergency ?? 'N/A' }}
+                                                            <a href="tel:{{ $customer->contact_number_res ?? $customer->contact_number_res }}" class="client-info">
+                                                                <i class='bx bxl-whatsapp bx-tada'></i> {{ $customer->contact_number_res ?? 'N/A' }}
                                                             </a><br/>
                                                             <a href="mailto:{{ $customer->email }}" class="client-info">
                                                                 <i class='bx bx-mail-send bx-tada'></i> {{ $customer->email ?? 'N/A' }}
@@ -146,10 +146,10 @@
                                                                 <a href="{{route('customer.edit', $customer->id)}}" class="btn btn-link btn-success btn-lg" title="Edit">
                                                                     <i class='bx bxs-edit'></i>
                                                                 </a>
-                                                                <form action="" method="POST" style="display:inline;">
+                                                                <form action="{{route('customer.destroy', $customer->id)}}" method="POST" style="display:inline;" id="delete-customer" class="delete-customer">
                                                                     @csrf
                                                                     @method('DELETE')
-                                                                    <button type="submit" class="btn btn-link btn-danger btn-lg" onclick="return confirm('Are you sure?')">
+                                                                    <button type="button" class="btn btn-link btn-danger btn-lg" >
                                                                         <i class='bx bx-trash-alt'></i>
                                                                     </button>
                                                                 </form>
@@ -196,7 +196,41 @@
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
    {{-- ******dynamic Employee datatable  ******* --}}
 <script>
+    
+    document.querySelectorAll('.delete-customer').forEach(function(form) {
+        form.querySelector('button').addEventListener('click', function (e) {
+            e.preventDefault();
 
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "This action cannot be undone!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(form.action, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': form.querySelector('[name=_token]').value,
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: new URLSearchParams(new FormData(form))
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire('Deleted!', data.success, 'success').then(() => {
+                                location.reload(); // or redirect if needed
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    });
 
     $(document).ready(function () {
         let table = $('#employeeTable').DataTable({
@@ -245,43 +279,8 @@
             table.draw();  // Reload DataTable with new filter values
         });
 
-        $(document).on('click', '.delete-employee', function(e) {
-            e.preventDefault();
-            var employeeId = $(this).data('employee-id');
-            let deleteUrl = $(this).attr('href');
 
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this action!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, delete it!',
-                cancelButtonText: 'No, cancel!',
-                customClass: {
-                    confirmButton: 'btn btn-danger',
-                    cancelButton: 'btn btn-secondary'
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // If confirmed, find the form and submit it
-                    $.ajax({
-                        url: deleteUrl,
-                        type: 'DELETE',
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // CSRF token for security
-                        },
-                        success: function (response) {
-                            Swal.fire('Deleted!', response.message, 'success');
-                            // Remove the deleted row from the DOM
-                            $(`a[data-employee-id="${employeeId}"]`).closest('tr').remove();
-                        },
-                        error: function (xhr) {
-                            Swal.fire('Error!', 'Something went wrong.', 'error');
-                        }
-                    });
-                }
-            });
-        });
+        
 
         $(document).on('click','.toggle-status',function (e) {
             e.preventDefault();

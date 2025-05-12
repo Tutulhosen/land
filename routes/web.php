@@ -43,6 +43,8 @@ Route::get('/clear-all', function () {
     return 'All caches cleared!';
 });
 
+
+
 //system setup routes
 Route::get('/setup', [SetupController::class, 'index'])->name('setup.welcome');
 Route::get('/setup/company', [SetupController::class, 'company'])->name('setup.company');
@@ -109,8 +111,8 @@ Route::middleware(['auth:admin', 'verified'])->group(function () {
         Route::post('/customer/store', 'store')->name('customer.store');
         Route::get('/customer/edit/{id}', 'edit')->name('customer.edit');
         Route::put('/customer/update/{id}', 'update')->name('customer.update');
+        Route::delete('/customer/destroy/{id}', 'destroy')->name('customer.destroy');
 
-        Route::delete('/employee/destroy/{id}', 'destroy')->name('employee.destroy');
         Route::get('/employee/designations/{departmentId}', 'getDesignations');
         Route::get('/employee/branch/employees/{branchId}', 'getEmployeesByBranch');
         Route::get('/employee/shifts/{departmentId}', 'getShift');
