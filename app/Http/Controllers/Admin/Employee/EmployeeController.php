@@ -1383,7 +1383,7 @@ class EmployeeController extends Controller
     //Customer Nominee Information update
     private function updateNomineeInfo($request, $personalInformation)
     {
-      return $nominee_info=$personalInformation->nominee;
+      return $nominee_info=$personalInformation->nominees;
 
         if ($request->nominee_name) {
             foreach ($request->nominee_name as $key => $value) {
