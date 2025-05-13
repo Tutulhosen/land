@@ -108,8 +108,8 @@ class EmployeeController extends Controller
                     return '
                         <a href="' . route('employee.profile.view', $employee->id) . '">
                             <i class="bx bx-user-circle"></i> ' .
-                            ($employee->salutations ? $employee->salutations->name : "") . ' ' .
-                            $employee->first_name . ' ' . $employee->last_name . '
+                        ($employee->salutations ? $employee->salutations->name : "") . ' ' .
+                        $employee->first_name . ' ' . $employee->last_name . '
                         </a>
                         <br/>' .
                         ($employee->officialInformation && $employee->officialInformation->designation ? $employee->officialInformation->designation->designation_name : "N/A") . '
@@ -145,9 +145,9 @@ class EmployeeController extends Controller
                 ->addColumn('shift', function ($employee) {
                     return $employee->payRollInformation && $employee->payRollInformation->shift
                         ? $employee->payRollInformation->shift->shift_name . '<br/>' .
-                          \Carbon\Carbon::parse($employee->payRollInformation->shift->start_time)->format('h.i A') .
-                          ' to ' .
-                          \Carbon\Carbon::parse($employee->payRollInformation->shift->end_time)->format('h.i A')
+                        \Carbon\Carbon::parse($employee->payRollInformation->shift->start_time)->format('h.i A') .
+                        ' to ' .
+                        \Carbon\Carbon::parse($employee->payRollInformation->shift->end_time)->format('h.i A')
                         : 'N/A';
                 })
                 ->addColumn('week_off', function ($employee) {
@@ -211,16 +211,17 @@ class EmployeeController extends Controller
         $departments = Department::where('status', 1)->get();
         $customers = EmployeePersonalInformation::with(['nominees', 'gong', 'attachments'])->orderBy('id', 'desc')->paginate(20);
 
-        return view('admin.employee.index',compact('branches', 'departments', 'customers'));
+        return view('admin.employee.index', compact('branches', 'departments', 'customers'));
     }
-    public function create() {
+    public function create()
+    {
 
-        $employeeinfos = EmployeePersonalInformation::with('salutations','genders')->get();
+        $employeeinfos = EmployeePersonalInformation::with('salutations', 'genders')->get();
         $salutations = Salutation::where('status', true)->get();
         $grades = Grade::where('status', true)->get();
         $projects = ProjectList::where('status', true)->get();
         $genders = Gender::where('status', true)->get();
-        $nationalities =Nationality::where('status', true)->get();
+        $nationalities = Nationality::where('status', true)->get();
         $departments = Department::where('status', true)->orderBy('department_name', 'asc')->get();
         $designations = Designation::where('status', true)->orderBy('designation_name', 'asc')->get();
         $districts = District::all();
@@ -234,10 +235,10 @@ class EmployeeController extends Controller
         $branches =  Branch::where('status', true)->orderBy('name', 'asc')->get();
         $employee_types  = EmployeeType::where('status', true)->get();
         $religions = Religion::where('status', true)->get();
-        $agencies = Agency::orderBy('id','desc')->get();
-        $divisions = Division::orderBy('id','desc')->get();
-        
-        return view('admin.employee.create',compact(
+        $agencies = Agency::orderBy('id', 'desc')->get();
+        $divisions = Division::orderBy('id', 'desc')->get();
+
+        return view('admin.employee.create', compact(
             'departments',
             'designations',
             'districts',
@@ -278,7 +279,7 @@ class EmployeeController extends Controller
 
     public function store(EmployeeRequest $request)
     {
-   
+
         // dd($request->all());
         DB::beginTransaction();
         try {
@@ -293,7 +294,6 @@ class EmployeeController extends Controller
             DB::rollback();
             Log::error("Error saving Customer: " . $e->getMessage());
             return redirect()->back()->with('danger', 'There was an error adding the Customer. Please try again later.');
-
         }
     }
 
@@ -302,12 +302,12 @@ class EmployeeController extends Controller
     public function edit($id)
     {
         // dd(dis_id_to_name(12));
-        $employeeinfos = EmployeePersonalInformation::with('salutations','genders')->get();
+        $employeeinfos = EmployeePersonalInformation::with('salutations', 'genders')->get();
         $salutations = Salutation::where('status', true)->get();
         $grades = Grade::where('status', true)->get();
         $projects = ProjectList::where('status', true)->get();
         $genders = Gender::where('status', true)->get();
-        $nationalities =Nationality::where('status', true)->get();
+        $nationalities = Nationality::where('status', true)->get();
         $departments = Department::where('status', true)->orderBy('department_name', 'asc')->get();
         $designations = Designation::where('status', true)->orderBy('designation_name', 'asc')->get();
         $districts = District::all();
@@ -321,8 +321,8 @@ class EmployeeController extends Controller
         $branches =  Branch::where('status', true)->orderBy('name', 'asc')->get();
         $employee_types  = EmployeeType::where('status', true)->get();
         $religions = Religion::where('status', true)->get();
-        $agencies = Agency::orderBy('id','desc')->get();
-        $divisions = Division::orderBy('id','desc')->get();
+        $agencies = Agency::orderBy('id', 'desc')->get();
+        $divisions = Division::orderBy('id', 'desc')->get();
         $customers = EmployeePersonalInformation::with(['nominees', 'gong', 'attachments'])->findOrFail($id);
         // dd($customers->gong);
         return view('admin.employee.edit', compact(
@@ -347,7 +347,7 @@ class EmployeeController extends Controller
             'agencies',
             'divisions',
             'customers',
-            
+
 
         ));
     }
@@ -357,7 +357,7 @@ class EmployeeController extends Controller
         $personalInformation = EmployeePersonalInformation::with(['nominees', 'gong', 'attachments'])->findOrFail($id);
 
 
-       
+
         DB::beginTransaction();
         try {
 
@@ -371,9 +371,7 @@ class EmployeeController extends Controller
             DB::rollback();
             Log::error("Error saving Customer: " . $e->getMessage());
             return redirect()->back()->with('danger', 'There was an error adding the Customer. Please try again later.');
-
         }
-
     }
 
     public function update_old(EmployeeRequest $request, $id)
@@ -402,66 +400,66 @@ class EmployeeController extends Controller
         $personalInformation->spouse_dob = $request->spouse_dob;
         if ($request->hasFile('spouse_nid')) {
             $this->handleFileDelete($personalInformation->spouse_nid);
-                $personalInformation->spouse_nid = $this->handleFileUpload($request->file('spouse_nid'), 'Employee/Spouse-nid');
+            $personalInformation->spouse_nid = $this->handleFileUpload($request->file('spouse_nid'), 'Employee/Spouse-nid');
         }
         $personalInformation->save();
 
         // dd($personalInformation);
 
-         // Employee Contact
-         $employeeContact = EmployeeContact::where('emp_personal_id', $id)->first();
-         $employeeContact->emp_personal_id = $personalInformation->id;
-         $employeeContact->contact_number = $request->contact_number;
-         $employeeContact->email = $request->email;
-         $employeeContact->whatsapp = $request->whatsapp;
-         $employeeContact->pres_add = $request->pres_add;
-         $employeeContact->district = $request->district;
-         $employeeContact->postal_code = $request->postal_code;
-         // Handle "same as present address"
-         if ($request->same_address) {
-             $employeeContact->permanent_add = $request->pres_add;
-             $employeeContact->permanent_district = $request->district;
-             $employeeContact->permanent_postal_code = $request->postal_code;
-         } else {
-             $employeeContact->permanent_add = $request->permanent_add;
-             $employeeContact->permanent_district = $request->permanent_district;
-             $employeeContact->permanent_postal_code = $request->permanent_postal_code;
-         }
-         $employeeContact->same_address = $request->same_address;
-         $employeeContact->emergency_contact_person = $request->emergency_contact_person;
-         $employeeContact->relation = $request->relation;
-         $employeeContact->occupation = $request->occupation;
-         $employeeContact->emergency_contact = $request->emergency_contact;
-         $employeeContact->emergency_email = $request->emergency_email;
-         $employeeContact->emergency_address = $request->emergency_address;
-         $employeeContact->save();
-         // dd($employeeContact);
+        // Employee Contact
+        $employeeContact = EmployeeContact::where('emp_personal_id', $id)->first();
+        $employeeContact->emp_personal_id = $personalInformation->id;
+        $employeeContact->contact_number = $request->contact_number;
+        $employeeContact->email = $request->email;
+        $employeeContact->whatsapp = $request->whatsapp;
+        $employeeContact->pres_add = $request->pres_add;
+        $employeeContact->district = $request->district;
+        $employeeContact->postal_code = $request->postal_code;
+        // Handle "same as present address"
+        if ($request->same_address) {
+            $employeeContact->permanent_add = $request->pres_add;
+            $employeeContact->permanent_district = $request->district;
+            $employeeContact->permanent_postal_code = $request->postal_code;
+        } else {
+            $employeeContact->permanent_add = $request->permanent_add;
+            $employeeContact->permanent_district = $request->permanent_district;
+            $employeeContact->permanent_postal_code = $request->permanent_postal_code;
+        }
+        $employeeContact->same_address = $request->same_address;
+        $employeeContact->emergency_contact_person = $request->emergency_contact_person;
+        $employeeContact->relation = $request->relation;
+        $employeeContact->occupation = $request->occupation;
+        $employeeContact->emergency_contact = $request->emergency_contact;
+        $employeeContact->emergency_email = $request->emergency_email;
+        $employeeContact->emergency_address = $request->emergency_address;
+        $employeeContact->save();
+        // dd($employeeContact);
 
 
-         // Employee Official Information
-         $employeeOfficialInformation = EmployeeOfficialInformation::where('emp_personal_id', $id)->first();
-         $employeeOfficialInformation->emp_personal_id = $personalInformation->id;
-         $employeeOfficialInformation->employee_type = $request->employee_type;
-         $employeeOfficialInformation->department_id = $request->department_id;
-         $employeeOfficialInformation->designation_id = $request->designation_id;
-         $employeeOfficialInformation->branch_id = $request->branch_id;
-         $employeeOfficialInformation->reporting_to_first = $request->reporting_to_first;
-         $employeeOfficialInformation->reporting_to_second = $request->reporting_to_second;
-         $employeeOfficialInformation->reporting_to_third = $request->reporting_to_third;
-         $employeeOfficialInformation->grade_id = $request->grade_id;
-         $employeeOfficialInformation->project_id = $request->project_id;
-         $employeeOfficialInformation->notice_start_date = $request->notice_start_date;
-         $employeeOfficialInformation->notice_end_date = $request->notice_end_date;
-         $employeeOfficialInformation->official_phone = $request->official_phone;
-         $employeeOfficialInformation->official_email = $request->official_email;
-         $employeeOfficialInformation->official_whatsapp = $request->official_whatsapp;
-         $employeeOfficialInformation->user_email = $request->user_email;
-         if ($request->filled('password')) {
+        // Employee Official Information
+        $employeeOfficialInformation = EmployeeOfficialInformation::where('emp_personal_id', $id)->first();
+        $employeeOfficialInformation->emp_personal_id = $personalInformation->id;
+        $employeeOfficialInformation->employee_type = $request->employee_type;
+        $employeeOfficialInformation->department_id = $request->department_id;
+        $employeeOfficialInformation->designation_id = $request->designation_id;
+        $employeeOfficialInformation->branch_id = $request->branch_id;
+        $employeeOfficialInformation->reporting_to_first = $request->reporting_to_first;
+        $employeeOfficialInformation->reporting_to_second = $request->reporting_to_second;
+        $employeeOfficialInformation->reporting_to_third = $request->reporting_to_third;
+        $employeeOfficialInformation->grade_id = $request->grade_id;
+        $employeeOfficialInformation->project_id = $request->project_id;
+        $employeeOfficialInformation->notice_start_date = $request->notice_start_date;
+        $employeeOfficialInformation->notice_end_date = $request->notice_end_date;
+        $employeeOfficialInformation->official_phone = $request->official_phone;
+        $employeeOfficialInformation->official_email = $request->official_email;
+        $employeeOfficialInformation->official_whatsapp = $request->official_whatsapp;
+        $employeeOfficialInformation->user_email = $request->user_email;
+        if ($request->filled('password')) {
             $employeeOfficialInformation->password = bcrypt($request->password);
         }
-         $employeeOfficialInformation->login_allowed = $request->login_allowed;
-         $employeeOfficialInformation->save();
-         // dd($employeeOfficialInformation);
+        $employeeOfficialInformation->login_allowed = $request->login_allowed;
+        $employeeOfficialInformation->save();
+        // dd($employeeOfficialInformation);
 
 
         // Employee Granter History
@@ -726,18 +724,18 @@ class EmployeeController extends Controller
     public function getDesignations($departmentId)
     {
         $designations = Designation::where('department_id', $departmentId)
-                                    ->where('status', true)
-                                    ->orderBy('designation_name', 'asc')
-                                    ->get();
+            ->where('status', true)
+            ->orderBy('designation_name', 'asc')
+            ->get();
         return response()->json($designations);
     }
 
     public function getGrades($designationId)
     {
         $grades = Grade::where('designation_id', $designationId)
-                        ->where('status', true)
-                        ->orderBy('name', 'asc')
-                        ->get();
+            ->where('status', true)
+            ->orderBy('name', 'asc')
+            ->get();
 
         return response()->json($grades);
     }
@@ -760,8 +758,8 @@ class EmployeeController extends Controller
             'employee.officialInformation.reportingthird.salutations',
             'employee.payRollInformation'
         ])
-        ->where('branch_id', $branchId)
-        ->get();
+            ->where('branch_id', $branchId)
+            ->get();
         return response()->json($employees);
     }
 
@@ -771,7 +769,8 @@ class EmployeeController extends Controller
         return response()->json($shifts);
     }
 
-    public function employeeToggle($id){
+    public function employeeToggle($id)
+    {
         $employee = EmployeePersonalInformation::findOrFail($id);
         $employee->status = !$employee->status;
         $employee->save();
@@ -800,7 +799,6 @@ class EmployeeController extends Controller
             $customer->delete();
 
             return response()->json(['success' => 'Employee deleted successfully.']);
-
         } catch (\Exception $e) {
             \Log::error('Customer Deletion Error: ' . $e->getMessage());
             return response()->json([
@@ -856,7 +854,7 @@ class EmployeeController extends Controller
         $employee = EmployeePersonalInformation::findOrFail($request->employee_id);
         // dd($document);
 
-        if($document){
+        if ($document) {
             foreach ($fileFields as $field) {
                 if ($request->hasFile($field)) {
                     $this->handleFileDelete($document->{$field});
@@ -864,7 +862,7 @@ class EmployeeController extends Controller
                 }
             }
             $document->save();
-        }else{
+        } else {
 
             $employeeDocument = new EmployeeDocument();
             $employeeDocument->employee_id = $request->employee_id;
@@ -884,13 +882,12 @@ class EmployeeController extends Controller
             foreach ($request->file('other_documents') as $otherDocument) {
                 $employeeOtherDocument = new EmployeeOtherDocument();
                 $employeeOtherDocument->employee_id = $request->employee_id;
-                $employeeOtherDocument->file_path = $this->handleFileUpload($otherDocument, 'EmployeeDocument/' . $employee->emp_id . '/'.'EmployeeOtherDocument/');
+                $employeeOtherDocument->file_path = $this->handleFileUpload($otherDocument, 'EmployeeDocument/' . $employee->emp_id . '/' . 'EmployeeOtherDocument/');
                 $employeeOtherDocument->save();
             }
         }
 
         return back()->with('success', 'Document uploaded successfully.');
-
     }
 
     public function deleteDocument(Request $request)
@@ -910,16 +907,74 @@ class EmployeeController extends Controller
         return response()->json(['success' => false]);
     }
 
-    public function profileView($id){
-        $employeePersonal = EmployeePersonalInformation::findOrFail($id);
-        $employeedocuments = EmployeeDocument::all();
-        $employeeotherdocuments = EmployeeOtherDocument::all();
+    // public function profileView($id){
+    //     $employeePersonal = EmployeePersonalInformation::findOrFail($id);
+    //     $employeedocuments = EmployeeDocument::all();
+    //     $employeeotherdocuments = EmployeeOtherDocument::all();
 
-        $employeetransfers = EmployeeTransfer::where('employee_id', $id)->latest()->get();
-        return view('admin.employee.profile.view', compact('employeePersonal','employeedocuments','employeeotherdocuments','employeetransfers'));
+    //     $employeetransfers = EmployeeTransfer::where('employee_id', $id)->latest()->get();
+    //     return view('admin.employee.profile.view', compact('employeePersonal','employeedocuments','employeeotherdocuments','employeetransfers'));
+    // }
+
+    // ! working on profile view
+
+
+    public function profileView($id)
+    {
+
+        $employeeinfos = EmployeePersonalInformation::with('salutations', 'genders')->get();
+        $salutations = Salutation::where('status', true)->get();
+        $grades = Grade::where('status', true)->get();
+        $projects = ProjectList::where('status', true)->get();
+        $genders = Gender::where('status', true)->get();
+        $nationalities = Nationality::where('status', true)->get();
+        $departments = Department::where('status', true)->orderBy('department_name', 'asc')->get();
+        $designations = Designation::where('status', true)->orderBy('designation_name', 'asc')->get();
+        $districts = District::all();
+        $shifts = Shift::all();
+        $week_offs = WeekOff::all();
+        $bloodgroups = BloodGroup::all();
+        $probationPeriods = ProbationPeriod::where('status', true)->get();
+        $relations = Relation::where('status', true)->get();
+        $educations = Education::where('status', true)->get();
+        $educationtypes = EducationType::where('status', true)->get();
+        $branches =  Branch::where('status', true)->orderBy('name', 'asc')->get();
+        $employee_types  = EmployeeType::where('status', true)->get();
+        $religions = Religion::where('status', true)->get();
+        $agencies = Agency::orderBy('id', 'desc')->get();
+        $divisions = Division::orderBy('id', 'desc')->get();
+        $customers = EmployeePersonalInformation::with(['nominees', 'gong', 'attachments'])->findOrFail($id);
+        // dd($customers->gong);
+    
+        return view('admin.employee.profile', compact(
+            'employeeinfos',
+            'salutations',
+            'grades',
+            'projects',
+            'genders',
+            'nationalities',
+            'departments',
+            'designations',
+            'districts',
+            'shifts',
+            'week_offs',
+            'bloodgroups',
+            'probationPeriods',
+            'relations',
+            'educations',
+            'educationtypes',
+            'employee_types',
+            'religions',
+            'agencies',
+            'divisions',
+            'customers',
+
+
+        ));
     }
 
-    public function downloadZip($id){
+    public function downloadZip($id)
+    {
         $employeePersonal = EmployeePersonalInformation::findOrFail($id);
 
         $zipFileName = 'Document_' . $employeePersonal->first_name . '_' . $employeePersonal->last_name . '_' . $employeePersonal->emp_id  . '.zip';
@@ -1067,16 +1122,16 @@ class EmployeeController extends Controller
     //personal information store
     private function storeCustomerInfo($request)
     {
-         $personalInfo = EmployeePersonalInformation::create([
+        $personalInfo = EmployeePersonalInformation::create([
             'name' => $request->customer_name_en,
             'name_bangla' => $request->customer_name_bn,
             'father_name' => $request->customer_father_en,
             'father_name_bangla' => $request->customer_father_bn,
             'mother_name' => $request->customer_mother_en,
             'mother_name_bangla' => $request->customer_mother_bn,
-            'number'=> $request->customer_phone,
-            'code'=> $request->customer_id,
-            'old_code'=>$request->customer_id_old,
+            'number' => $request->customer_phone,
+            'code' => $request->customer_id,
+            'old_code' => $request->customer_id_old,
             'contact_number_res' => $request->customer_whatsapp,
             'contact_number_emergency' => $request->customer_land,
             'email' => $request->customer_email,
@@ -1116,16 +1171,16 @@ class EmployeeController extends Controller
             $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
 
             $file->storeAs('public/customer_attachment', $filename);
-    
+
 
             CustomerAttachment::create([
                 'customer_id' => $personalInfo->id,
                 'file_for' => 'customer_id_card',
-                'file_path' => 'customer_attachment/' . $filename, 
+                'file_path' => 'customer_attachment/' . $filename,
             ]);
         }
 
-        
+
 
 
         return $personalInfo;
@@ -1141,12 +1196,12 @@ class EmployeeController extends Controller
                     $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
                     $destinationPath = public_path('customer_attachment');
                     $file->move($destinationPath, $filename);
-    
+
 
                     CustomerAttachment::create([
                         'customer_id' => $empId,
                         'file_for' => 'nominee_pic',
-                        'file_path' => 'customer_attachment/' . $filename, 
+                        'file_path' => 'customer_attachment/' . $filename,
                     ]);
                 }
 
@@ -1155,15 +1210,15 @@ class EmployeeController extends Controller
                     $filename_nominee = time() . '_' . uniqid() . '.' . $file_nominee->getClientOriginalExtension();
                     $destinationPath = public_path('customer_attachment');
                     $file_nominee->move($destinationPath, $filename_nominee);
-    
+
 
                     CustomerAttachment::create([
                         'customer_id' => $empId,
                         'file_for' => 'nominee_id_pic',
-                        'file_path' => 'customer_attachment/' . $filename_nominee, 
+                        'file_path' => 'customer_attachment/' . $filename_nominee,
                     ]);
                 }
-    
+
                 // Save nominee information
                 EmployeeGranter::create([
                     'customer_id' => $empId,
@@ -1184,7 +1239,7 @@ class EmployeeController extends Controller
     private function storeGongInfo($request, $empId)
     {
         // Customer Gong History
-        if($request->gong_name){
+        if ($request->gong_name) {
             foreach ($request->gong_name as $key => $value) {
 
                 if (isset($request->gong_pic[$key])) {
@@ -1192,12 +1247,12 @@ class EmployeeController extends Controller
                     $filename_gong = time() . '_' . uniqid() . '.' . $file_gong->getClientOriginalExtension();
                     $destinationPath = public_path('customer_attachment');
                     $file_gong->move($destinationPath, $filename_gong);
-    
+
 
                     CustomerAttachment::create([
                         'customer_id' => $empId,
                         'file_for' => 'gong_pic',
-                        'file_path' => 'customer_attachment/' . $filename_gong, 
+                        'file_path' => 'customer_attachment/' . $filename_gong,
                     ]);
                 }
                 if (isset($request->gong_id_pic[$key])) {
@@ -1205,12 +1260,12 @@ class EmployeeController extends Controller
                     $filename_gong_id = time() . '_' . uniqid() . '.' . $file_gong_id->getClientOriginalExtension();
                     $destinationPath = public_path('customer_attachment');
                     $file_gong_id->move($destinationPath, $filename_gong_id);
-    
+
 
                     CustomerAttachment::create([
                         'customer_id' => $empId,
                         'file_for' => 'gong_id_pic',
-                        'file_path' => 'customer_attachment/' . $filename_gong_id, 
+                        'file_path' => 'customer_attachment/' . $filename_gong_id,
                     ]);
                 }
 
@@ -1230,10 +1285,10 @@ class EmployeeController extends Controller
             }
         }
     }
-    
+
     //personal information update
     private function updateCustomerInfo($request, $personalInformation)
-    {   
+    {
         $personalInfo = EmployeePersonalInformation::findOrFail($personalInformation->id);
 
         $personalInfos = $personalInfo->update([
@@ -1243,9 +1298,9 @@ class EmployeeController extends Controller
             'father_name_bangla' => $request->customer_father_bn,
             'mother_name' => $request->customer_mother_en,
             'mother_name_bangla' => $request->customer_mother_bn,
-            'number'=> $request->customer_phone,
-            'code'=> $request->customer_id,
-            'old_code'=>$request->customer_id_old,
+            'number' => $request->customer_phone,
+            'code' => $request->customer_id,
+            'old_code' => $request->customer_id_old,
             'contact_number_res' => $request->customer_whatsapp,
             'contact_number_emergency' => $request->customer_land,
             'email' => $request->customer_email,
@@ -1314,8 +1369,8 @@ class EmployeeController extends Controller
     //Customer Nominee Information update
     private function updateNomineeInfo($request, $personalInformation)
     {
-        $existingNominees = $personalInformation->nominees; 
-        $existingAttachments = $personalInformation->attachments; 
+        $existingNominees = $personalInformation->nominees;
+        $existingAttachments = $personalInformation->attachments;
 
         if ($request->nominee_name) {
             foreach ($request->nominee_name as $key => $name) {
@@ -1335,7 +1390,6 @@ class EmployeeController extends Controller
                         'nominee_id_type' => $request->nominee_id_type[$key] ?? null,
                         'nominee_id' => $request->nominee_id[$key] ?? null,
                     ]);
-
                 } else {
                     // Create new nominee
                     EmployeeGranter::create([
@@ -1488,8 +1542,4 @@ class EmployeeController extends Controller
             $gong->delete();
         }
     }
-
-
 }
-
-

@@ -46,6 +46,11 @@
             max-width: 60% !important; 
         }
     </style>
+
+    {{-- Css files for employee view --}}
+    	<link rel="stylesheet" href="/assets/css/bootstrap.min.css.map">
+
+
     @stack('styles')
 </head>
 <body class="trendy-layout">
