@@ -112,12 +112,12 @@ Route::middleware(['auth:admin', 'verified'])->group(function () {
         Route::get('/customer/edit/{id}', 'edit')->name('customer.edit');
         Route::put('/customer/update/{id}', 'update')->name('customer.update');
         Route::delete('/customer/destroy/{id}', 'destroy')->name('customer.destroy');
+        Route::get('/customer/profile/view/{id}', 'profileView')->name('customer.profile.view');
 
         Route::get('/employee/designations/{departmentId}', 'getDesignations');
         Route::get('/employee/branch/employees/{branchId}', 'getEmployeesByBranch');
         Route::get('/employee/shifts/{departmentId}', 'getShift');
         Route::post('/employee/toggle/{id}','employeeToggle')->name('employee.toggle');
-        Route::get('/employee/profile/view/{id}', 'profileView')->name('employee.profile.view');
         Route::get('/employee/downloadzip/{id}', 'downloadZip')->name('employee.downloadzip.file');
         Route::get('/employee/downloadprofile/{id}', 'downloadProfile')->name('employee.download.profile');
 
