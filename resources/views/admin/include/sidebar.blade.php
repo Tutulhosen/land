@@ -32,22 +32,22 @@
                     </a>
                 </li>
 
-                {{-- @can('ShowSideBar Employee')
-                    <li class="nav-item {{ Request::routeIs('employee.*') ? 'active submenu' : '' }}">
+                @can('ShowSideBar customer')
+                    <li class="nav-item {{ Request::routeIs('customer.*') ? 'active submenu' : '' }}">
                         <a data-bs-toggle="collapse" href="#employees">
                             <i class="fas fa-users"></i>
-                            <p>Employee</p>
+                            <p>Customer</p>
                             <span class="caret"></span>
                         </a>
-                        <div class="collapse {{ Request::routeIs('employee.*') ? 'show' : '' }}" id="employees">
+                        <div class="collapse {{ Request::routeIs('customer.*') ? 'show' : '' }}" id="employees">
                             <ul class="nav nav-collapse">
-                                <li class="{{ Route::currentRouteName() == 'employee.index' ? 'active' : '' }}">
-                                    <a href="{{route('employee.index')}}">
+                                <li class="{{ Route::currentRouteName() == 'customer.index' ? 'active' : '' }}">
+                                    <a href="{{route('customer.index')}}">
                                         <i class="fas fa-user-friends"></i>
-                                    <span class="sub-item">Employee</span>
+                                    <span class="sub-item">Customer</span>
                                     </a>
                                 </li>
-                                <li class="{{ Request::routeIs('employee.confirmation.*') ? 'active' : '' }}">
+                                {{-- <li class="{{ Request::routeIs('employee.confirmation.*') ? 'active' : '' }}">
                                     <a href="{{route('employee.confirmation.index')}}">
                                         <i class="fas fa-user-check"></i>
                                     <span class="sub-item">Employee Confirmation</span>
@@ -82,11 +82,11 @@
                                         <i class="fas fa-user-times"></i>
                                     <span class="sub-item">Employee Withhold</span>
                                     </a>
-                                </li>
+                                </li> --}}
                             </ul>
                         </div>
                     </li>
-                @endcan --}}
+                @endcan
 
                 {{-- @can('ShowSideBar Attendance')
                     <!--Attendance-->

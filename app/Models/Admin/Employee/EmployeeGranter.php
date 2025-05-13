@@ -9,15 +9,22 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class EmployeeGranter extends Model
 {
     use HasFactory;
+    protected $table = 'customer_nominees';
     protected $fillable = [
-        'emp_personal_id',
-        'granter_name',
-        'granter_occupation',
-        'granter_contact_number',
-        'granter_relation',
-        'granter_address',
-        'granter_id_number',
-        'granter_id_doc',
+        'customer_id',
+        'share',
+        'name',
+        'relationship',
+        'contact_number_res',
+        'contact_number',
+        'mailing_address',
+        'mailing_address_bn',
+        'permanent_address',
+        'permanent_address_bn',
+        'present_address',
+        'nominee_id_type',
+        'nominee_id',
+        'photo',
     ];
 
     public function personalInformation()

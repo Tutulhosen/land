@@ -19,36 +19,7 @@ use App\Models\Admin\SystemConfiguration\Salesman;
 
 class ProjectController extends Controller
 {
-    //some dependency method
-    public function get_block_by_sector($id)
-    {
-        $blocks = Block::where('sector_id', $id)->get(); 
-        return response()->json($blocks);
-    }
-
-    public function get_road_by_block($id)
-    {
-        $roads = Road::where('block_id', $id)->get(); 
-        return response()->json($roads);
-    }
-
-    public function get_plot_size_by_plot($id)
-    {
-        $plot_size = PlotSize::where('plot_type_id', $id)->get(); 
-        return response()->json($plot_size);
-    }
-
-    public function get_plot_price_by_size($id)
-    {
-        $plot_price = PlotPrice::where('plot_size_id', $id)->first(); 
-      
-        return response()->json($plot_price);
-    }
     
-
-
-
-
      // sector part
      public function index() {
         $branches = Branch::orderBy('id','desc')->get();

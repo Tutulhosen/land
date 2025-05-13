@@ -71,7 +71,7 @@
                                                     streamline <br> operations effortlessly.</p>
                                             </div>
                                             <div class="mt-3 text-center">
-                                                <p class="mb-0 text-white fs-13">{{ $companyInformation->applicationSetting->copyright_text }}</p>
+                                                <p class="mb-0 text-white fs-13">T</p>
                                             </div>
                                         </div>
                                     </div>
@@ -84,7 +84,7 @@
                             <div class="col-md-8 m-auto">
                                 <div class="card shadow-1 flex-fill mb-0">
                                     <div class=" mx-auto mt-4 mb-4 text-center">
-                                        <img src="{{ asset('storage/'. $companyInformation->brandSetting->main_logo) }}"
+                                        <img src="{{ asset('storage/uploads/company/brand_setting/main_logo/17459256476810b60f571ed.png') }}"
                                             class="img-fluid" width="150px" alt="Logo">
                                     </div>
                                     <div class="text-center mb-4 pb-3 pt-3 border-top border-bottom">

@@ -32,6 +32,7 @@ class CompanyController extends Controller
         $districts = District::all();
         $upazilas = Upazila::all();
         $companyInformation = CompanyInformation::with('contactInformation','brandSetting','applicationSetting','companyDocument')->first();
+        // dd($companyInformation->working_days);
         return view('admin.system-configuration.company.index',compact(
             'districts','upazilas','companyInformation'
         ));
