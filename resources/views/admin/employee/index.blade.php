@@ -143,7 +143,7 @@
                                                                 <a href="{{route('customer.profile.view', $customer->id)}}" class="btn btn-link btn-secondary btn-lg" title="View">
                                                                     <i class='bx bx-show'></i>
                                                                 </a>
-                                                                <a href="{{route('customer.edit', $customer->id)}}" class="btn btn-link btn-success btn-lg" title="Edit">
+                                                                <a href="{{route('customer.edit', $customer->id)}}" class="btn btn-link  btn-lg" title="Edit">
                                                                     <i class='bx bxs-edit'></i>
                                                                 </a>
                                                                 <form action="{{route('customer.destroy', $customer->id)}}" method="POST" style="display:inline;" id="delete-customer" class="delete-customer">
