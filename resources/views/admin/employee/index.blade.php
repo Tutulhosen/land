@@ -140,7 +140,7 @@
                                                         </td>
                                                         <td>
                                                             <div class="form-button-action">
-                                                                <a href="" class="btn btn-link btn-secondary btn-lg" title="View">
+                                                                <a href="{{route('customer.profile.view', $customer->id)}}" class="btn btn-link btn-secondary btn-lg" title="View">
                                                                     <i class='bx bx-show'></i>
                                                                 </a>
                                                                 <a href="{{route('customer.edit', $customer->id)}}" class="btn btn-link btn-success btn-lg" title="Edit">
