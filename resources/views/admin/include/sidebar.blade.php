@@ -221,39 +221,34 @@
                     <!--Leave Management-->
                 @endcan --}}
 
-                {{-- @can('ShowSideBar Shift')
+                @can('ShowSideBar Shift')
                     <!--Shift Management-->
-                    <li class="nav-item {{ Request::routeIs('shift.*') ? 'active submenu' : '' }}">
+                    <li class="nav-item {{ Request::routeIs('plot.*') ? 'active submenu' : '' }}">
                         <a data-bs-toggle="collapse" href="#shift-management">
-                            <i class="fas fa-calendar-alt"></i>
-                        <p>Shift Management</p>
+                            <i class="fas fa-th"></i>
+                        <p>Plot Manage</p>
                         <span class="caret"></span>
                         </a>
-                        <div class="collapse {{ Request::routeIs('shift.*') ? 'show' : '' }}" id="shift-management">
+                        <div class="collapse {{ Request::routeIs('plot.manage.*') ? 'show' : '' }}" id="shift-management">
                         <ul class="nav nav-collapse">
-                            <li class="{{ Route::currentRouteName() == 'shift.index' ? 'active' : '' }}">
-                                <a href="{{ route('shift.index') }}">
+                            <li class="{{ Route::currentRouteName() == 'plot.manage.index' ? 'active' : '' }}">
+                                <a href="{{ route('plot.manage.index') }}">
                                     <i class="far fa-file-alt"></i>
-                                <span class="sub-item">Create Shift</span>
+                                <span class="sub-item">Plot Booking</span>
                                 </a>
                             </li>
                             <li class="">
                                 <a href="{{route('admin.underdevelopment')}}">
                                     <i class="fas fa-calendar-check"></i>
-                                <span class="sub-item">Shift Assign</span>
+                                <span class="sub-item">Plot Sale</span>
                                 </a>
                             </li>
-                            <li class="">
-                                <a href="{{route('admin.underdevelopment')}}">
-                                    <i class="fas fa-calendar-alt"></i>
-                                <span class="sub-item">Shift Calendar</span>
-                                </a>
-                            </li>
+   
                         </ul>
                         </div>
                     </li>
                     <!--Shift Management-->
-                @endcan --}}
+                @endcan
 
                  <!--employeemovement-->
 

@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 @section('title','System-Configuration')
 @section('content')
+
 <div class="container">
     <div class="page-inner">
        <div class="row">
