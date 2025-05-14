@@ -22,10 +22,10 @@
                                         <div class="mt-5 border-bottom pb-3">
                                             <h5
                                                 class="d-flex align-items-center justify-content-center client-main-title">
-                                                Md Hasan Abdullah<i class="bx bx-badge-check text-success ms-1"></i>
+                                                {{$customers->name}}<i class="bx bx-badge-check text-success ms-1"></i>
                                             </h5>
-                                            <p class="client-info mb-1">Prime Bank Limited</p>
-                                            <span class="btn status-box-1">Operational Manager</span>
+                                            <p class="client-info mb-1">{{$customers->occupation}}</p>
+                                            <span class="btn status-box-1">{{$customers->designation}}</span>
                                         </div>
                                         <div class="pt-3">
                                             <div class="d-flex align-items-center justify-content-between mb-1">
@@ -35,7 +35,7 @@
                                                 </span>
                                                 <span class="d-inline-flex align-items-center client-info">
                                                     <i class="bx bx-id-card"></i>
-                                                    0781
+                                                   {{$customers->code}}
                                                 </span>
                                             </div>
                                             <div class="d-flex align-items-center justify-content-between">
@@ -43,7 +43,7 @@
                                                     <i class='bx bx-calendar bx-flashing'></i>
                                                     Customer Entry Date:
                                                 </span>
-                                                <p class="client-info">1st Jan 2023</p>
+                                                <p class="client-info">{{$customers->reg_date}}</p>
                                             </div>
                                             <div class="client-button-box mt-2">
                                                 <a href="#" class="client-button1"><i
@@ -57,33 +57,28 @@
                                     </div>
                                     <div class="p-3 border-bottom">
                                         <ul class="specification-list list-unstyled">
-                                            <li class="d-flex align-items-center justify-content-between client-info">
-                                                <span class="name-specification"><i
-                                                        class='bx bx-phone-outgoing bx-tada'></i> Phone</span>
-                                                <span class="status-specification">+8801844674502</span>
-                                            </li>
-                                            <li class="d-flex align-items-center justify-content-between client-info">
-                                                <span class="name-specification"><i
-                                                        class='bx bx-mail-send bx-tada'></i> Email</span>
-                                                <span class="status-specification">zwellhomes@gmail.com</span>
-                                            </li>
-                                            <li class="d-flex align-items-center justify-content-between client-info">
-                                                <span class="name-specification"><i
-                                                        class='bx bxl-whatsapp bx-flashing'></i> WhatsApp</span>
-                                                <span class="status-specification">+8801844674502</span>
-                                            </li>
-                                            <li class="d-flex align-items-center justify-content-between client-info">
-                                                <span class="name-specification"><i
-                                                        class='bx bx-link bx-flashing'></i> Website</span>
-                                                <span class="status-specification">www.akhalequefoundation.com</span>
-                                            </li>
-                                            <li class="d-flex align-items-center justify-content-between client-info">
-                                                <span class="name-specification"><i class='bx bx-map bx-flashing'></i>
-                                                    Address</span>
-                                                <span class="status-specification">Anushka Bhaban, Mirpur-10,
-                                                    Dhaka-1216</span>
-                                            </li>
-                                        </ul>
+    <li class="d-flex align-items-center justify-content-between client-info">
+        <span class="name-specification"><i class='bx bx-phone-outgoing bx-tada'></i> Phone</span>
+        <span class="status-specification">{{ $customers->number ?? 'N/A' }}</span>
+    </li>
+    <li class="d-flex align-items-center justify-content-between client-info">
+        <span class="name-specification"><i class='bx bx-mail-send bx-tada'></i> Email</span>
+        <span class="status-specification">{{ $customers->email ? $customers->email . '@gmail.com' : 'N/A' }}</span>
+    </li>
+    <li class="d-flex align-items-center justify-content-between client-info">
+        <span class="name-specification"><i class='bx bxl-whatsapp bx-flashing'></i> WhatsApp</span>
+        <span class="status-specification">{{ $customers->number ?? 'N/A' }}</span>
+    </li>
+    <li class="d-flex align-items-center justify-content-between client-info">
+        <span class="name-specification"><i class='bx bx-link bx-flashing'></i> Website</span>
+        <span class="status-specification">www.akhalequefoundation.com</span>
+    </li>
+    <li class="d-flex align-items-center justify-content-between client-info">
+        <span class="name-specification"><i class='bx bx-map bx-flashing'></i> Address</span>
+        <span class="status-specification">{{ $customers->address ?? 'N/A' }}</span>
+    </li>
+</ul>
+
                                     </div>
 
                                 </div>

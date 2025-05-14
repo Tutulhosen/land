@@ -945,7 +945,7 @@ class EmployeeController extends Controller
         $divisions = Division::orderBy('id', 'desc')->get();
         $customers = EmployeePersonalInformation::with(['nominees', 'gong', 'attachments'])->findOrFail($id);
         // dd($customers->gong);
-    
+        // dd($customers);
         return view('admin.employee.profile', compact(
             'employeeinfos',
             'salutations',
