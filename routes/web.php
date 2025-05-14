@@ -33,6 +33,7 @@ use App\Http\Controllers\Admin\SystemConfiguration\AdditionalSetupController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\SystemConfiguration\PlotController;
 use App\Http\Controllers\DependencyController;
+use App\Http\Controllers\Plot\PlotManageController;
 use Illuminate\Support\Facades\Artisan;
 
 Route::get('/clear-all', function () {
@@ -103,6 +104,10 @@ Route::middleware(['auth:admin', 'verified'])->group(function () {
         Route::post('/shift/toggle/{id}','shiftToggle')->name('shift.toggle');
         Route::post('/shift/department/assigned', 'departmentAssignment')->name('shift.department-assign');
         Route::delete('/shift-department/{id}/delete', 'shiftDepartmentDestroy')->name('shift-department.destroy');
+    });
+
+    Route::prefix('/dashboard')->controller(PlotManageController::class)->group(function () {
+        Route::get('/plot/manage', 'index')->name('plot.manage.index');
     });
 
     Route::prefix('/dashboard')->controller(EmployeeController::class)->group(function () {
@@ -408,6 +413,7 @@ Route::middleware(['auth:admin', 'verified'])->group(function () {
 
         Route::get('/get_dis_by_div/{id}', 'get_dis_by_div')->name('get.dis.by.div');
         Route::get('/get_upa_by_dis/{id}', 'get_upa_by_dis')->name('get.upa.by.dis');
+        Route::get('/get_plots_by_road/{id}', 'get_plots_by_road')->name('get_plots_by_road');
 
     });
 

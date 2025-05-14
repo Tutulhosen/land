@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Upazila;
+use App\Models\District;
 use Illuminate\Http\Request;
+use App\Models\Admin\SystemConfiguration\Plot;
 use App\Models\Admin\SystemConfiguration\Road;
 use App\Models\Admin\SystemConfiguration\Block;
 use App\Models\Admin\SystemConfiguration\PlotSize;
-use App\Models\Admin\SystemConfiguration\PlotPrice;
 use App\Models\Admin\SystemConfiguration\Salesman;
-use App\Models\District;
-use App\Models\Upazila;
+use App\Models\Admin\SystemConfiguration\PlotPrice;
 
 class DependencyController extends Controller
 {
@@ -55,6 +56,12 @@ class DependencyController extends Controller
     {
         $upazilas = Upazila::where('district_id', $id)->get(); 
         return response()->json($upazilas);
+    }
+
+    public function get_plots_by_road($road_id)
+    {
+        $plots = Plot::where('road_id', $road_id)->get();
+        return response()->json($plots);
     }
     
 }

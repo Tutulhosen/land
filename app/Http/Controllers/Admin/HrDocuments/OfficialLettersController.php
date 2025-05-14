@@ -29,7 +29,7 @@ class OfficialLettersController extends Controller
     public function create()
     {
         $demoletters = DocumentTemplate::where('status', 1)->get();
-        $employees = EmployeePersonalInformation::where('status', 1)->get();
+        $employees = EmployeePersonalInformation::where('is_active', 1)->get();
         return view('admin.hr-documents.official-letters.create',compact('demoletters','employees'));
     }
 

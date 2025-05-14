@@ -34,6 +34,7 @@
 	<!-- CSS Just for demo purpose, don't include it in your project -->
 	<link rel="stylesheet" href="{{ asset('admin') }}/assets/css/demo.css">
     <link rel="stylesheet" href="{{ asset('admin') }}/assets/css/smarthr.css">
+    <link rel="stylesheet" href="{{ asset('admin') }}/assets/css/plot.css">
 
     <style>
         .select2-container .select2-selection--single {

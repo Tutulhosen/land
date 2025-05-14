@@ -124,7 +124,7 @@
                 @endcan --}}
 
                  <!--Attendance-->
-                 {{-- @canany(['ShowSideBar OfficialLetters'])
+                 @canany(['ShowSideBar OfficialLetters'])
                 
                     <li class="nav-item {{ Request::routeIs('official-letters*') ? 'active submenu' : '' }}">
                         <a data-bs-toggle="collapse" href="#hr-documents">
@@ -147,9 +147,9 @@
                         </div>
                     </li>
                   
-                 @endcanany --}}
+                 @endcanany
 
-                 {{-- @canany(['ShowSideBar Announcement', 'ShowSideBar Notice'])
+                 @canany(['ShowSideBar Announcement', 'ShowSideBar Notice'])
                     <!--Announcement-->
                     <li class="nav-item {{ Request::routeIs('announcement*','noticeboard*') ? 'active submenu' : '' }}">
                         <a data-bs-toggle="collapse" href="#announcement">
@@ -179,7 +179,7 @@
                         </div>
                     </li>
                     <!--Announcement-->
-                 @endcanany --}}
+                 @endcanany
 
                 {{-- @can('ShowSideBar LeaveApplication')
                     <!--Leave Management-->
@@ -221,39 +221,34 @@
                     <!--Leave Management-->
                 @endcan --}}
 
-                {{-- @can('ShowSideBar Shift')
+                @can('ShowSideBar Shift')
                     <!--Shift Management-->
-                    <li class="nav-item {{ Request::routeIs('shift.*') ? 'active submenu' : '' }}">
+                    <li class="nav-item {{ Request::routeIs('plot.*') ? 'active submenu' : '' }}">
                         <a data-bs-toggle="collapse" href="#shift-management">
-                            <i class="fas fa-calendar-alt"></i>
-                        <p>Shift Management</p>
+                            <i class="fas fa-th"></i>
+                        <p>Plot Manage</p>
                         <span class="caret"></span>
                         </a>
-                        <div class="collapse {{ Request::routeIs('shift.*') ? 'show' : '' }}" id="shift-management">
+                        <div class="collapse {{ Request::routeIs('plot.manage.*') ? 'show' : '' }}" id="shift-management">
                         <ul class="nav nav-collapse">
-                            <li class="{{ Route::currentRouteName() == 'shift.index' ? 'active' : '' }}">
-                                <a href="{{ route('shift.index') }}">
+                            <li class="{{ Route::currentRouteName() == 'plot.manage.index' ? 'active' : '' }}">
+                                <a href="{{ route('plot.manage.index') }}">
                                     <i class="far fa-file-alt"></i>
-                                <span class="sub-item">Create Shift</span>
+                                <span class="sub-item">Plot Booking</span>
                                 </a>
                             </li>
                             <li class="">
                                 <a href="{{route('admin.underdevelopment')}}">
                                     <i class="fas fa-calendar-check"></i>
-                                <span class="sub-item">Shift Assign</span>
+                                <span class="sub-item">Plot Sale</span>
                                 </a>
                             </li>
-                            <li class="">
-                                <a href="{{route('admin.underdevelopment')}}">
-                                    <i class="fas fa-calendar-alt"></i>
-                                <span class="sub-item">Shift Calendar</span>
-                                </a>
-                            </li>
+   
                         </ul>
                         </div>
                     </li>
                     <!--Shift Management-->
-                @endcan --}}
+                @endcan
 
                  <!--employeemovement-->
 
@@ -297,8 +292,8 @@
                  </li> --}}
                  <!--finalsettelment-->
 
-                 {{-- <!--Payroll-->
-                 <li class="nav-item">
+                 <!--Payroll-->
+                 {{-- <li class="nav-item">
                     <a data-bs-toggle="collapse" href="#payroll">
                         <i class="fas fa-hand-holding-usd"></i>
                        <p>Payroll</p>
@@ -326,8 +321,35 @@
                           </li>
                        </ul>
                     </div>
+                 </li> --}}
+                 <!--Payroll-->
+
+                  <!--Payroll-->
+                 <li class="nav-item">
+                    <a data-bs-toggle="collapse" href="#payroll">
+                        <i class="fas fa-hand-holding-usd"></i>
+                       <p>Money Receipt</p>
+                       <span class="caret"></span>
+                    </a>
+                    <div class="collapse " id="payroll">
+                       <ul class="nav nav-collapse">
+                          <li>
+                             <a href="">
+                                <i class="fas fa-cogs"></i>
+                             <span class="sub-item">Create MR</span>
+                             </a>
+                          </li>
+                          <li>
+                             <a href="">
+                                <i class="fas fa-wallet"></i>
+                             <span class="sub-item">Approved MR</span>
+                             </a>
+                          </li>
+            
+                       </ul>
+                    </div>
                  </li>
-                 <!--Payroll--> --}}
+                 <!--Payroll-->
 
                  {{-- @canany(['ShowSideBar Department', 'ShowSideBar Designation','ShowSideBar LeaveType','ShowSideBar Holiday','ShowSideBar DocumentTemplate'])
                     <li class="nav-item {{ Request::routeIs('department.*', 'designation.*', 'leavetype.*', 'holiday.*', 'documenttemplate.*') ? 'active submenu' : '' }}">
@@ -434,7 +456,7 @@
                     </li>
                 @endcanany
 
-                {{-- @canany(['ShowSideBar User', 'ShowSideBar Role','ShowSideBar Permission'])
+                @canany(['ShowSideBar User', 'ShowSideBar Role','ShowSideBar Permission'])
                     <li class="nav-item {{ Request::routeIs('manageuser.*', 'manageuserrole.*', 'permission.*') ? 'active submenu' : '' }}">
                         <a data-bs-toggle="collapse" href="#manageusers">
                             <i class="fas fa-pen-square"></i>
@@ -467,9 +489,9 @@
                             </ul>
                         </div>
                     </li>
-                @endcanany --}}
+                @endcanany
 
-                {{-- <li class="nav-item {{ Request::routeIs('reports.employee-registration-report','reports.employee-attendence-report') ? 'active submenu' : '' }}">
+                <li class="nav-item {{ Request::routeIs('reports.employee-registration-report','reports.employee-attendence-report') ? 'active submenu' : '' }}">
                     <a data-bs-toggle="collapse" href="#manageReports">
                         <i class="fas fa-file-invoice"></i>
                         <p>Reports</p>
@@ -499,16 +521,16 @@
 
                         </ul>
                     </div>
-                </li> --}}
+                </li>
 
-                {{-- @can('ShowSideBar Maintenance')
+                @can('ShowSideBar Maintenance')
                     <li class="nav-item {{ Route::currentRouteName() == 'maintenance' ? 'active' : '' }}">
                         <a href="{{ route('maintenance') }}">
                             <i class="fas fa-wrench"></i>
                             <p>Maintenance</p>
                         </a>
                     </li>
-                @endcan --}}
+                @endcan
 
             </ul>
         </div>
