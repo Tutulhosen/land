@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>OneBit-ERP Solution</title>
+    <title>GE-Land Management</title>
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
     <link rel="icon" href="assets/img/onebiterp_logo_white_favicon.png" type="image/x-icon" />
     <!-- Fonts and icons -->
@@ -47,7 +47,7 @@
     <div class="main-wrapper">
         <div class="container-fuild">
             <div class="w-100 overflow-hidden position-relative flex-wrap d-block vh-100">
-                <div class="row">
+                <div class="row log_page">
                     <div class="col-lg-6">
                         <div
                             class="login-background position-relative d-lg-flex align-items-center justify-content-center d-none flex-wrap vh-100">
@@ -57,34 +57,32 @@
                                     <div class="col-md-8 m-auto">
                                         <div class="authen-overlay-item border w-100">
                                             <div class=" mx-auto text-center">
-                                                <img src="{{ asset('admin') }}/assets/img/onebiterp_logo_white.png"
+                                                <img src="{{ asset('employee') }}/assets/img/GED.png"
                                                     class="img-fluid" width="200px" alt="Logo">
                                             </div>
-                                            <h1 class="text-white display-1 text-center mt-2 mb-5">HR Management System
+                                            <h1 class="text-white display-1 text-center mt-2 mb-5">Land Management System
                                             </h1>
                                             <div class="authen-overlay-img mx-auto text-center mb-3">
-                                                <img src="{{ asset('admin') }}/assets/img/HR-login.png"
+                                                <img src="{{ asset('admin') }}/assets/img/land-login.jpg"
                                                     style="width: 80%;" alt="Img">
                                             </div>
                                             <div class="text-center mx-auto mt-4">
-                                                <p class="text-white expense-title-1">Efficiently manage your workforce,
+                                                <p class="text-white expense-title-1">Efficiently manage your Land,
                                                     streamline <br> operations effortlessly.</p>
                                             </div>
-                                            <div class="mt-3 text-center">
-                                                <p class="mb-0 text-white fs-13">T</p>
-                                            </div>
+                                      
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-12 col-sm-12">
+                    <div class="col-lg-6 col-md-12 col-sm-12 login_card">
                         <div class="row justify-content-center align-items-center vh-100 overflow-auto flex-wrap">
                             <div class="col-md-8 m-auto">
                                 <div class="card shadow-1 flex-fill mb-0">
                                     <div class=" mx-auto mt-4 mb-4 text-center">
-                                        <img src="{{ asset('storage/uploads/company/brand_setting/main_logo/17459256476810b60f571ed.png') }}"
+                                        <img src="{{ asset('employee') }}/assets/img/GED.png"
                                             class="img-fluid" width="150px" alt="Logo">
                                     </div>
                                     <div class="text-center mb-4 pb-3 pt-3 border-top border-bottom">
@@ -102,7 +100,7 @@
                                             <li class="nav-item" role="presentation">
                                                 <a class="nav-link fw-medium" data-bs-toggle="tab"
                                                     data-bs-target="#applicants" href="#applicants"
-                                                    aria-selected="false" tabindex="-1" role="tab">Employee</a>
+                                                    aria-selected="false" tabindex="-1" role="tab">Customer</a>
                                             </li>
                                         </ul>
                                         <div class="tab-content">
