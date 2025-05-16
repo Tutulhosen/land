@@ -132,7 +132,7 @@
                         </button>
                     </div>
                     <div class="container d-inline ">
-                        <button class="btn btn-success">
+                        <button class="btn btn-submit">
                             Submit Now
                         </button>
                     </div>
