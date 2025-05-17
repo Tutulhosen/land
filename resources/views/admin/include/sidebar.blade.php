@@ -223,7 +223,7 @@
 
                 @can('ShowSideBar Shift')
                     <!--Shift Management-->
-                    <li class="nav-item {{ Request::routeIs('plot.*') ? 'active submenu' : '' }}">
+                    <li class="nav-item {{ Request::routeIs('plot.manage.*') ? 'active submenu' : '' }}">
                         <a data-bs-toggle="collapse" href="#shift-management">
                             <i class="fas fa-th"></i>
                         <p>Plot Manage</p>
@@ -412,13 +412,13 @@
                  @endcanany --}}
 
                 @canany(['ShowSideBar AdditionalSetup', 'ShowSideBar CompanySetup','ShowSideBar Branch'])
-                    <li class="nav-item {{ Request::routeIs('additional-setup.*', 'company.*', 'branch.*') ? 'active submenu' : '' }}">
+                    <li class="nav-item {{ Request::routeIs('additional-setup.*', 'company.*', 'branch.*', 'project-setup.*', 'plot.index') ? 'active submenu' : '' }}">
                         <a data-bs-toggle="collapse" href="#configure">
                             <i class="fas fa-cogs"></i>
                             <p>Master Panel</p>
                             <span class="caret"></span>
                         </a>
-                        <div class="collapse {{ Request::routeIs('additional-setup.*', 'company.*', 'branch.*') ? 'show' : '' }}" id="configure">
+                        <div class="collapse {{ Request::routeIs('additional-setup.*', 'company.*', 'branch.*', 'project-setup.*', 'plot.index') ? 'show' : '' }}" id="configure">
                             <ul class="nav nav-collapse">
                                 @can('ShowSideBar AdditionalSetup')
                                 <li class="{{ Route::currentRouteName() == 'additional-setup.index' ? 'active' : '' }}">

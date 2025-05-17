@@ -129,14 +129,14 @@
                                                     </button>
                                                     @endcan
                                                     @can('Update Branch')
-                                                        <a href="#" id="delete-branch-link" title="delete"
+                                                        <a href="#" id="delete-sector-link" title="delete"
                                                         class="btn btn-link btn-danger btn-lg"
-                                                        data-branch-id="{{ $sector->id }}">
+                                                        data-sector-id="{{ $sector->id }}">
                                                         <i class='bx bx-trash-alt'></i>
                                                     </a>
                                                     @endcan
 
-                                                    <form id="delete-branch-form-{{ $sector->id }}"
+                                                    <form id="delete-sector-form-{{ $sector->id }}"
                                                         action="{{ route('sector.destroy', $sector->id) }}"
                                                         method="POST" style="display: none;">
                                                         @csrf
@@ -225,14 +225,14 @@
                                                     </button>
                                                     @endcan
                                                     @can('Update Branch')
-                                                        <a href="#" id="delete-branch-link" title="delete"
+                                                        <a href="#" id="delete-block-link" title="delete"
                                                         class="btn btn-link btn-danger btn-lg"
-                                                        data-branch-id="{{ $block->id }}">
+                                                        data-block-id="{{ $block->id }}">
                                                         <i class='bx bx-trash-alt'></i>
                                                     </a>
                                                     @endcan
 
-                                                    <form id="delete-branch-form-{{ $block->id }}"
+                                                    <form id="delete-block-form-{{ $block->id }}"
                                                         action="{{ route('block.destroy', $block->id) }}"
                                                         method="POST" style="display: none;">
                                                         @csrf
@@ -324,14 +324,14 @@
                                                     </button>
                                                     @endcan
                                                     @can('Update Branch')
-                                                        <a href="#" id="delete-branch-link" title="delete"
+                                                        <a href="#" id="delete-road-link" title="delete"
                                                         class="btn btn-link btn-danger btn-lg"
-                                                        data-branch-id="{{ $road->id }}">
+                                                        data-road-id="{{ $road->id }}">
                                                         <i class='bx bx-trash-alt'></i>
                                                     </a>
                                                     @endcan
 
-                                                    <form id="delete-branch-form-{{ $road->id }}"
+                                                    <form id="delete-road-form-{{ $road->id }}"
                                                         action="{{ route('road.destroy', $road->id) }}"
                                                         method="POST" style="display: none;">
                                                         @csrf
@@ -428,14 +428,14 @@
                                                     </button>
                                                     @endcan
                                                     @can('Update Branch')
-                                                        <a href="#" id="delete-branch-link" title="delete"
+                                                        <a href="#" id="delete-agency-link" title="delete"
                                                         class="btn btn-link btn-danger btn-lg"
-                                                        data-branch-id="{{ $agency->id }}">
+                                                        data-agency-id="{{ $agency->id }}">
                                                         <i class='bx bx-trash-alt'></i>
                                                     </a>
                                                     @endcan
 
-                                                    <form id="delete-branch-form-{{ $agency->id }}"
+                                                    <form id="delete-agency-form-{{ $agency->id }}"
                                                         action="{{ route('agency.destroy', $agency->id) }}"
                                                         method="POST" style="display: none;">
                                                         @csrf
@@ -525,14 +525,14 @@
                                                     </button>
                                                     @endcan
                                                     @can('Update Branch')
-                                                        <a href="#" id="delete-branch-link" title="delete"
+                                                        <a href="#" id="delete-salesman-link" title="delete"
                                                         class="btn btn-link btn-danger btn-lg"
-                                                        data-branch-id="{{ $salesman->id }}">
+                                                        data-salesman-id="{{ $salesman->id }}">
                                                         <i class='bx bx-trash-alt'></i>
                                                     </a>
                                                     @endcan
 
-                                                    <form id="delete-branch-form-{{ $salesman->id }}"
+                                                    <form id="delete-salesman-form-{{ $salesman->id }}"
                                                         action="{{ route('salesman.destroy', $salesman->id) }}"
                                                         method="POST" style="display: none;">
                                                         @csrf
@@ -613,14 +613,14 @@
                                                     </button>
                                                     @endcan
                                                     @can('Update Branch')
-                                                        <a href="#" id="delete-branch-link" title="delete"
+                                                        <a href="#" id="delete-plot_type-link" title="delete"
                                                         class="btn btn-link btn-danger btn-lg"
-                                                        data-branch-id="{{ $plot_type->id }}">
+                                                        data-plot_type-id="{{ $plot_type->id }}">
                                                         <i class='bx bx-trash-alt'></i>
                                                     </a>
                                                     @endcan
 
-                                                    <form id="delete-branch-form-{{ $plot_type->id }}"
+                                                    <form id="delete-plot_type-form-{{ $plot_type->id }}"
                                                         action="{{ route('plot_type.destroy', $plot_type->id) }}"
                                                         method="POST" style="display: none;">
                                                         @csrf
@@ -706,14 +706,14 @@
                                                     </button>
                                                     @endcan
                                                     @can('Update Branch')
-                                                        <a href="#" id="delete-branch-link" title="delete"
+                                                        <a href="#" id="delete-plot_size-link" title="delete"
                                                         class="btn btn-link btn-danger btn-lg"
-                                                        data-branch-id="{{ $plot_size->id }}">
+                                                        data-plot_size-id="{{ $plot_size->id }}">
                                                         <i class='bx bx-trash-alt'></i>
                                                     </a>
                                                     @endcan
 
-                                                    <form id="delete-branch-form-{{ $plot_size->id }}"
+                                                    <form id="delete-plot_size-form-{{ $plot_size->id }}"
                                                         action="{{ route('plot_size.destroy', $plot_size->id) }}"
                                                         method="POST" style="display: none;">
                                                         @csrf
