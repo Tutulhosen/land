@@ -1,399 +1,234 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Styled Date Input</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>Money Receipt</title>
     <style>
-        .custom-date-input {
-            background: linear-gradient(to bottom, #e0f0ff, #ffffff);
-            border: 1px solid #0d6efd;
-            border-bottom: none;
-            /* Remove bottom border */
-            border-radius: 10px;
-            padding: 3px 10px;
-            transition: box-shadow 0.2s;
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
         }
 
-        .custom-date-input:focus-within {
-            box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25);
+        .receipt {
+            background-color: white;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
-        .custom-date-input input::placeholder {
-            color: #6c757d;
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
         }
 
-        .gradient-select {
-            background: linear-gradient(to right, #3b82f6, #06b6d4);
-            border: 2px solid #3b82f6;
-            border-radius: 12px;
-            color: white;
-            appearance: none;
-
+        .logo {
+            text-align: left;
         }
 
-        .gradient-select option {
-            color: black;
+        .logo img {
+            max-width: 150px;
+            height: auto;
         }
 
-        .number-box {
-            width: 60px;
-            height: 70px;
-            background: linear-gradient(to bottom, #d0e4ff, #ffffff);
-            border: 1px solid #0d6efd;
-            border-radius: 15px;
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-            line-height: 70px;
-            margin-right: 10px;
-            border-bottom: none;
+        .receipt-info {
+            text-align: right;
+            font-size: 0.9em;
+        }
+
+        .receipt-info strong {
+            color: red;
         }
 
         .section-title {
-            color: #888888;
-            font-weight: 600;
-            margin-bottom: 0.2rem;
+            font-size: 1em;
+            font-weight: bold;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            color: #333;
         }
 
-        .section-divider {
-            height: 3px;
-            background-color: #3f51b5;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-            border: none;
-            margin-top: 0.2rem;
-            margin-bottom: 1rem;
-        }
-
-        .plot-pill {
-            background-color: #96b0db;
-            /* light desaturated blue */
-            border-radius: 10px;
-            /* pill shape */
-            padding: 0.75rem 1.25rem;
-            /* vertical & horizontal breathing-room */
-            font-weight: 600;
-            /* semi-bold like the image */
-            font-size: 1.1rem;
-            /* heading-sized text */
-            display: inline-block;
-            /* keeps height tight while responsive */
-        }
-
-        .btn-cancel {
-            background-color: #f00;
-            /* bright red */
-            color: white;
-            /* white text */
-            border-radius: 10px;
-            /* pill-like rounded corners */
-            font-weight: 600;
-            /* bold */
-            padding: 0.6rem 1.5rem;
-            /* comfortable spacing */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            /* visible shadow */
-            border: none;
-            width: 150px;
-            text-align: center;
-        }
-
-        .btn-cancel:hover {
-            background-color: #d90000;
-            /* slightly darker on hover */
-        }
-
-        .btn-success {
-            background-color: #376AC1;
-            /* bright red */
-            color: white;
-            /* white text */
-            border-radius: 10px;
-            /* pill-like rounded corners */
-            font-weight: 600;
-            /* bold */
-            padding: 0.6rem 1.5rem;
-            /* comfortable spacing */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            /* visible shadow */
-            border: none;
-            width: 150px;
-            text-align: center;
-        }
-
-        .btn-success:hover {
-            background-color: #d90000;
-            /* slightly darker on hover */
-        }
-
-        .custom-checkbox {
-            width: 32px;
-            height: 32px;
-            border: 2px solid #0d6efd;
-            /* Bootstrap primary blue */
-            border-radius: 8px;
+        .info-line {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+            color: #555;
         }
 
-        .custom-checkbox input[type="checkbox"] {
-            display: none;
+        .plot-info-grid {
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 5px 10px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            color: #555;
         }
 
-        .custom-checkbox .checkmark {
-            display: none;
-            color: #0d6efd;
-            font-size: 20px;
+        .plot-info-grid strong {
+            font-weight: bold;
+            color: #333;
         }
 
-        .custom-checkbox input[type="checkbox"]:checked+.checkmark {
-            display: block;
+        .payment-details {
+            margin-top: 20px;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
         }
+
+        .payment-method {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .bank-info {
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .barcode-qr {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 20px;
+        }
+
+        .barcode img {
+            height: 50px;
+        }
+
+        .qr-code img {
+            width: 80px;
+            height: 80px;
+        }
+
+        .total-amount {
+            text-align: right;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        .thank-you {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 1em;
+            color: #333;
+        }
+
+        .authorized {
+            text-align: right;
+            font-size: 0.8em;
+            color: #777;
+            margin-top: 10px;
+        }
+
+        .footer {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 0.7em;
+            color: #777;
+        }
+     
     </style>
-
 </head>
-
 <body>
-    <div class="container mt-4">
-        <div class="row">
-            <!-- Left section (30%) -->
-            <div class="col-12 col-md-4">
-                <!-- <div class="container mt-5"> -->
-                <div class="mb-3" style="max-width: 300px;">
-                    <select class="form-control gradient-select" style="height: 45px;">
-                        <option selected disabled>Select Sector</option>
-                        <option>Sector 1</option>
-                        <option>Sector 2</option>
-                        <option>Sector 3</option>
-                    </select>
-                </div>
-
-                <div class="mb-3" style="max-width: 300px;">
-                    <select class="form-control gradient-select" style="height: 45px;">
-                        <option selected disabled>Select Road</option>
-                        <option>Road A</option>
-                        <option>Road B</option>
-                        <option>Road C</option>
-                    </select>
-                </div>
-                <!--  Plot selection -->
-                <section>
-
-                    <div class="d-flex justify-space-between w-100">
-                        <div class="mt-4 mr-4">
-                            <div class="d-flex">
-                                <div class="number-box">1</div>
-                                <div class="number-box">3</div>
-                            </div>
-                        </div>
-                        <div class="mt-4">
-                            <div class="d-flex ">
-                                <div class="number-box">1</div>
-                                <div class="number-box">3</div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <section>
-
-                    <div class="d-flex justify-space-between w-100">
-                        <div class="mt-4 mr-4">
-                            <div class="d-flex">
-                                <div class="number-box">1</div>
-                                <div class="number-box">3</div>
-                            </div>
-                        </div>
-                        <div class="mt-4">
-                            <div class="d-flex ">
-                                <div class="number-box">1</div>
-                                <div class="number-box">3</div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <section>
-
-                    <div class="d-flex justify-space-between w-100">
-                        <div class="mt-4 mr-4">
-                            <div class="d-flex">
-                                <div class="number-box">1</div>
-                                <div class="number-box">3</div>
-                            </div>
-                        </div>
-                        <div class="mt-4">
-                            <div class="d-flex ">
-                                <div class="number-box">1</div>
-                                <div class="number-box">3</div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <section>
-
-                    <div class="d-flex justify-space-between w-100">
-                        <div class="mt-4 mr-4">
-                            <div class="d-flex">
-                                <div class="number-box">1</div>
-                                <div class="number-box">3</div>
-                            </div>
-                        </div>
-                        <div class="mt-4">
-                            <div class="d-flex ">
-                                <div class="number-box">1</div>
-                                <div class="number-box">3</div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <section>
-
-                    <div class="d-flex justify-space-between w-100">
-                        <div class="mt-4 mr-4">
-                            <div class="d-flex">
-                                <div class="number-box">1</div>
-                                <div class="number-box">3</div>
-                            </div>
-                        </div>
-                        <div class="mt-4">
-                            <div class="d-flex ">
-                                <div class="number-box">1</div>
-                                <div class="number-box">3</div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <section>
-
-                    <div class="d-flex justify-space-between w-100">
-                        <div class="mt-4 mr-4">
-                            <div class="d-flex">
-                                <div class="number-box">1</div>
-                                <div class="number-box">3</div>
-                            </div>
-                        </div>
-                        <div class="mt-4">
-                            <div class="d-flex ">
-                                <div class="number-box">1</div>
-                                <div class="number-box">3</div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- </div> -->
+    <div class="receipt">
+        <div class="header">
+            <div class="logo">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAACXBIWXMAAAsTAAALEwEAmpwYAAABWWlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAADx94AAgAAAABJRU5ErkJggg==" alt="Goldeneye Developers Ltd. Logo">
             </div>
-
-            <!-- Right section (70%) -->
-            <div class="col-12 col-md-8">
-                <!-- <div class="container mt-3"> -->
-                <div class="form-group d-flex gap-2">
-                    <div class="input-group custom-date-input mr-3">
-                        <input type="date" class="form-control border-0 shadow-none custom-date-input"
-                            placeholder="Date of Sales">
-                        <!-- <span class="input-group-text bg-transparent border-0">
-                            <i class="fas fa-calendar-alt text-muted"></i>
-                          </span> -->
-                    </div>
-
-                    <div class="input-group custom-date-input">
-                        <input type="date" class="form-control border-0 shadow-none custom-date-input"
-                            placeholder="Date of Sales">
-                        <!-- <span class="input-group-text bg-transparent border-0">
-                            <i class="fas fa-calendar-alt text-muted"></i>
-                          </span> -->
-                    </div>
-                </div>
-                <div class="form-group d-flex gap-2">
-                    <div class="input-group custom-date-input mr-3">
-                        <input type="date" class="form-control border-0 shadow-none custom-date-input"
-                            placeholder="Date of Sales">
-                        <!-- <span class="input-group-text bg-transparent border-0">
-                            <i class="fas fa-calendar-alt text-muted"></i>
-                          </span> -->
-                    </div>
-
-                    <div class="input-group custom-date-input">
-                        <input type="date" class="form-control border-0 shadow-none custom-date-input"
-                            placeholder="Date of Sales">
-                        <!-- <span class="input-group-text bg-transparent border-0">
-                            <i class="fas fa-calendar-alt text-muted"></i>
-                          </span> -->
-                    </div>
-                </div>
-
-
-                <div style="margin-top: 50px;">
-                    <h6 class="section-title">Plot Information</h6>
-                    <hr class="section-divider">
-                </div>
-
-                <!-- Plot section  -->
-                <section class="mt-5">
-                    <div class="form-group d-flex gap-2">
-                        <!-- <div class="input-group custom-date-input mr-3"> -->
-                        <div class="plot-pill w-100 mr-3">
-                            Plot Size
-                        </div>
-                        <!-- </div> -->
-
-                        <div class="plot-pill w-100">
-                            Plot Size
-                        </div>
-                    </div>
-                    <div class="form-group d-flex gap-2">
-                        <!-- <div class="input-group custom-date-input mr-3"> -->
-                        <div class="plot-pill w-100 mr-3">
-                            Plot Size
-                        </div>
-                        <!-- </div> -->
-
-                        <div class="plot-pill w-100">
-                            Plot Size
-                        </div>
-                    </div>
-                    <div class="form-group d-flex gap-2">
-                        <!-- <div class="input-group custom-date-input mr-3"> -->
-                        <div class="plot-pill w-100 mr-3">
-                            Plot Size
-                        </div>
-                        <!-- </div> -->
-
-                        <div class="plot-pill w-100">
-                            Plot Size
-                        </div>
-                    </div>
-                </section>
-
-
-                <!-- Submit section -->
-
-                <section class="text-center mt-5 ">
-                    <div class="container d-inline ">
-                        <button class="btn btn-cancel">
-                            Cancel
-                        </button>
-                    </div>
-                    <div class="container d-inline ">
-                        <button class="btn btn-success">
-                            Submit Now
-                        </button>
-                    </div>
-                </section>
+            <div class="receipt-info">
+                <strong>MONEY RECEIPT</strong><br>
+                MR Number: #MR-1901<br>
+                Date: 01 / 02 / 2023
             </div>
         </div>
+
+        <div class="section-title">Received with Thanks from:</div>
+        <div class="info-line">
+            <div>Amena Begum</div>
+        </div>
+        <div class="info-line">
+            <div>Mirpur, Dhaka-1217</div>
+        </div>
+        <div class="info-line">
+            <div>+88 01711274688</div>
+        </div>
+
+        <div class="section-title">PLOT INFORMATION</div>
+        <div class="plot-info-grid">
+            <strong>Sector #</strong> <span>03</span>
+            <strong>Road No #</strong> <span>13</span>
+            <strong>Plot No #</strong> <span>27</span>
+        </div>
+
+        <div style="margin-top: 15px;">
+            <div class="info-line">
+                <strong>Paid As</strong> <div>At a Time</div>
+            </div>
+            <div class="info-line">
+                <strong>Against the Land</strong> <div>5 Katha</div>
+            </div>
+            <div class="info-line">
+                <strong>Number of Installment :</strong> <div>5</div> <div style="text-align: right;"><strong>Paid Amount</strong></div> <div style="text-align: right;"><strong>Total</strong></div>
+            </div>
+            <div class="info-line">
+                <strong>Plot Type</strong> <div>Residencial</div> <div style="text-align: right;">20,000</div> <div style="text-align: right;">20,000</div>
+            </div>
+        </div>
+
+        <div style="text-align: right; margin-top: 10px;">
+            <div>Subtotal <strong>20,000</strong></div>
+            <div class="total-amount">Total <strong>20,000</strong></div>
+        </div>
+
+        <div class="payment-details">
+            <div class="payment-method">PAYMENT METHOD : BANK</div>
+            <div class="bank-info">
+                Prime Bank LLC<br>
+                Cheque Number: PB124576<br>
+                Bank Branch: SantiNagar, Dhaka<br>
+                Pay by: 23 June 2023
+            </div>
+        </div>
+
+        <div class="barcode-qr">
+            <div class="qr-code">
+                <img src="https://via.placeholder.com/80x80?Text=QR%20Code" alt="QR Code">
+            </div>
+            <div class="barcode">
+                <img src="https://via.placeholder.com/200x50?Text=|||||||||||||||||||||" alt="Barcode">
+                <div>No: 123456789000000000000</div>
+            </div>
+        </div>
+
+        <div class="thank-you">
+            Thank you for your business!
+        </div>
+
+        <div class="authorized">
+            Authorized Signed
+        </div>
+
+        <div class="footer">
+            42-43 Siddeswari Circular Road, Treasure Island, Suite No-503, Shantinagar Dhaka-1217<br>
+            +880 1678 085 871 | info.dhakawesternvalleybd.com | www.dhakawesternvalleybd.com
+        </div>
     </div>
-
-
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
-
 </html>

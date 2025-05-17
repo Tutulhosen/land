@@ -7,6 +7,7 @@
         border-radius: 10px;
         padding: 3px 10px;
         transition: box-shadow 0.2s;
+        height: 40px;
     }
 
     .custom-date-input:focus-within {
@@ -94,10 +95,11 @@
 
     .btn-cancel:hover {
         background-color: #d90000;
+        color: white
         /* slightly darker on hover */
     }
 
-    .btn-success {
+    .btn-submit {
         background-color: #376AC1;
         /* bright red */
         color: white;
@@ -115,8 +117,9 @@
         text-align: center;
     }
 
-    .btn-success:hover {
-        background-color: #d90000;
+    .btn-submit:hover {
+        background-color: #01136e;
+        color: white;
         /* slightly darker on hover */
     }
 

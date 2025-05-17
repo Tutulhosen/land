@@ -1932,6 +1932,6 @@
 
           
     
-    @include('admin.employee.js.employee_view_js')
+    {{-- @include('admin.employee.js.employee_view_js') --}}
 
 @endsection
