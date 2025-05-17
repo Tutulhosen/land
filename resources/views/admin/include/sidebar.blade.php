@@ -334,13 +334,13 @@
                     <div class="collapse " id="payroll">
                        <ul class="nav nav-collapse">
                           <li>
-                             <a href="">
+                             <a href="{{route("money.receipt.createMr")}}">
                                 <i class="fas fa-cogs"></i>
                              <span class="sub-item">Create MR</span>
                              </a>
                           </li>
                           <li>
-                             <a href="">
+                             <a href="{{route("money.receipt.approvedMr")}}">
                                 <i class="fas fa-wallet"></i>
                              <span class="sub-item">Approved MR</span>
                              </a>

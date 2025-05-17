@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Receipt</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+
+        .receipt {
+            background-color: white;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            text-align: left;
+        }
+
+        .logo img {
+            max-width: 150px;
+            height: auto;
+        }
+
+        .receipt-info {
+            text-align: right;
+            font-size: 0.9em;
+        }
+
+        .receipt-info strong {
+            color: red;
+        }
+
+        .section-title {
+            font-size: 1em;
+            font-weight: bold;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .info-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .plot-info-grid {
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 5px 10px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .plot-info-grid strong {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .payment-details {
+            margin-top: 20px;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+
+        .payment-method {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .bank-info {
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .barcode-qr {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 20px;
+        }
+
+        .barcode img {
+            height: 50px;
+        }
+
+        .qr-code img {
+            width: 80px;
+            height: 80px;
+        }
+
+        .total-amount {
+            text-align: right;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        .thank-you {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 1em;
+            color: #333;
+        }
+
+        .authorized {
+            text-align: right;
+            font-size: 0.8em;
+            color: #777;
+            margin-top: 10px;
+        }
+
+        .footer {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 0.7em;
+            color: #777;
+        }
+     
+    </style>
+</head>
+<body>
+    <div class="receipt">
+        <div class="header">
+            <div class="logo">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAACXBIWXMAAAsTAAALEwEAmpwYAAABWWlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAADx94AAgAAAABJRU5ErkJggg==" alt="Goldeneye Developers Ltd. Logo">
+            </div>
+            <div class="receipt-info">
+                <strong>MONEY RECEIPT</strong><br>
+                MR Number: #MR-1901<br>
+                Date: 01 / 02 / 2023
+            </div>
+        </div>
+
+        <div class="section-title">Received with Thanks from:</div>
+        <div class="info-line">
+            <div>Amena Begum</div>
+        </div>
+        <div class="info-line">
+            <div>Mirpur, Dhaka-1217</div>
+        </div>
+        <div class="info-line">
+            <div>+88 01711274688</div>
+        </div>
+
+        <div class="section-title">PLOT INFORMATION</div>
+        <div class="plot-info-grid">
+            <strong>Sector #</strong> <span>03</span>
+            <strong>Road No #</strong> <span>13</span>
+            <strong>Plot No #</strong> <span>27</span>
+        </div>
+
+        <div style="margin-top: 15px;">
+            <div class="info-line">
+                <strong>Paid As</strong> <div>At a Time</div>
+            </div>
+            <div class="info-line">
+                <strong>Against the Land</strong> <div>5 Katha</div>
+            </div>
+            <div class="info-line">
+                <strong>Number of Installment :</strong> <div>5</div> <div style="text-align: right;"><strong>Paid Amount</strong></div> <div style="text-align: right;"><strong>Total</strong></div>
+            </div>
+            <div class="info-line">
+                <strong>Plot Type</strong> <div>Residencial</div> <div style="text-align: right;">20,000</div> <div style="text-align: right;">20,000</div>
+            </div>
+        </div>
+
+        <div style="text-align: right; margin-top: 10px;">
+            <div>Subtotal <strong>20,000</strong></div>
+            <div class="total-amount">Total <strong>20,000</strong></div>
+        </div>
+
+        <div class="payment-details">
+            <div class="payment-method">PAYMENT METHOD : BANK</div>
+            <div class="bank-info">
+                Prime Bank LLC<br>
+                Cheque Number: PB124576<br>
+                Bank Branch: SantiNagar, Dhaka<br>
+                Pay by: 23 June 2023
+            </div>
+        </div>
+
+        <div class="barcode-qr">
+            <div class="qr-code">
+                <img src="https://via.placeholder.com/80x80?Text=QR%20Code" alt="QR Code">
+            </div>
+            <div class="barcode">
+                <img src="https://via.placeholder.com/200x50?Text=|||||||||||||||||||||" alt="Barcode">
+                <div>No: 123456789000000000000</div>
+            </div>
+        </div>
+
+        <div class="thank-you">
+            Thank you for your business!
+        </div>
+
+        <div class="authorized">
+            Authorized Signed
+        </div>
+
+        <div class="footer">
+            42-43 Siddeswari Circular Road, Treasure Island, Suite No-503, Shantinagar Dhaka-1217<br>
+            +880 1678 085 871 | info.dhakawesternvalleybd.com | www.dhakawesternvalleybd.com
+        </div>
+    </div>
+</body>
+</html>
