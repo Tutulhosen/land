@@ -26,6 +26,11 @@ class DependencyController extends Controller
         $roads = Road::where('block_id', $id)->get(); 
         return response()->json($roads);
     }
+    public function get_road_with_default_block_by_sector($id)
+    {
+        $roads = Road::where('block_id', $id)->get(); 
+        return response()->json($roads);
+    }
 
     public function get_plot_size_by_plot($id)
     {

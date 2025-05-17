@@ -231,14 +231,14 @@
                         </a>
                         <div class="collapse {{ Request::routeIs('plot.manage.*') ? 'show' : '' }}" id="shift-management">
                         <ul class="nav nav-collapse">
-                            <li class="{{ Route::currentRouteName() == 'plot.manage.index' ? 'active' : '' }}">
-                                <a href="{{ route('plot.manage.index') }}">
+                            <li class="">
+                                <a href="">
                                     <i class="far fa-file-alt"></i>
                                 <span class="sub-item">Plot Booking</span>
                                 </a>
                             </li>
-                            <li class="">
-                                <a href="{{route('admin.underdevelopment')}}">
+                            <li class="{{ Route::currentRouteName() == 'plot.manage.index' ? 'active' : '' }}">
+                                <a href="{{ route('plot.manage.index') }}">
                                     <i class="fas fa-calendar-check"></i>
                                 <span class="sub-item">Plot Sale</span>
                                 </a>

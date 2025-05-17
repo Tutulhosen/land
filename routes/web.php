@@ -107,7 +107,8 @@ Route::middleware(['auth:admin', 'verified'])->group(function () {
     });
 
     Route::prefix('/dashboard')->controller(PlotManageController::class)->group(function () {
-        Route::get('/plot/manage', 'index')->name('plot.manage.index');
+        Route::get('/plot/sale', 'sale')->name('plot.manage.index');
+        Route::get('/plot/sale/create', 'sale_create')->name('plot.manage.sale.create');
     });
 
     Route::prefix('/dashboard')->controller(EmployeeController::class)->group(function () {
@@ -406,6 +407,7 @@ Route::middleware(['auth:admin', 'verified'])->group(function () {
 
         Route::get('/get_block_by_sector/{id}', 'get_block_by_sector')->name('get.block.by.sector');
         Route::get('/get_road_by_block/{id}', 'get_road_by_block')->name('get.road.by.block');
+        Route::get('/get_road_with_default_block_by_sector/{id}/{sector_id}', 'get_road_with_default_block_by_sector')->name('get.road.with.default.block.by.sector');
         Route::get('/get_plot_size_by_plot/{id}', 'get_plot_size_by_plot')->name('get.plot.size.by.plot');
         Route::get('/get_plot_price_by_size/{id}', 'get_plot_price_by_size')->name('get.plot.price.by.size');
 

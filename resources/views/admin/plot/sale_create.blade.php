@@ -3,8 +3,16 @@
 @section('content')
 <div class="container">
     <div class="page-inner">
-   
+        
         <div class="row">
+            <div class="card">
+                <div class="card-header project-details-card-header">
+                    <div class="d-flex align-items-center">
+                        <h4 class="project-details-card-header-title"><i class='bx bx-user bx-tada'></i>
+                            New Plot Ssale</h4>
+                    </div>
+                </div>
+            </div>
             <!-- Left section (30%) -->
             <div class="col-12 col-md-4">
                 <!-- <div class="container mt-5"> -->
@@ -19,7 +27,7 @@
 
                 <div class="mb-3" style="max-width: 300px;">
                     <select class="form-control gradient-select block" style="height: 45px;" name="block" id="block">
-                        <option selected disabled>Select Road</option>
+                        <option selected disabled>Select Block</option>
 
                     </select>
                 </div>
@@ -172,9 +180,11 @@
 
         $('.block').on('change', function () {
             var blockId = $(this).val();
+            var sector_id = $('.sector').val();
+            alert(sector_id);
             if (blockId) {
                 $.ajax({
-                    url: "{{ url('/dashboard/get_road_by_block') }}/" + blockId,
+                    url: "{{ url('/dashboard/get_road_with_default_block_by_sector') }}/" + blockId,
                     type: "GET",
                     dataType: "json",
                     success: function (data) {
