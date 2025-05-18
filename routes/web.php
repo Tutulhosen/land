@@ -422,6 +422,7 @@ Route::middleware(['auth:admin', 'verified'])->group(function () {
         Route::get('/get_plot_price_by_size/{id}', 'get_plot_price_by_size')->name('get.plot.price.by.size');
 
         Route::get('/get_salesman_by_agency/{id}', 'get_salesman_by_agency')->name('get.salesman.by.agency');
+        Route::get('/get_customer_by_salesman/{id}', 'get_customer_by_salesman')->name('get.customer.by.salesman');
 
         Route::get('/get_dis_by_div/{id}', 'get_dis_by_div')->name('get.dis.by.div');
         Route::get('/get_upa_by_dis/{id}', 'get_upa_by_dis')->name('get.upa.by.dis');

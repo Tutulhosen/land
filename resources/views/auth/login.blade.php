@@ -100,7 +100,7 @@
                                             <li class="nav-item" role="presentation">
                                                 <a class="nav-link fw-medium" data-bs-toggle="tab"
                                                     data-bs-target="#applicants" href="#applicants"
-                                                    aria-selected="false" tabindex="-1" role="tab">Customer</a>
+                                                    aria-selected="false" tabindex="-1" role="tab">Agency</a>
                                             </li>
                                         </ul>
                                         <div class="tab-content">

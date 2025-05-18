@@ -11,6 +11,7 @@ use App\Models\Admin\SystemConfiguration\Block;
 use App\Models\Admin\SystemConfiguration\PlotSize;
 use App\Models\Admin\SystemConfiguration\Salesman;
 use App\Models\Admin\SystemConfiguration\PlotPrice;
+use App\Models\Admin\Employee\EmployeePersonalInformation;
 
 class DependencyController extends Controller
 {
@@ -51,6 +52,12 @@ class DependencyController extends Controller
         return response()->json($salesman);
     }
 
+    public function get_customer_by_salesman($id)
+    {
+        $salesman = EmployeePersonalInformation::where('salesman', $id)->get(); 
+        return response()->json($salesman);
+    }
+
     public function get_dis_by_div($id)
     {
         $districts = District::where('division_id', $id)->get(); 
@@ -64,7 +71,7 @@ class DependencyController extends Controller
     }
 
     public function get_plots_by_road($road_id)
-    {
+    {   
         $plots = Plot::where('road_id', $road_id)->get();
         return response()->json($plots);
     }
