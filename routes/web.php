@@ -120,6 +120,15 @@ Route::middleware(['auth:admin', 'verified'])->group(function () {
     Route::prefix('/dashboard')->controller(MoneyReceiptController::class)->group(function () {
         Route::get('/money/receipt/create-mr', 'createMr')->name('money.receipt.createMr');
         Route::get('/money/receipt/approved-mr', 'approvedMr')->name('money.receipt.approvedMr');
+
+        // ! Plot booking based on cutomer
+        Route::get('/plot-bookings/{cutomerId}', 'bookingPlotByCustomerId')->name('bookings.plot');
+    });
+
+
+    Route::prefix('/dashboard')->controller(MoneyReceiptController::class)->group(function () {
+        Route::get('/money/receipt/create-mr', 'createMr')->name('money.receipt.createMr');
+        Route::get('/money/receipt/approved-mr', 'approvedMr')->name('money.receipt.approvedMr');
     });
 
     Route::prefix('/dashboard')->controller(EmployeeController::class)->group(function () {
