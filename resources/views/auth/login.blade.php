@@ -63,7 +63,7 @@
                                             <h1 class="text-white display-1 text-center mt-2 mb-5">Land Management System
                                             </h1>
                                             <div class="authen-overlay-img mx-auto text-center mb-3">
-                                                <img src="{{ asset('admin') }}/assets/img/land-login.jpg"
+                                                <img src="{{ asset('admin') }}/assets/img/landing_new.png"
                                                     style="width: 80%;" alt="Img">
                                             </div>
                                             <div class="text-center mx-auto mt-4">
