@@ -429,6 +429,7 @@ Route::middleware(['auth:admin', 'verified'])->group(function () {
         Route::get('/get_road_with_default_block_by_sector/{id}/{sector_id}', 'get_road_with_default_block_by_sector')->name('get.road.with.default.block.by.sector');
         Route::get('/get_plot_size_by_plot/{id}', 'get_plot_size_by_plot')->name('get.plot.size.by.plot');
         Route::get('/get_plot_price_by_size/{id}', 'get_plot_price_by_size')->name('get.plot.price.by.size');
+        Route::get('/get_plot_data_by_id/{id}', 'get_plot_data_by_id')->name('get.plot.data.by.id');
 
         Route::get('/get_salesman_by_agency/{id}', 'get_salesman_by_agency')->name('get.salesman.by.agency');
         Route::get('/get_customer_by_salesman/{id}', 'get_customer_by_salesman')->name('get.customer.by.salesman');

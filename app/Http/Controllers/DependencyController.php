@@ -72,8 +72,23 @@ class DependencyController extends Controller
 
     public function get_plots_by_road($road_id)
     {   
-        $plots = Plot::where('road_id', $road_id)->get();
+        $plots = Plot::where('road_id', $road_id)->orderByRaw('CAST(plot_name AS UNSIGNED) ASC')->get();
         return response()->json($plots);
     }
+
+    public function get_plot_data_by_id($plotId)
+    {
+        $plot = Plot::find($plotId);
+        if ($plot) {
+            return response()->json([
+                'plot_size' => $plot->plot_size->size_name,
+                'per_katha_rate' => $plot->price_per_katha,
+                'total_price' => $plot->plot_price
+            ]);
+        }
+
+        return response()->json(['error' => 'Plot not found'], 404);
+    }
+
     
 }

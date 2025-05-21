@@ -7,6 +7,14 @@
                 color: white;
                 border: 1px solid #777c83;
             }
+            .number-box.clickable {
+                cursor: pointer;
+            }
+
+            .number-box.clickable:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            }
     </style>
 @endpush
 @section('content')
@@ -26,6 +34,7 @@
             <div class="col-12 col-md-4">
                 <!-- <div class="container mt-5"> -->
                 <div class="mb-3" style="max-width: 300px;">
+                    <label for="sector">Sector</label>
                     <select class="form-control gradient-select sector" name="sector" id="sector" style="height: 45px;">
                         <option selected disabled>Select Sector</option>
                         @foreach ($sectors as $sector)
@@ -35,6 +44,7 @@
                 </div>
 
                 <div class="mb-3" style="max-width: 300px;">
+                    <label for="block">Block</label>
                     <select class="form-control gradient-select block" style="height: 45px;" name="block" id="block">
                         <option selected disabled>Select Block</option>
 
@@ -42,13 +52,15 @@
                 </div>
 
                 <div class="mb-3" style="max-width: 300px;">
+                    <label for="road">Road</label>
                     <select class="form-control gradient-select road" name="road" id="road" style="height: 45px;">
                         <option selected disabled>Select Road</option>
 
                     </select>
                 </div>
                 <!--  Plot selection -->
-               <section id="plot-section" style="display: none">
+               <section id="plot-section" style="display: none; text-align:center">
+                <label for="plot-list" ><h3 >Plot List</h3></label>
                     <div id="plot-list" class="d-flex flex-wrap gap-2">
                         <!-- Plot boxes will be appended here -->
                     </div>
@@ -59,121 +71,96 @@
             </div>
 
             <!-- Right section (70%) -->
-            <div class="col-12 col-md-8">
-                <!-- <div class="container mt-3"> -->
-                <div class="form-group d-flex gap-2">
-                    <div class="input-group custom-date-input mr-3">
-                        <input type="date" class="form-control border-0 shadow-none custom-date-input"
-                            placeholder="Date of Sales">
+            <div class="col-12 col-md-8 mx-auto">
+                <div class="card shadow-sm p-4">
+                    <h5 class="mb-4">Sales Entry</h5>
 
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="date_of_sale" class="form-label">Date of Sale</label>
+                            <input type="date" id="date_of_sale" class="form-control date_of_sale" placeholder="Date of Sale">
+
+                        </div>
+                        <div class="col-md-6">
+                            <label for="customer_agency_name" class="form-label">Agency</label>
+                            <select class="form-select customer_agency_name" id="customer_agency_name" name="customer_agency_name">
+                                <option selected disabled>-- Select Agency --</option>
+                                @foreach ($agencies as $agency)
+                                    <option value="{{ $agency->id }}">{{ $agency->agency_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
 
-                    <div class="input-group">
-                        <select class="form-select form-control customer_agency_name" name="customer_agency_name" id="customer_agency_name">
-                            <option>--Select Arency--</option>
-                            @foreach ($agencies as $agency)
-                                <option value="{{$agency->id}}">{{$agency->agency_name}}</option>
-                            @endforeach
-                
-                        </select>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="customer_salesman_name" class="form-label">Salesman</label>
+                            <select class="form-select customer_salesman_name" id="customer_salesman_name" name="customer_salesman_name">
+                                <option selected disabled>-- Select Salesman --</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="customer_name" class="form-label">Customer</label>
+                            <select class="form-select customer_name" id="customer_name" name="customer_name">
+                                <option selected disabled>-- Select Customer --</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="sale_type" class="form-label">Sale Type</label>
+                            <select class="form-select sale_type" id="sale_type" name="sale_type">
+                                <option selected disabled>-- Select Sale Type --</option>
+                                <option value="1">At-a-Time</option>
+                                <option value="2">Instalment</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="note" class="form-label">Note</label>
+                            <input type="text" id="note" name="note" class="form-control note" placeholder="Note">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 instalment-section" style="display: none;">
+                        <div class="col-md-6">
+                            <label for="number_of_instalment" class="form-label">Number Of Instalments</label>
+                            <input type="text" id="number_of_instalment" name="number_of_instalment" class="form-control number_of_instalment" placeholder="Number of Instalments">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="per_instalment_amount" class="form-label">Per Instalment Amount</label>
+                            <input type="text" id="per_instalment_amount" name="per_instalment_amount" class="form-control per_instalment_amount" placeholder="Per Instalment Amount" readonly>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <h6 class="mb-3">Plot Information</h6>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="plot_size" class="form-label">Plot Size</label>
+                            <input type="text" id="plot_size" class="form-control plot_size" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="per_katha_rate" class="form-label">Per Katha Rate</label>
+                            <input type="text" id="per_katha_rate" class="form-control per_katha_rate" readonly>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <label for="total_price" class="form-label">Total Price</label>
+                            <input type="text" id="total_price" class="form-control total_price" >
+                        </div>
+                    </div>
+
+                    <div class="text-end">
+                        <button class="btn btn-secondary me-2">Cancel</button>
+                        <button class="btn btn-success">Submit Now</button>
                     </div>
                 </div>
-                <div class="form-group d-flex gap-2">
-                    <div class="input-group">
-                        <select class="form-select form-control customer_salesman_name" name="customer_salesman_name" id="customer_salesman_name">
-                            <option>--Select Salesman--</option>
-
-                        </select>
-                    </div>
-
-                    <div class="input-group">
-                        <select class="form-select form-control customer_name" name="customer_name" id="customer_name">
-                            <option>--Select Customer--</option>
-
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group d-flex gap-2">
-                    <div class="input-group">
-                        <select class="form-select form-control sale_type" name="sale_type" id="sale_type">
-                            <option>--Select Sale Type--</option>
-                            <option value="1">At-a-Time</option>
-                            <option value="2">Instalment</option>
-
-                        </select>
-                    </div>
-                    <div class="input-group">
-                        <input type="text" class="form-control note" id="note" name="note" placeholder="Note">
-                    </div>
-                    
-                </div>
-                <div class="form-group d-flex gap-2">
-                    <div class="input-group">
-                        <input type="text" class="form-control number_of_instalment" id="number_of_instalment" name="number_of_instalment" placeholder="Number Of Instalment">
-                    </div>
-                    <div class="input-group">
-                        <input type="text" class="form-control per_instalment_amount" id="per_instalment_amount" name="per_instalment_amount" placeholder="Per Instalment amount" readonly>
-                    </div>
-                   
-                </div>
-
-
-                <div style="margin-top: 50px;">
-                    <h6 class="section-title">Plot Information</h6>
-                    <hr class="section-divider">
-                </div>
-
-                <!-- Plot section  -->
-                <section class="mt-5">
-                    <div class="form-group d-flex gap-2">
-                        <!-- <div class="input-group custom-date-input mr-3"> -->
-                        <div class="plot-pill w-100 mr-3" class="plot_size">
-                            Plot Size
-                        </div>
-                        <!-- </div> -->
-
-                        <div class="plot-pill w-100" class="per_katha_rate">
-                            Per Katha Rate
-                        </div>
-                    </div>
-                    <div class="form-group d-flex gap-2">
-                        <!-- <div class="input-group custom-date-input mr-3"> -->
-                        <div class="plot-pill w-100 mr-3" class="total_price">
-                            Total Price
-                        </div>
-                        <!-- </div> -->
-
-                        <div class="plot-pill w-100" class="type_of_payment">
-                            Type of Payment
-                        </div>
-                    </div>
-                    <div class="form-group d-flex gap-2">
-                        <!-- <div class="input-group custom-date-input mr-3"> -->
-                        <div class="plot-pill w-100 mr-3" class="number_of_instalment">
-                            Number Of Instalment
-                        </div>
-                        <!-- </div> -->
-
-                        <div class="plot-pill w-100" class="instalment_amount">
-                            Per Instalment Amount
-                        </div>
-                    </div>
-                </section>
-                <!-- Submit section -->
-                <section class="text-center mt-5 ">
-                    <div class="container d-inline ">
-                        <button class="btn btn-cancel">
-                            Cancel
-                        </button>
-                    </div>
-                    <div class="container d-inline ">
-                        <button class="btn btn-success">
-                            Submit Now
-                        </button>
-                    </div>
-                </section>
             </div>
+
         </div>
     
     </div>
@@ -183,7 +170,65 @@
 
 @push('scripts')
 <script>
+    $(document).ready(function() {
+        $('#number_of_instalment').on('input', function () {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+
+        // Set today's date as the default
+        let today = new Date().toISOString().split('T')[0];
+        $('#date_of_sale').val(today);
+
+        // Open date picker when input is clicked
+        $('#date_of_sale').on('click', function() {
+            if (this.showPicker) {
+                this.showPicker(); // Modern browsers
+            } else {
+                this.focus(); // Fallback
+            }
+        });
+    });
+
+
     $(document).ready(function () {
+
+        $('.sale_type').on('change', function () {
+            let type_id = $(this).val();
+            let plotSize = $('#plot_size').val();
+
+            if (!plotSize) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Plot Not Selected',
+                    text: 'Please select a plot first!'
+                });
+
+                // Reset the selection
+                $(this).prop('selectedIndex', 0);;
+                $('.instalment-section').hide();
+                return;
+            }
+
+            if (type_id == 2) {
+                $('.instalment-section').show();
+            } else {
+                $('.instalment-section').hide();
+            }
+        });
+
+        $(document).on('keyup', '#number_of_instalment', function () {
+            let totalPrice = parseFloat($('#total_price').val()) || 0;
+            let numOfInstalments = parseInt($(this).val()) || 0;
+
+            if (totalPrice > 0 && numOfInstalments > 0) {
+                let perInstalment = (totalPrice / numOfInstalments).toFixed(2);
+                $('#per_instalment_amount').val(perInstalment);
+            } else {
+                $('#per_instalment_amount').val('');
+            }
+        });
+
+
 
         $('.sector').on('change', function () {
             var sectorId = $(this).val();
@@ -244,18 +289,24 @@
 
                             $.each(plots, function (index, plot) {
                                 let style = '';
+                                let className = 'number-box';
+                                let extraAttr = `data-id="${plot.id}"`; // add plot ID as data attribute
 
                                 if (plot.plot_booking_status == 0) {
-                                    style = 'background: linear-gradient(to bottom, green, #2c3c31); color: white;';
+                                    style = 'background: linear-gradient(to bottom, #4CAF50, #81C784); color: white;';
+                                    className += ' clickable';
+                                    extraAttr += ` onclick="handlePlotClick(${plot.id})"`; // pass plot ID to handler
                                 } else if (plot.plot_booking_status == 1) {
-                                    style = 'background: linear-gradient(to bottom, red, #6c3f3f); color: white;';
+                                    style = 'background: linear-gradient(to bottom, #f44336, #e57373); color: white;';
                                 } else if (plot.plot_booking_status == 2) {
-                                    style = 'background: linear-gradient(to bottom, yellow, #4e4935); color: black;';
+                                    style = 'background: linear-gradient(to bottom, #ffeb3b, #fff176); color: black;';
                                 }
 
-                                let box = `<div class="number-box" style="${style}">${plot.plot_name}</div>`;
+                                let box = `<div class="${className}" style="${style}" ${extraAttr}>${plot.plot_name}</div>`;
                                 plotList.append(box);
                             });
+
+
 
                         } else {
                             $('#plot-section').hide(); // Hide if no plots
@@ -268,6 +319,40 @@
                 $('#plot-section').hide();
             }
         });
+
+        //plot id to data
+       $(document).on('click', '.number-box.clickable', function() {
+            let plotId = $(this).data('id'); // Get plot ID from data-id
+            
+            if (plotId) {
+
+                // Reset sale_type dropdown and hide instalment section
+                $('#sale_type').prop('selectedIndex', 0);
+                $('.instalment-section').hide(); // Hide the section if visible
+
+                // Also reset instalment-related fields (optional)
+                $('#number_of_instalment').val('');
+                $('#per_instalment_amount').val('');
+
+                
+                $.ajax({
+                    url: "{{ url('/dashboard/get_plot_data_by_id') }}/" + plotId,
+                    type: "GET",
+                    dataType: "json",
+                    success: function(response) {
+                        // Populate input fields with data
+                        $('#plot_size').val(response.plot_size);
+                        $('#per_katha_rate').val(response.per_katha_rate);
+                        $('#total_price').val(response.total_price);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Failed to fetch plot data:", error);
+                    }
+                });
+            }
+        });
+
+
 
         $('.customer_agency_name').on('change', function () {
             var customer_agency_nameId = $(this).val();
