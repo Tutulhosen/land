@@ -8,6 +8,7 @@ use App\Models\Plot\PlotBooking;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Admin\SystemConfiguration\Plot;
 use App\Models\Admin\SystemConfiguration\Agency;
 use App\Models\Admin\SystemConfiguration\Project;
 
@@ -88,6 +89,40 @@ class PlotManageController extends Controller
             return response()->json([
                 'message' => 'Something went wrong while booking the plot.',
                 'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
+    public function plot_sale_destroy($id)
+    {
+        try {
+            DB::beginTransaction(); 
+
+            $plotSale = PlotSale::find($id);
+
+            if (!$plotSale) {
+                return response()->json(['success' => false, 'message' => 'Booking not found'], 404);
+            }
+
+            // Get the related plot_id before deleting
+            $plotId = $plotSale->plot_id;
+
+            // Delete the booking
+            $plotSale->delete();
+
+            // Update the related plot's booking status
+            Plot::where('id', $plotId)->update(['plot_booking_status' => 0]);
+
+            DB::commit();
+
+            return response()->json(['success' => true, 'message' => 'Booking deleted successfully']);
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong. ' . $e->getMessage(),
             ], 500);
         }
     }

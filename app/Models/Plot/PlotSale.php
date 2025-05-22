@@ -2,6 +2,7 @@
 
 namespace App\Models\Plot;
 
+use App\Models\Admin\MoneyReceipt;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Admin\SystemConfiguration\Plot;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,5 +23,10 @@ class PlotSale extends Model
     public function plot()
     {
         return $this->belongsTo(Plot::class, 'plot_id');
+    }
+
+    public function moneyReceipts()
+    {
+        return $this->hasMany(MoneyReceipt::class, 'booking_id');
     }
 }

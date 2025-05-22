@@ -114,17 +114,12 @@
                                                             {{$plot_sale_data->total_amount ?? 'N/A'}}
                                                         </td>
                                                         <td class="text-center">
-                                                            {{ $plot_sale_data->total_amount ?? 'N/A' }}
+                                                            {{ $plot_sale_data->moneyReceipts->sum('amount') ?? 'N/A' }}
                                                         </td>
                                                         <td class="text-center">
-                                                            {{ $plot_sale_data->total_amount ?? 'N/A' }}
+                                                            {{ ($plot_sale_data->total_amount)- $plot_sale_data->moneyReceipts->sum('amount') ?? 'N/A' }}
                                                         </td>
-                                                        <td class="text-center">
-                                                            {{ $plot_sale_data->total_amount ?? 'N/A' }}
-                                                        </td>
-                                                        <td class="text-center">
-                                                            {{ $plot_sale_data->total_amount ?? 'N/A' }}
-                                                        </td>
+                                      
                                                        
                                                      
                                                         <td>
@@ -135,10 +130,10 @@
                                                                 <a href="{{route('customer.edit', $plot_sale_data->id)}}" class="btn btn-link  btn-lg" title="Edit">
                                                                     <i class='bx bxs-edit'></i>
                                                                 </a>
-                                                                <form action="{{route('customer.destroy', $plot_sale_data->id)}}" method="POST" style="display:inline;" id="delete-customer" class="delete-customer">
+                                                                <form action="{{route('plot.sale.destroy', $plot_sale_data->id)}}" method="POST" style="display:inline;" id="delete-sale" class="delete-sale">
                                                                     @csrf
                                                                     @method('DELETE')
-                                                                    <button type="button" class="btn btn-link btn-danger btn-lg" >
+                                                                    <button type="button" data-id="{{ $plot_sale_data->id }}" class="btn btn-link btn-danger btn-lg delete-plot-sale" >
                                                                         <i class='bx bx-trash-alt'></i>
                                                                     </button>
                                                                 </form>
@@ -248,8 +243,58 @@
             }
         });
 
+       
+        $(document).on('click', '.delete-plot-sale', function (e) {
+            e.preventDefault();
+            let button = $(this);
+            let id = button.data('id');
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You want to delete this plot saleing data?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: `/dashboard/plot/sale/destroy/${id}`,
+                        type: 'DELETE',
+                        data: {
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                // Optionally remove row from table
+                                button.closest('tr').remove();
+
+                                Swal.fire(
+                                    'Deleted!',
+                                    response.message,
+                                    'success'
+                                );
+                            }
+                        },
+                        error: function (xhr) {
+                            Swal.fire(
+                                'Error!',
+                                'Something went wrong.',
+                                'error'
+                            );
+                        }
+                    });
+                }
+            });
+        });
+ 
+
+
 
     });
+    
 
 </script>
 @endpush
