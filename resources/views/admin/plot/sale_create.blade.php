@@ -20,7 +20,15 @@
 @section('content')
 <div class="container">
     <div class="page-inner">
-        
+
+        <div id="preloader" style="display: none; position: fixed; z-index: 9999; background: rgba(255,255,255,0.7); top: 0; left: 0; width: 100%; height: 100%;">
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="card">
                 <div class="card-header project-details-card-header">
@@ -112,8 +120,8 @@
                             <label for="sale_type" class="form-label">Sale Type</label>
                             <select class="form-select sale_type" id="sale_type" name="sale_type">
                                 <option selected disabled>-- Select Sale Type --</option>
-                                <option value="1">At-a-Time</option>
-                                <option value="2">Instalment</option>
+                                <option value="2">At-a-Time</option>
+                                <option value="1">Instalment</option>
                             </select>
                         </div>
                         <div class="col-md-6">
@@ -210,7 +218,7 @@
                 return;
             }
 
-            if (type_id == 2) {
+            if (type_id == 1) {
                 $('.instalment-section').show();
             } else {
                 $('.instalment-section').hide();
@@ -404,8 +412,10 @@
          // Submit button functionality
         $('#submit_btn').on('click', function (e) {
             e.preventDefault();
-     
-        
+
+            // Show preloader
+            $('#preloader').show();
+
             let data = {
                 date_of_sale: $('#date_of_sale').val(),
                 sector_id: $('#sector').val(),
@@ -422,10 +432,7 @@
                 per_katha_rate: $('#per_katha_rate').val(),
                 total_price: $('#total_price').val(),
                 plot_id: $('#plot_id_hidden').val(),
-       
             };
-
-            
 
             $.ajax({
                 url: '{{ route("plot.manage.sale.store") }}',
@@ -435,15 +442,37 @@
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
                 success: function (response) {
-                    alert('Plot booked successfully!');
-                    location.reload();
+                    $('#preloader').hide();
+
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Plot booked successfully!',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        // Redirect to index page
+                        window.location.href = '{{ route("plot.manage.index") }}';
+                    });
                 },
                 error: function (xhr) {
-                    console.error(xhr.responseText);
-                    alert('Something went wrong while booking plot.');
+                    $('#preloader').hide();
+
+                    let message = 'Something went wrong while booking the plot.';
+                    if (xhr.status === 422 && xhr.responseJSON?.errors) {
+                        const errors = xhr.responseJSON.errors;
+                        message = Object.values(errors).flat().join('\n');
+                    }
+
+                    Swal.fire({
+                        title: 'Error!',
+                        text: message,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
                 }
             });
         });
+
 
 
     });

@@ -87,14 +87,12 @@
                                             <thead class="">
                                                 <tr role="row">
                                                 <th>Sl</th>
-                                                <th>Booking Code </th>
+                                                <th> Sale Date</th>
                                                 <th>Customer Name</th>
-                                                <th>Plot Name</th>
-                                                <th>Total Installment</th>
-                                                <th>Installment Amount</th>
-                                                <th>Recived</th>
+                                                <th>Plot Number</th>
+                                                <th>Total Price</th>
+                                                <th>Recived Amount</th>
                                                 <th>Total Due</th>
-                                                <th>Total Amount</th>
                                                 <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -104,16 +102,16 @@
                                                     <tr role="row">
                                                         <td class="text-center">{{ $plot_sale_datas->firstItem() + $key }}</td>
                                                         <td>
-                                                                {{$plot_sale_data->code ?? 'N/A'}}
+                                                                {{ $plot_sale_data->created_at ? $plot_sale_data->created_at->format('Y-m-d') : 'N/A' }}
                                                         </td>
                                                         <td class="text-center">
-                                                            {{$plot_sale_data->customer_id ?? 'N/A'}}
+                                                            {{$plot_sale_data->customer->name ?? 'N/A'}}
                                                         </td>
                                                         <td>
-                                                            {{$plot_sale_data->plot_id ?? 'N/A'}}
+                                                            {{$plot_sale_data->plot->plot_name ?? 'N/A'}}
                                                         </td>
                                                         <td class="text-center">
-                                                            {{$plot_sale_data->total_installment ?? 'N/A'}}
+                                                            {{$plot_sale_data->total_amount ?? 'N/A'}}
                                                         </td>
                                                         <td class="text-center">
                                                             {{ $plot_sale_data->total_amount ?? 'N/A' }}
