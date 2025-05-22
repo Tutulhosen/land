@@ -18,10 +18,15 @@ class PlotManageController extends Controller
         return view('admin.plot.sale', compact('plot_sale_datas'));
 
     }
+    
     public function sale_create()
     {
         $sectors=Project::orderBy('id', 'desc')->get();
         $agencies = Agency::orderBy('id', 'desc')->get();
         return view('admin.plot.sale_create', compact('sectors', 'agencies'));
+    }
+
+    public function sale_store(Request $request){
+        dd($request->all());
     }
 }

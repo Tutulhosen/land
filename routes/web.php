@@ -112,6 +112,7 @@ Route::middleware(['auth:admin', 'verified'])->group(function () {
     Route::prefix('/dashboard')->controller(PlotManageController::class)->group(function () {
         Route::get('/plot/sale', 'sale')->name('plot.manage.index');
         Route::get('/plot/sale/create', 'sale_create')->name('plot.manage.sale.create');
+        Route::post('/plot/sale/store', 'sale_store')->name('plot.manage.sale.store');
     });
 
 

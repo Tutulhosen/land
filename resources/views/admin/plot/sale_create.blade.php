@@ -123,6 +123,7 @@
                     </div>
 
                     <div class="row mb-3 instalment-section" style="display: none;">
+                        <input type="hidden" class="plot_id_hidden" id="plot_id_hidden" name="plot_id_hidden">
                         <div class="col-md-6">
                             <label for="number_of_instalment" class="form-label">Number Of Instalments</label>
                             <input type="text" id="number_of_instalment" name="number_of_instalment" class="form-control number_of_instalment" placeholder="Number of Instalments">
@@ -155,8 +156,8 @@
                     </div>
 
                     <div class="text-end">
-                        <button class="btn btn-secondary me-2">Cancel</button>
-                        <button class="btn btn-success">Submit Now</button>
+                        <button class="btn btn-secondary me-2" id="cancel_btn">Cancel</button>
+                        <button class="btn btn-success" id="submit_btn">Submit Now</button>
                     </div>
                 </div>
             </div>
@@ -298,8 +299,10 @@
                                     extraAttr += ` onclick="handlePlotClick(${plot.id})"`; // pass plot ID to handler
                                 } else if (plot.plot_booking_status == 1) {
                                     style = 'background: linear-gradient(to bottom, #f44336, #e57373); color: white;';
+                                    extraAttr += ` onclick="handlePlotClick(${plot.id})"`;
                                 } else if (plot.plot_booking_status == 2) {
                                     style = 'background: linear-gradient(to bottom, #ffeb3b, #fff176); color: black;';
+                                    extraAttr += ` onclick="handlePlotClick(${plot.id})"`;
                                 }
 
                                 let box = `<div class="${className}" style="${style}" ${extraAttr}>${plot.plot_name}</div>`;
@@ -321,9 +324,11 @@
         });
 
         //plot id to data
-       $(document).on('click', '.number-box.clickable', function() {
+        $(document).on('click', '.number-box.clickable', function() {
+
+            $('#plot_id_hidden').val('');
             let plotId = $(this).data('id'); // Get plot ID from data-id
-            
+            $('#plot_id_hidden').val(plotId);
             if (plotId) {
 
                 // Reset sale_type dropdown and hide instalment section
@@ -394,6 +399,50 @@
                 $('.customer_name').empty();
                 $('.customer_name').append('<option value="">--select--</option>');
             }
+        });
+
+         // Submit button functionality
+        $('#submit_btn').on('click', function (e) {
+            e.preventDefault();
+     
+        
+            let data = {
+                date_of_sale: $('#date_of_sale').val(),
+                sector_id: $('#sector').val(),
+                block_id: $('#block').val(),
+                road_id: $('#road').val(),
+                agency_id: $('#customer_agency_name').val(),
+                salesman_id: $('#customer_salesman_name').val(),
+                customer_id: $('#customer_name').val(),
+                sale_type: $('#sale_type').val(),
+                note: $('#note').val(),
+                number_of_instalment: $('#number_of_instalment').val(),
+                per_instalment_amount: $('#per_instalment_amount').val(),
+                plot_size: $('#plot_size').val(),
+                per_katha_rate: $('#per_katha_rate').val(),
+                total_price: $('#total_price').val(),
+                plot_id: $('#plot_id_hidden').val(),
+       
+            };
+
+            
+
+            $.ajax({
+                url: '{{ route("plot.manage.sale.store") }}',
+                method: 'POST',
+                data: data,
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                success: function (response) {
+                    alert('Plot booked successfully!');
+                    location.reload();
+                },
+                error: function (xhr) {
+                    console.error(xhr.responseText);
+                    alert('Something went wrong while booking plot.');
+                }
+            });
         });
 
 
