@@ -34,7 +34,7 @@
                 <div class="card-header project-details-card-header">
                     <div class="d-flex align-items-center">
                         <h4 class="project-details-card-header-title"><i class='bx bx-user bx-tada'></i>
-                            New Plot Ssale</h4>
+                            New Plot Sale</h4>
                     </div>
                 </div>
             </div>

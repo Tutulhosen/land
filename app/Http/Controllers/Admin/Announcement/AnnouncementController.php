@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Admin\HrAdminSetup\Department;
 use App\Models\Admin\Announcement\Announcement;
+use App\Models\Admin\SystemConfiguration\Agency;
 use App\Models\Admin\SystemConfiguration\Branch;
 use App\Models\Admin\Announcement\AnnouncementAndDepartment;
 use App\Models\Admin\SystemConfiguration\CompanyInformation;
@@ -22,7 +23,8 @@ class AnnouncementController extends Controller
         $announcements = Announcement::all();
         $selectedDepartments = AnnouncementAndDepartment::all();
         $branches = Branch::where('status', 1)->orderBy('name', 'asc')->get();
-        return view('admin.announcement.announcement.index',compact('departments','announcements','selectedDepartments','branches'));
+        $agencies = Agency::orderBy('id', 'desc')->get();
+        return view('admin.announcement.announcement.index',compact('departments','announcements','selectedDepartments','branches', 'agencies'));
     }
 
     /**
@@ -39,8 +41,8 @@ class AnnouncementController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'branch_id'   => 'nullable|string',
-            'department_ids' => 'required|array',
+            'customer_salesman_name'   => 'nullable|string',
+            'customer_agency_name' => 'required|array',
             'publish_date'   => 'nullable|date',
             'effective_date' => 'nullable|date',
             'title'          => 'required|string|max:255',
@@ -66,11 +68,11 @@ class AnnouncementController extends Controller
 
         $announcement->save();
 
-        foreach ($validated['department_ids'] as $departmentId) {
+        foreach ($validated['customer_salesman_name'] as $departmentId) {
             AnnouncementAndDepartment::create([
                 'announcement_id' => $announcement->id,
                 'department_id'  => $departmentId,
-                'branch_id'  => $validated['branch_id'],
+                'branch_id'  => $validated['customer_agency_name'],
             ]);
         }
 

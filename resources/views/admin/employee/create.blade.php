@@ -459,7 +459,10 @@
 @push('scripts')
     <script>
         $(document).ready(function () {
-
+            $('#customer_salesman_name').select2({
+                placeholder: "-- Select Salesman --",
+                allowClear: true
+            });
 
             $('.customer_agency_name').on('change', function () {
                 var customer_agency_nameId = $(this).val();
@@ -607,15 +610,7 @@
         });
     </script>
 
-    <script>
-        $(document).ready(function() {
-            $('.select2').select2({
-                theme: "bootstrap",
-                width: "100%"
-            });
 
-        });
-    </script>
 
 
     <!-- JavaScript for Add and Remove granter Sections -->

@@ -129,7 +129,7 @@
                     <li class="nav-item {{ Request::routeIs('official-letters*') ? 'active submenu' : '' }}">
                         <a data-bs-toggle="collapse" href="#hr-documents">
                             <i class="fas fa-copy"></i>
-                        <p>HR Documents</p>
+                        <p> Documents</p>
                         <span class="caret"></span>
                         </a>
                         <div class="collapse {{ Request::routeIs('official-letters*',) ? 'show' : '' }} " id="hr-documents">
@@ -342,7 +342,7 @@
                           <li>
                              <a href="{{route("money.receipt.approvedMr")}}">
                                 <i class="fas fa-wallet"></i>
-                             <span class="sub-item">Approved MR</span>
+                             <span class="sub-item">Money Recipet List</span>
                              </a>
                           </li>
             
@@ -351,47 +351,16 @@
                  </li>
                  <!--Payroll-->
 
-                 {{-- @canany(['ShowSideBar Department', 'ShowSideBar Designation','ShowSideBar LeaveType','ShowSideBar Holiday','ShowSideBar DocumentTemplate'])
+                 @canany(['ShowSideBar Department', 'ShowSideBar Designation','ShowSideBar LeaveType','ShowSideBar Holiday','ShowSideBar DocumentTemplate'])
                     <li class="nav-item {{ Request::routeIs('department.*', 'designation.*', 'leavetype.*', 'holiday.*', 'documenttemplate.*') ? 'active submenu' : '' }}">
                         <a data-bs-toggle="collapse" href="#admin-setup">
                             <i class="fas fa-user-cog"></i>
-                            <p>HR Admin Setup</p>
+                            <p> Admin Setup</p>
                             <span class="caret"></span>
                         </a>
                         <div class="collapse {{ Request::routeIs('department.*', 'designation.*', 'leavetype.*', 'holiday.*', 'documenttemplate.*') ? 'show' : '' }}" id="admin-setup">
                             <ul class="nav nav-collapse">
-                                @can("ShowSideBar Department")
-                                <li class="{{ Route::currentRouteName() == 'department.index' ? 'active' : '' }}">
-                                    <a href="{{ route('department.index') }}">
-                                        <i class="fas fa-sitemap"></i>
-                                        <span class="sub-item">Department</span>
-                                    </a>
-                                </li>
-                                @endcan
-                                @can("ShowSideBar Designation")
-                                <li class="{{ Route::currentRouteName() == 'designation.index' ? 'active' : '' }}">
-                                    <a href="{{ route('designation.index') }}">
-                                        <i class="fas fa-graduation-cap"></i>
-                                        <span class="sub-item">Designation</span>
-                                    </a>
-                                </li>
-                                @endcan
-                                @can("ShowSideBar LeaveType")
-                                <li class="{{ Route::currentRouteName() == 'leavetype.index' ? 'active' : '' }}">
-                                    <a href="{{ route('leavetype.index') }}">
-                                        <i class="fas fa-user-clock"></i>
-                                        <span class="sub-item">Leave Type</span>
-                                    </a>
-                                </li>
-                                @endcan
-                                @can("ShowSideBar Holiday")
-                                <li class="{{ Route::currentRouteName() == 'holiday.index' ? 'active' : '' }}">
-                                    <a href="{{ route('holiday.index') }}">
-                                        <i class="far fa-calendar-alt"></i>
-                                        <span class="sub-item">Holiday</span>
-                                    </a>
-                                </li>
-                                @endcan
+                                
                                 @can("ShowSideBar DocumentTemplate")
                                 <li class="{{ Route::currentRouteName() == 'documenttemplate.index' ? 'active' : '' }}">
                                     <a href="{{ route('documenttemplate.index') }}">
@@ -400,16 +369,11 @@
                                     </a>
                                 </li>
                                 @endcan
-                                <li class="{{ Route::currentRouteName() == 'grade.index' ? 'active' : '' }}">
-                                    <a href="{{ route('grade.index') }}">
-                                        <i class="far fa-file-word"></i>
-                                        <span class="sub-item">Grade</span>
-                                    </a>
-                                </li>
+                               
                             </ul>
                         </div>
                     </li>
-                 @endcanany --}}
+                 @endcanany
 
                 @canany(['ShowSideBar AdditionalSetup', 'ShowSideBar CompanySetup','ShowSideBar Branch'])
                     <li class="nav-item {{ Request::routeIs('additional-setup.*', 'company.*', 'branch.*', 'project-setup.*', 'plot.index') ? 'active submenu' : '' }}">

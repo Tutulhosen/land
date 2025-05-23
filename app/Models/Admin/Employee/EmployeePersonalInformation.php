@@ -2,20 +2,22 @@
 
 namespace App\Models\Admin\Employee;
 
+use App\Models\Upazila;
+use App\Models\District;
+use App\Models\Plot\PlotSale;
 use App\Models\CustomerAttachment;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Admin\HrAdminSetup\Attendance;
 use App\Models\Admin\Employee\EmployeeGranter;
+use App\Models\Admin\SystemConfiguration\Agency;
 use App\Models\Admin\SystemConfiguration\Gender;
 use App\Models\Admin\SystemConfiguration\Religion;
+use App\Models\Admin\SystemConfiguration\Salesman;
 use App\Models\Admin\SystemConfiguration\BloodGroup;
 use App\Models\Admin\SystemConfiguration\Salutation;
 use App\Models\Admin\SystemConfiguration\ProjectList;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Admin\Employee\EmployeePayRollInformation;
-use App\Models\Admin\SystemConfiguration\Salesman;
-use App\Models\District;
-use App\Models\Upazila;
 
 class EmployeePersonalInformation extends Model
 {
@@ -95,6 +97,16 @@ class EmployeePersonalInformation extends Model
     public function get_salesman()
     {
         return $this->belongsTo(Salesman::class, 'salesman');
+    }
+
+    public function get_agency()
+    {
+        return $this->belongsTo(Agency::class, 'agency');
+    }
+
+    public function plot_sale()
+    {   
+        return $this->hasOne(PlotSale::class, 'customer_id', 'id');
     }
 
 

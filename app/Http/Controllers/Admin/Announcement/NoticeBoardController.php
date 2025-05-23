@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Admin\HrAdminSetup\Department;
 use App\Models\Admin\Announcement\NoticeBoard;
+use App\Models\Admin\SystemConfiguration\Agency;
 use App\Models\Admin\SystemConfiguration\Branch;
 use App\Models\Admin\Announcement\NoticeBoardAndDepartment;
 use App\Models\Admin\SystemConfiguration\CompanyInformation;
@@ -22,7 +23,8 @@ class NoticeBoardController extends Controller
         $noticeboards = NoticeBoard::all();
         $selectedDepartments = NoticeBoardAndDepartment::all();
         $branches = Branch::where('status', 1)->orderBy('name', 'asc')->get();
-        return view('admin.announcement.noticeboard.index',compact('departments','noticeboards','selectedDepartments','branches'));
+        $agencies = Agency::orderBy('id', 'desc')->get();
+        return view('admin.announcement.noticeboard.index',compact('departments','noticeboards','selectedDepartments','branches','agencies'));
     }
 
     /**

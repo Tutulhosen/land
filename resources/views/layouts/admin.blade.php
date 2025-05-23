@@ -524,7 +524,13 @@
 @stack('scripts')
 
 <script>
+    
     $(document).ready(function () {
+        $('.select2').select2({
+            theme: "bootstrap",
+            width: "100%"
+        });
+    
         let searchResults = [];
 
         function debounce(func, delay) {

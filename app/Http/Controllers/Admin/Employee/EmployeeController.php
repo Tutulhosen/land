@@ -47,171 +47,57 @@ use App\Models\Admin\SystemConfiguration\EducationType;
 use App\Models\Admin\Employee\EmployeePayRollInformation;
 use App\Models\Admin\SystemConfiguration\ProbationPeriod;
 use App\Models\Admin\Employee\{EmployeePersonalInformation, EmployeeContact, EmployeeOfficialInformation, EmployeeGranter, EmployeeReference, EmployeeEducation, EmployeeExperience};
+use App\Models\Plot\PlotSale;
 
 class EmployeeController extends Controller
 {
     public function index(Request $request)
     {
+        $projects = ProjectList::where('status', true)->get();
+        $branches = Branch::where('status', 1)->orderBy('name', 'asc')->get();
+        $departments = Department::where('status', 1)->get();
+        $agencies = Agency::orderBy('id', 'desc')->get();
+        
+        $query = EmployeePersonalInformation::with(['nominees', 'gong', 'attachments']);
 
-        if ($request->ajax()) {
-            $employees = EmployeePersonalInformation::with([
-                'salutations',
-                'officialInformation',
-                'officialInformation.designation',
-                'officialInformation.branch',
-                'officialInformation.department',
-                'officialInformation.reportingfirst',
-                'contact',
-                'payRollInformation.shift',
-                'payRollInformation.holiday'
-            ])->select('employee_personal_information.*');
+        // Apply filters if they exist
+        // if ($request->filled('project_id')) {
 
-            // Apply Filters Based on Request
-            if (!empty($request->branch_id)) {
-                $employees->whereHas('officialInformation', function ($q) use ($request) {
-                    $q->where('branch_id', $request->branch_id);
-                });
-            }
+        //     $query->where('project_id', $request->project_id);
+        // }
 
-            $branchId = null;
-
-            if (Auth::user()->is_superadmin != 1) {
-                $branchId = UserBranch::where('user_id', Auth::id())->value('branch_id');
-
-                if ($branchId) {
-                    $employees->whereHas('officialInformation', function ($q) use ($branchId) {
-                        $q->where('branch_id', $branchId);
-                    });
-                }
-            }
-
-
-            if (!empty($request->department_id)) {
-                $employees->whereHas('officialInformation', function ($q) use ($request) {
-                    $q->where('department_id', $request->department_id);
-                });
-            }
-
-            if (!empty($request->designation_id)) {
-                $employees->whereHas('officialInformation', function ($q) use ($request) {
-                    $q->where('designation_id', $request->designation_id);
-                });
-            }
-
-            if (!empty($request->employee_id)) {
-                $employees->where('id', $request->employee_id);
-            }
-
-            return DataTables::of($employees)
-                ->addIndexColumn() // Adds SL number
-                ->addColumn('employee', function ($employee) {
-                    return '
-                        <a href="' . route('employee.profile.view', $employee->id) . '">
-                            <i class="bx bx-user-circle"></i> ' .
-                        ($employee->salutations ? $employee->salutations->name : "") . ' ' .
-                        $employee->first_name . ' ' . $employee->last_name . '
-                        </a>
-                        <br/>' .
-                        ($employee->officialInformation && $employee->officialInformation->designation ? $employee->officialInformation->designation->designation_name : "N/A") . '
-                        <br/><i class="bx bx-id-card bx-flashing"></i> ' . $employee->emp_id;
-                })
-                ->addColumn('official', function ($employee) {
-                    $branch = $employee->officialInformation && $employee->officialInformation->branch ? $employee->officialInformation->branch->name : "N/A";
-                    $department = $employee->officialInformation && $employee->officialInformation->department ? $employee->officialInformation->department->department_name : "N/A";
-                    $reportingPerson = $employee->officialInformation && $employee->officialInformation->reportingfirst
-                        ? '<br/><b>Reporting Person:</b> <a href="#" class="client-info"><i class="bx bx-user-voice"></i> ' . $employee->officialInformation->reportingfirst->first_name . ' ' . $employee->officialInformation->reportingfirst->last_name . '</a>'
-                        : '';
-                    return '<span><i class="bx bx-buildings bx-flashing"></i> ' . $branch . '<br/></span>' . $department . $reportingPerson;
-                })
-                ->addColumn('contact', function ($employee) {
-                    $contactInfo = '';
-                    if ($employee->contact && $employee->contact->contact_number) {
-                        $contactInfo .= '<a href="tel:' . $employee->contact->contact_number . '" class="client-info">
-                                            <i class="bx bx-phone-outgoing bx-tada"></i> ' . $employee->contact->contact_number . '
-                                        </a><br/>';
-                    }
-                    if ($employee->contact && $employee->contact->whatsapp) {
-                        $contactInfo .= '<a href="https://wa.me/' . $employee->contact->whatsapp . '" class="client-info">
-                                            <i class="bx bxl-whatsapp bx-tada"></i> ' . $employee->contact->whatsapp . '
-                                        </a><br/>';
-                    }
-                    if ($employee->contact && $employee->contact->email) {
-                        $contactInfo .= '<a href="mailto:' . $employee->contact->email . '" class="client-info">
-                                            <i class="bx bx-mail-send bx-tada"></i> ' . $employee->contact->email . '
-                                        </a>';
-                    }
-                    return $contactInfo ?: 'N/A';
-                })
-                ->addColumn('shift', function ($employee) {
-                    return $employee->payRollInformation && $employee->payRollInformation->shift
-                        ? $employee->payRollInformation->shift->shift_name . '<br/>' .
-                        \Carbon\Carbon::parse($employee->payRollInformation->shift->start_time)->format('h.i A') .
-                        ' to ' .
-                        \Carbon\Carbon::parse($employee->payRollInformation->shift->end_time)->format('h.i A')
-                        : 'N/A';
-                })
-                ->addColumn('week_off', function ($employee) {
-                    return $employee->payRollInformation && $employee->payRollInformation->holiday
-                        ? $employee->payRollInformation->holiday->name
-                        : 'N/A';
-                })
-                ->addColumn('status', function ($employee) {
-                    return '<form action="' . route('employee.toggle', $employee->id) . '" method="POST" class="status-form" style="display: inline;">
-                                ' . csrf_field() . '
-                                <button type="button" class="toggle-status  btn status-box-1 btn ' . ($employee->status == 1 ? 'btn-success' : 'btn-danger') . '"
-                                    data-bs-toggle="tooltip" data-bs-title="Click to change Status">
-                                    ' . ($employee->status == 1 ? 'Active' : 'Inactive') . '
-                                </button>
-                            </form>';
-                })
-                ->addColumn('additional', function ($employee) {
-                    return ' <a class="btn btn-label-primary btn-round btn-xs" href="' . route('employee.document.create', $employee->id) . '">
-                                <i class="bx bx-cloud-download bx-flashing"></i> Documents
-                            </a>';
-                })
-                ->addColumn('action', function ($employee) {
-                    $actions = '<div class="form-button-action">';
-
-                    // Profile View Button (Always Visible)
-                    $actions .= '<a class="btn btn-link btn-info btn-lg"
-                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-custom-class="custom-tooltip"
-                                    data-bs-title="Profile View"
-                                    href="' . route('employee.profile.view', $employee->id) . '">
-                                    <i class="bx bx-show-alt"></i>
-                                </a>';
-
-                    // Edit Button (Visible Only If User Has Permission)
-                    if (auth()->user()->can('Update Employee')) {
-                        $actions .= '<a class="btn btn-link btn-success btn-lg" data-bs-toggle="tooltip" data-bs-title="Edit"
-                                        href="' . route('employee.edit', $employee->id) . '">
-                                        <i class="bx bxs-edit"></i>
-                                    </a>';
-                    }
-
-                    // Delete Button (Visible Only If User Has Permission)
-                    if (auth()->user()->can('Delete Employee')) {
-                        $actions .= '<a href="' . route('employee.destroy', $employee->id) . '"
-                                        class="btn btn-link btn-danger btn-lg delete-employee"
-                                        data-employee-id="' . $employee->id . '"
-                                        data-bs-toggle="tooltip" data-bs-title="Delete">
-                                        <i class="bx bx-trash-alt"></i>
-                                    </a>';
-                    }
-
-                    $actions .= '</div>';
-
-                    return $actions;
-                })
-                ->rawColumns(['employee', 'official', 'contact', 'shift', 'week_off', 'status', 'additional', 'action']) // Allow HTML
-                ->make(true);
+        if ($request->filled('agency_id')) {
+            $query->where('agency', $request->agency_id);
         }
 
+        if ($request->filled('salesman_id')) {
+            $query->where('salesman', $request->salesman_id);
+        }
+
+        if ($request->filled('customer_id')) {
+            $query->where('id', $request->customer_id);
+        }
+
+        $customers = $query->orderBy('id', 'desc')->paginate(20);
+        
+        // dd($customers);
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('admin.employee.partials.customer_list', compact('customers'))->render()
+            ]);
+        }
+
+        return view('admin.employee.index', compact('branches', 'departments', 'customers', 'agencies', 'projects'));
+    }
+
+    public function index_old(Request $request)
+    {
+        $projects = ProjectList::where('status', true)->get();
         $branches = Branch::where('status', 1)->orderBy('name', 'asc')->get();
         $departments = Department::where('status', 1)->get();
         $customers = EmployeePersonalInformation::with(['nominees', 'gong', 'attachments'])->orderBy('id', 'desc')->paginate(20);
-
-        return view('admin.employee.index', compact('branches', 'departments', 'customers'));
+        $agencies = Agency::orderBy('id', 'desc')->get();
+        return view('admin.employee.index', compact('branches', 'departments', 'customers', 'agencies', 'projects'));
     }
     public function create()
     {

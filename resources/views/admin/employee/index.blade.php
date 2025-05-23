@@ -16,11 +16,11 @@
                             @if (auth()->user()->is_superadmin == 1)
                             <div class="col-xl-3">
                                 <div class="mb-3">
-                                    <label for="">Branch</label>
-                                    <select name="selectBranch" id="selectBranch" class="form-control select2">
-                                        <option value="">Select Branch</option>
-                                        @foreach ($branches as $branch)
-                                            <option value="{{$branch->id}}">{{$branch->name}} ({{$branch->branch_code}})</option>
+                                    <label for="">Project Name</label>
+                                    <select name="project" id="project" class="form-control">
+                                        <option value="">Select Project</option>
+                                        @foreach ($projects as $project)
+                                            <option value="{{$project->id}}">{{$project->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -28,31 +28,37 @@
                             @endif
                             <div class="col-xl-3">
                                 <div class="mb-3">
-                                    <label for="">Department</label>
-                                    <select name="selectDepartment" id="selectDepartment" class="form-control select2">
-                                        <option value="">Select Department</option>
-                                        @foreach ($departments as $department)
-                                            <option value="{{$department->id}}">{{$department->department_name}}</option>
+                                    <label for="">Agency Name</label>
+                                    <select class="form-select customer_agency_name " id="customer_agency_name" name="customer_agency_name">
+                                        <option selected disabled>-- Select Agency --</option>
+                                        @foreach ($agencies as $agency)
+                                            <option value="{{ $agency->id }}">{{ $agency->agency_name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                             <div class="col-xl-3">
                                 <div class="mb-3">
-                                    <label for="">Designation</label>
-                                    <select name="selectDesignation" id="selectDesignation" class="form-control select2">
-                                        <option value="">Select Designation</option>
+                                    <label for="">Salesman</label>
+                                    <select class="form-select customer_salesman_name" id="customer_salesman_name" name="customer_salesman_name">
+                                        <option selected disabled>-- Select Salesman --</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-xl-3">
                                 <div class="mb-3">
-                                    <label for="">Employee</label>
-                                    <select name="selectEmployee" id="selectEmployee" class="form-control select2">
-                                        <option value="">Select Employee</option>
+                                    <label for="">Customer</label>
+                                    <select class="form-select customer_name" id="customer_name" name="customer_name">
+                                        <option selected disabled>-- Select Customer --</option>
                                     </select>
                                 </div>
                             </div>
+                            {{-- <div class="col-xl-10">
+            
+                            </div>
+                            <div class="col-xl-2" style="text-align: right; border-radius:5px">
+                                <button type="button" id="search_btn" class="btn btn-sm btn-primary search_btn">search</button>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -81,8 +87,8 @@
                             <div id="add-row_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <table  class="display table table-striped table-hover" role="grid"
-                                            aria-describedby="add-row_info" id="employeeTable">
+                                        <table  class="display table table-striped table-hover customer-list" role="grid"
+                                            aria-describedby="add-row_info" id="customer-list">
                                             <thead class="">
                                                 <tr role="row">
                                                 <th>Sl</th>
@@ -90,7 +96,7 @@
                                                 <th>Father's Name </th>
                                                 <th>Contact Information </th>
                                                 <th>Plot No </th>
-                                                <th>NID Number</th>
+                                                {{-- <th>NID Number</th> --}}
                                                 <th>Status</th>
                                                 <th>Additional</th>
                                                 <th>Action</th>
@@ -98,65 +104,12 @@
                                             </thead>
                                             <tbody>
                                             
-                                                @foreach($customers as $key => $customer)
-                                                    <tr role="row">
-                                                        <td class="text-center">{{ $customers->firstItem() + $key }}</td>
-                                                        <td>
-                                                            <i class='bx bx-user-circle'></i> {{ $customer->name }} 
-                                                            <br/>{{ $customer->permanent_address ?? 'N/A' }}
-                                                            <br/><i class='bx bx-id-card bx-flashing'></i> ID-{{ $customer->code }}
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <a href="#" class="client-info">
-                                                                <i class='bx bx-user-voice'></i> {{ $customer->father_name ?? 'N/A' }}
-                                                            </a>
-                                                        </td>
-                                                        <td>
-                                                            <a href="tel:{{ $customer->number }}" class="client-info">
-                                                                <i class='bx bx-phone-outgoing bx-tada'></i> {{ $customer->number }}
-                                                            </a><br/>
-                                                            <a href="tel:{{ $customer->contact_number_res ?? $customer->contact_number_res }}" class="client-info">
-                                                                <i class='bx bxl-whatsapp bx-tada'></i> {{ $customer->contact_number_res ?? 'N/A' }}
-                                                            </a><br/>
-                                                            <a href="mailto:{{ $customer->email }}" class="client-info">
-                                                                <i class='bx bx-mail-send bx-tada'></i> {{ $customer->email ?? 'N/A' }}
-                                                            </a>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            {{ $customer->plot_no ?? 'N/A' }}
-                                                        </td>
-                                                        <td class="text-center">
-                                                            {{ $customer->passport_no ?? 'N/A' }}
-                                                        </td>
-                                                        <td>
-                                                            <button class="btn {{ $customer->is_active == 1 ? 'status-box-1' : 'status-box-2' }}">
-                                                                {{ $customer->is_active == 1 ? 'Active' : 'Inactive' }}
-                                                            </button>
-                                                        </td>
-                                                        <td>
-                                                            <button class="btn btn-label-primary btn-round btn-xs" data-bs-toggle="modal" data-bs-target="#addRowModal-documents">
-                                                                <i class='bx bx-cloud-download bx-flashing me-1'></i> Documents
-                                                            </button>
-                                                        </td>
-                                                        <td>
-                                                            <div class="form-button-action">
-                                                                <a href="{{route('customer.profile.view', $customer->id)}}" class="btn btn-link btn-secondary btn-lg" title="View">
-                                                                    <i class='bx bx-show'></i>
-                                                                </a>
-                                                                <a href="{{route('customer.edit', $customer->id)}}" class="btn btn-link  btn-lg" title="Edit">
-                                                                    <i class='bx bxs-edit'></i>
-                                                                </a>
-                                                                <form action="{{route('customer.destroy', $customer->id)}}" method="POST" style="display:inline;" id="delete-customer" class="delete-customer">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                    <button type="button" class="btn btn-link btn-danger btn-lg" >
-                                                                        <i class='bx bx-trash-alt'></i>
-                                                                    </button>
-                                                                </form>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    @endforeach
+                                                <tbody id="customer-list-body">
+                                                    @include('admin.employee.partials.customer_list', ['customers' => $customers])
+                                                </tbody>
+                                                {{-- <tbody id="customer-list-body">
+                                                    @include('admin.employee.partials._customer_list', ['customers' => $customers])
+                                                </tbody> --}}
                                             </tbody>
                                         
                                         </table>
@@ -165,6 +118,7 @@
                                             {{ $customers->links('pagination::bootstrap-4') }}
                                         </div>
                                     </div>
+                                   
                                 </div>
                             </div>
                         </div>
@@ -195,6 +149,52 @@
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
    {{-- ******dynamic Employee datatable  ******* --}}
+
+<script>
+    // Wrap AJAX call in a function for reuse
+    function fetchFilteredCustomers() {
+        $.ajax({
+            url: "{{ route('customer.index') }}",
+            type: 'GET',
+            data: {
+                project_id: $('#project').val(),
+                agency_id: $('#customer_agency_name').val(),
+                salesman_id: $('#customer_salesman_name').val(),
+                customer_id: $('#customer_name').val(),
+            },
+            success: function (response) {
+                $('#customer-list-body').html(response.html);
+            }
+        });
+    }
+
+    // Trigger on change for all search fields
+    $('#project, #customer_agency_name, #customer_salesman_name, #customer_name').on('change', function () {
+        fetchFilteredCustomers();
+    });
+
+    $(document).ready(function() {
+        $('#customer_salesman_name').select2({
+            placeholder: "-- Select Salesman --",
+            allowClear: true
+        });
+
+        $('#customer_name').select2({
+            placeholder: "-- Select Customer --",
+            allowClear: true
+        });
+
+        $('#customer_agency_name').select2({
+            placeholder: "-- Select Agency --",
+            allowClear: true
+        });
+        $('#project').select2({
+            placeholder: "-- Select Project --",
+            allowClear: true
+        });
+            
+    });
+</script>
 <script>
     
     document.querySelectorAll('.delete-customer').forEach(function(form) {
@@ -233,53 +233,54 @@
     });
 
     $(document).ready(function () {
-        let table = $('#employeeTable').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: {
-                url: "{{ route('customer.index') }}", // Your route to fetch data
-                data: function (d) {
-                    d.branch_id = $('#selectBranch').val();
-                    d.department_id = $('#selectDepartment').val();
-                    d.designation_id = $('#selectDesignation').val();
-                    d.employee_id = $('#selectEmployee').val();
-                }
-            },
-            columns: [
-                { data: 'DT_RowIndex', name: 'DT_RowIndex', className: "text-center", orderable: false, searchable: false },
-                { data: 'employee', name: 'employee', className: "text-center" },
-                { data: 'official', name: 'official', className: "text-center" },
-                { data: 'contact', name: 'contact', className: "text-center" },
-                { data: 'shift', name: 'shift', className: "text-center" },
-                // { data: 'week_off', name: 'week_off', className: "text-center" },
-                { data: 'status', name: 'status', className: "text-center" },
-                { data: 'additional', name: 'additional', className: "text-center" },
-                { data: 'action', name: 'action', orderable: false, searchable: false, className: "text-center" }
-            ],
-            // dom: 'Bfrtip', // Add buttons for export options
-            // buttons: [
-            //     {
-            //         extend: 'excelHtml5',
-            //         text: '<i class="bx bx-file"></i> Export Excel',
-            //         className: 'btn btn-success',
-            //         title: 'Employee list'
-            //     },
-            //     {
-            //         extend: 'pdfHtml5',
-            //         text: '<i class="bx bx-file"></i> Export PDF',
-            //         className: 'btn btn-danger',
-            //         title: 'Employee list',
-            //         orientation: 'landscape',
-            //         pageSize: 'A4'
-            //     }
-            // ]
-        });
 
         $('.select2, .datepicker').on('change', function () {
             table.draw();  // Reload DataTable with new filter values
         });
 
+        $('.customer_agency_name').on('change', function () {
 
+            var customer_agency_nameId = $(this).val();
+
+            if (customer_agency_nameId) {
+                $.ajax({
+                    url: "{{ url('/dashboard/get_salesman_by_agency') }}/" + customer_agency_nameId,
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        $('.customer_salesman_name').empty();
+                        $('.customer_salesman_name').append('<option value="">--select Salesman--</option>');
+                        $.each(data, function (key, value) {
+                            $('.customer_salesman_name').append('<option value="' + value.id + '">' + value.salesman_name + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('.customer_salesman_name').empty();
+                $('.customer_salesman_name').append('<option value="">--select--</option>');
+            }
+        });
+
+        $('.customer_salesman_name').on('change', function () {
+            var customer_salesman_nameId = $(this).val();
+            if (customer_salesman_nameId) {
+                $.ajax({
+                    url: "{{ url('/dashboard/get_customer_by_salesman') }}/" + customer_salesman_nameId,
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        $('.customer_name').empty();
+                        $('.customer_name').append('<option value="">--select Customer--</option>');
+                        $.each(data, function (key, value) {
+                            $('.customer_name').append('<option value="' + value.id + '">' + value.name + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('.customer_name').empty();
+                $('.customer_name').append('<option value="">--select--</option>');
+            }
+        });
         
 
         $(document).on('click','.toggle-status',function (e) {
@@ -334,59 +335,8 @@
             }
         }
 
-        // Event listener for the create modal
-        $('#selectDepartment').change(function () {
-            var departmentId = $(this).val();
-            loadDesignations(departmentId, '#selectDesignation');
-        });
 
-        function loadEmployee(designationId, employeeselectId) {
-            if (designationId) {
-                if($('#selectBranch').val() != null){
-                    var branchId = $("#selectBranch").val();
-                }
-                var departmentId = $("#selectDepartment").val();
 
-                var data = {
-                    branchId: branchId,
-                    designationId: designationId,
-                    departmentId: departmentId
-                };
-
-                $.ajax({
-                    url: '/dashboard/get-department-designation-employee' , // Route for Employee
-                    type: 'GET',
-                    data: data,
-                    success: function (data) {
-
-                        var employeeSelect = $(employeeselectId);
-                        employeeSelect.empty(); // Clear previous Employee
-                        employeeSelect.append(
-                            '<option value="" >Select Employee</option>');
-
-                        // Loop through and append Employee to the dropdown
-                        $.each(data, function (key, employee) {
-                            employeeSelect.append('<option value="' + employee.id +'">' +
-                                 employee.first_name + ' '+ employee.last_name + '('+ employee.last_name +')'+
-                            '</option>');
-                        });
-                    },
-                    error: function () {
-                        alert('Failed to load Employee. Please try again.');
-                    }
-                });
-            } else {
-                var employeeSelect = $(employeeselectId);
-                employeeSelect.empty();
-                employeeSelect.append('<option value="" >Select Employee</option>');
-            }
-        }
-
-        // Event listener for the create modal
-        $('#selectDesignation').change(function () {
-            var designationId = $(this).val();
-            loadEmployee(designationId, '#selectEmployee');
-        });
     });
 </script>
 

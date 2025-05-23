@@ -82,7 +82,7 @@
                             <div id="add-row_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <table  class="display table table-striped table-hover" role="grid"
+                                        <table  class="display table table-striped table-hover text-center" role="grid"
                                             aria-describedby="add-row_info" id="employeeTable">
                                             <thead class="">
                                                 <tr role="row">
@@ -124,12 +124,12 @@
                                                      
                                                         <td>
                                                             <div class="form-button-action">
-                                                                <a href="{{route('customer.profile.view', $plot_sale_data->id)}}" class="btn btn-link btn-secondary btn-lg" title="View">
+                                                                {{-- <a href="{{route('customer.profile.view', $plot_sale_data->id)}}" class="btn btn-link btn-secondary btn-lg" title="View">
                                                                     <i class='bx bx-show'></i>
                                                                 </a>
                                                                 <a href="{{route('customer.edit', $plot_sale_data->id)}}" class="btn btn-link  btn-lg" title="Edit">
                                                                     <i class='bx bxs-edit'></i>
-                                                                </a>
+                                                                </a> --}}
                                                                 <form action="{{route('plot.sale.destroy', $plot_sale_data->id)}}" method="POST" style="display:inline;" id="delete-sale" class="delete-sale">
                                                                     @csrf
                                                                     @method('DELETE')

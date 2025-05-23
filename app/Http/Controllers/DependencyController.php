@@ -116,7 +116,7 @@ class DependencyController extends Controller
             $get_customer=PlotSale::where('plot_id', $value->id)->first();
             if ($get_customer) {
                 $data['customer_name']=$get_customer->customer->name ?? null;
-                $data['total_amount']=$get_customer->total_amount ?? null;
+                $data['total_amount']=$get_customer->total_amount    ?? null;
                 $data['agency']=$get_customer->agency->agency_name ?? null;
                 $data['salesman']=$get_customer->customer->get_salesman->salesman_name ?? null;
             } else {

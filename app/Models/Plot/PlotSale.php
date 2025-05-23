@@ -37,6 +37,8 @@ class PlotSale extends Model
         return $this->belongsTo(Salesman::class, 'plot_id');
     }
 
+    
+
     public function moneyReceipts()
     {
         return $this->hasMany(MoneyReceipt::class, 'booking_id');
