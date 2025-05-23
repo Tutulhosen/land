@@ -65,26 +65,36 @@
                                     <i class='bx bx-message-square-add bx-tada'></i>Money Recipet List</a>
                             </div>
                         </div>
-                        <form class="needs-validation" novalidate="" id="invoice_form">
-                            <div class="card-body">
+                        <form class="needs-validation" novalidate id="invoice_form" method="POST"
+                            action="{{ route('money.receipt.store') }}">
+                            @csrf <div class="card-body">
                                 <!--invoice-1st-part-->
                                 <div class="row invoice-1st-part">
                                     <div class="col-sm-4">
                                         <div class="form-group">
-                                            <input type="text" class="form-control custom-input" id="email2"
-                                                placeholder="Goldeneye Developers LTD">
+                                            {{-- <input type="text" class="form-control custom-input" id="email2"
+                                                placeholder="Goldeneye Developers LTD"> --}}
+                                            <select name="project_id" id="project_id"
+                                                class="form-select form-control custom-input select2">
+                                                <option value="">Select a Project</option>
+                                                @foreach ($project_lists as $project)
+                                                    <option value="{{ $project->id }}">{{ $project->name }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="form-group">
-                                            <input type="text" class="form-control custom-input" id="email2"
-                                                placeholder="Money Recipet No." value="{{$serialNo}}" readonly>
+                                            <input name="mr_code" type="text" class="form-control custom-input"
+                                                id="email2" placeholder="Money Recipet No." value="{{ $serialNo }}"
+                                                readonly>
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="form-group">
-                                            <input type="text" class="form-control custom-input" id="email2"
-                                                placeholder="Money Receipt Date" value="<?php echo date('Y-m-d'); ?>" readonly>
+                                            <input name="reg_date" type="text" class="form-control custom-input"
+                                                id="email2" placeholder="Money Receipt Date" value="<?php echo date('Y-m-d'); ?>"
+                                                readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -96,7 +106,7 @@
                                                 <h5 class="invoice-title-1">Money Recipet To:</h5>
                                                 <!-- Customer Select -->
                                                 <select name="customer_id" id="customer_id"
-                                                    class="form-select form-control custom-input">
+                                                    class="form-select form-control custom-input select2">
                                                     <option value="">Select a Customer</option>
                                                     @foreach ($customers as $customer)
                                                         <option value="{{ $customer->id }}">{{ $customer->name }}</option>
@@ -105,7 +115,7 @@
 
                                                 <!-- Plot Select (will be filled by Ajax) -->
                                                 <div class="form-group mt-2">
-                                                    <select name="plot_no" id="plot_no"
+                                                    <select name="booking_id" id="plot_no"
                                                         class="form-select form-control custom-input">
                                                         <option value="">Select Plot</option>
                                                         <!-- Plot options will be appended here -->
@@ -128,36 +138,36 @@
                                                         placeholder="Amount">
                                                 </div> --}}
                                                 <div class="form-group" id="bank_field">
-                                                    <input type="text" class="form-control custom-input" id="bank"
-                                                        placeholder="Bank">
+                                                    <input name="bank_name" type="text" class="form-control custom-input"
+                                                        id="bank" placeholder="Bank">
                                                 </div>
                                                 <div class="form-group" id="cheque_number_field" style="display: none;">
-                                                    <input type="text" class="form-control custom-input"
-                                                        id="cheque_number" placeholder="Cheque Number">
+                                                    <input name="cheque_number" type="text"
+                                                        class="form-control custom-input" id="cheque_number"
+                                                        placeholder="Cheque Number">
                                                 </div>
                                                 <div class="form-group" id="cheque_date_field" style="display: none;">
                                                     <label for="cheque_date">Cheque Date</label>
-                                                    <input type="date" class="form-control custom-input"
-                                                        id="cheque_date">
+                                                    <input name="cheque_date" type="date"
+                                                        class="form-control custom-input" id="cheque_date">
                                                 </div>
                                             </div>
                                             <!--end col-->
                                             <div class="col-lg-5 ms-auto">
                                                 <h5 class="invoice-title-1">Transaction Summary:</h5>
-                                                <table class="table table-bordered">
+                                                <table class="table table-bordered table-striped">
                                                     <tbody>
                                                         <tr>
                                                             <td style="font-weight: 500">Total Price</td>
-                                                            <td>0</td>
+                                                            <td id="total_amount">0</td>
                                                         </tr>
                                                         <tr>
                                                             <td style="font-weight: 500">Installment Amount</td>
-                                                            <td>0</td>
+                                                            <td id="installment_amount">0</td>
                                                         </tr>
-
                                                         <tr>
                                                             <td style="font-weight: 500">Booking Amount</td>
-                                                            <td>0</td>
+                                                            <td id="booking_amount">0</td>
                                                         </tr>
                                                         <tr>
                                                             <td style="font-weight: 500">At a Time</td>
@@ -165,21 +175,19 @@
                                                         </tr>
                                                         <tr>
                                                             <td style="font-weight: 500">Down Payment Amount</td>
-                                                            <td>0</td>
+                                                            <td id="down_payment">0</td>
                                                         </tr>
-
                                                         <tr>
                                                             <td style="font-weight: 500">Total Recive Amount</td>
-                                                            <td>0</td>
+                                                            <td id="total_recieved">0</td>
                                                         </tr>
                                                         <tr>
                                                             <td style="font-weight: 500">Total Due</td>
-                                                            <td>0</td>
+                                                            <td id="total_due">0</td>
                                                         </tr>
-
-
                                                     </tbody>
                                                 </table>
+
                                             </div>
                                         </div>
                                     </div>
@@ -208,7 +216,7 @@
                                                         <th scope="row" class="product-id">1</th>
                                                         <td class="text-start  ">
                                                             <div class="form-group" style="width: 35%">
-                                                                <select style="width: 150px;"
+                                                                <select name="payment_type" style="width: 150px;"
                                                                     class="form-select form-control custom-input"
                                                                     id="defaultSelect" placeholder="Expense By"
                                                                     id="payment_type">
@@ -229,28 +237,30 @@
                                                         </td>
                                                         <td class="installment-data text-end">
                                                             <div class="form-group">
-                                                                <input type="number" class="form-control custom-input"
+                                                                <input name="installment_no" type="number"
+                                                                    class="form-control custom-input"
                                                                     placeholder="Inst No">
                                                             </div>
                                                         </td>
                                                         <td class="installment-data">
                                                             <div class="form-group d-flex align-items-center gap-2">
-                                                                <input type="month" class="form-control custom-input"
-                                                                    id="start_month" placeholder="From Month"
-                                                                    style="max-width: 120px;">
+                                                                <input name="start_month" type="month"
+                                                                    class="form-control custom-input" id="start_month"
+                                                                    placeholder="From Month" style="max-width: 120px;">
 
                                                                 <span class="fw-bold">to</span>
 
-                                                                <input type="month" class="form-control custom-input"
-                                                                    id="end_month" placeholder="To Month"
-                                                                    style="max-width: 120px;">
+                                                                <input name="end_month" type="month"
+                                                                    class="form-control custom-input" id="end_month"
+                                                                    placeholder="To Month" style="max-width: 120px;">
                                                             </div>
                                                         </td>
 
                                                         <td class="text-end  ">
                                                             <div class="form-group">
-                                                                <input type="number" class="form-control custom-input"
-                                                                    id="mainTotalAmount" placeholder="Total Amount">
+                                                                <input name="amount" type="number"
+                                                                    class="form-control custom-input" id="mainTotalAmount"
+                                                                    placeholder="Total Amount">
 
                                                             </div>
                                                         </td>
@@ -339,22 +349,23 @@
                                     <div class="col-lg-7">
                                         <h5 class="invoice-title-1">Terms & Conditions:</h5>
                                         <div class="form-group">
-                                            <textarea class="form-control custom-input" id="comment" placeholder="Address"> </textarea>
+                                            <textarea name="termsAndCondition" class="form-control custom-input" placeholder="Terms & Conditions:"> </textarea>
                                         </div>
                                     </div>
                                     <!--end col-->
                                     <div class="col-lg-7">
                                         <h5 class="invoice-title-1">Note:</h5>
                                         <div class="form-group">
-                                            <textarea class="form-control custom-input" id="comment" placeholder="Address"> </textarea>
+                                            <textarea name="note" class="form-control custom-input" placeholder="Note"> </textarea>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="hstack gap-2 justify-content-end d-print-none mt-4">
                                     <a href="#" class="cancel-button-1"><i class='bx bx-printer bx-flashing'></i>
                                         Print</a>
-                                    <a href="#" class="submit-button-1"><i class='bx bx-upload bx-flashing'></i>
-                                        Create Invoice</a>
+                                    <button type="submit" href="#" class="submit-button-1"
+                                        style="border: none"><i class='bx bx-upload bx-flashing'></i>
+                                        Create Invoice</button>
                                 </div>
                             </div>
                     </div>
@@ -378,13 +389,17 @@
                         url: '/dashboard/plot-bookings/' + customerId,
                         type: 'GET',
                         success: function(response) {
-                            console.log(response)
+                            // console.log(response)
                             $('#plot_no').empty().append(
                                 '<option value="">Select Plot</option>');
                             response.forEach(function(booking) {
                                 $('#plot_no').append('<option value="' + booking
-                                    .code + '">' + booking.code + '</option>');
+                                    .id + '">' + booking.plot_details.road.sector
+                                    .sector_name + '-' + booking.plot_details.road
+                                    .road_name + '-' + booking.plot_details
+                                    .plot_name + '</option>');
                             });
+
                         },
                         error: function() {
                             alert('Plot data not found!');
@@ -458,14 +473,12 @@
             $('#mainTotalAmount').on('input', function() {
                 const value = $(this).val();
 
-                // ইনপুট ফিল্ডে ভ্যালু সেট করা
                 $('#summaryTotalAmount').val(value).prop('readonly', true);
                 $('#paidAmount').val(value).prop('readonly', true);
                 $('#balanceAmount').val('0.00').prop('readonly', true);
                 $('#payment_type_amount').val(value);
 
-                // স্প্যানে ভ্যালু দেখানো
-                $('#payment_type_amount_text').text(value); // এই span এর id হবে নিচে দেখানো মতো
+                $('#payment_type_amount_text').text(value);
             });
 
 
@@ -473,8 +486,7 @@
                 const selectedText = $('#defaultSelect option:selected').text();
                 const selectedValue = $(this).val();
                 const customer_name = $('#customer_id option:selected').text();
-                const total_amount = $('#mainTotalAmount').val(); // total amount field থেকে নিচ্ছে
-
+                const total_amount = $('#mainTotalAmount').val();
                 if (selectedValue !== '') {
                     $('#payment_type_name').text(selectedText);
                     $('#customer_name').text(customer_name);
@@ -498,6 +510,53 @@
                 if (start && end && start > end) {
                     alert("End Month must be after Start Month");
                     $('#end_month').val('');
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#plot_no').on('change', function() {
+                var bookingId = $(this).val();
+
+                if (bookingId) {
+                    $.ajax({
+                        url: '/dashboard/plot-booking/' + bookingId,
+                        type: 'GET',
+                        success: function(response) {
+                            const installment = parseInt(response.booking?.installment_amount ||
+                                0);
+                            const bookingAmount = parseInt(response.booking_amount?.amount ||
+                                0);
+                            const downPayment = parseInt(response.down_payment?.amount || 0);
+
+                            const total_recieved = installment + bookingAmount + downPayment;
+                            // console.log(total_recieved);
+                            const total_due = parseInt(response.booking?.total_amount) -
+                                total_recieved;
+
+                            if (response) {
+                                $('#total_amount').text(response.booking?.total_amount || 0);
+                                $('#installment_amount').text(installment);
+                                $('#booking_amount').text(bookingAmount);
+                                $('#down_payment').text(downPayment);
+                                $('#total_recieved').text(total_recieved);
+                                $('#total_due').text(total_due);
+                            } else {
+                                $('#total_amount').text('0');
+                                $('#installment_amount').text('0');
+                                $('#booking_amount').text('0');
+                                $('#down_payment').text('0');
+                            }
+                        },
+                        error: function(e) {
+                            console.log(e)
+                            $('#total_amount').text('0');
+                        }
+                    });
+                } else {
+                    $('#total_amount').text('0');
                 }
             });
         });
