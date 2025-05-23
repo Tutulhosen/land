@@ -121,6 +121,9 @@ Route::middleware(['auth:admin', 'verified'])->group(function () {
         Route::get('/money/receipt/create-mr', 'createMr')->name('money.receipt.createMr');
         Route::get('/money/receipt/approved-mr', 'approvedMr')->name('money.receipt.approvedMr');
         Route::post('/money/receipt/store', 'store')->name('money.receipt.store');
+        Route::get('/money/receipt/edit/{id}', 'edit')->name('money.receipt.edit');
+        Route::put('/money/receipt/update/{id}', 'update')->name('money.receipt.update');
+        Route::delete('/money/receipt/destroy/{id}', 'destroy')->name('money.receipt.destroy');
 
         // ! Plot booking based on cutomer
         Route::get('/plot-bookings/{cutomerId}', 'bookingPlotByCustomerId')->name('bookings.plot');

@@ -187,48 +187,90 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr role="row" class="odd">
-                                                        <td class="sorting_1 text-center">01</td>
-                                                        <td><a href="#" class="client-info"><i
-                                                                    class='bx bx-user-voice'></i> Abdullah Al Fahad </a>
-                                                            <br />
-                                                            <b>Managing Director</b>
-                                                            <br />
-                                                            <a href="tel:9200368090" class="client-info"><i
-                                                                    class='bx bxl-whatsapp bx-tada'></i> +8801844674502</a>
-                                                            <br />
-                                                            <a href="mailto:needhelp@company.com" class="client-info"><i
-                                                                    class='bx bx-mail-send bx-tada'></i>
-                                                                zwellhomes@gmail.com </a>
-                                                        </td>
-                                                        <td class="text-center">Onirban Bangladesh
-                                                            <br /><b>Industry:</b> Agent
-                                                        </td>
-                                                        <td class="text-center">
-                                                            Instalment
-                                                        </td>
-                                                        <td class="text-center"><b>85,000</b> <small>BDT</small></td>
-                                                        <td class="text-center">
-                                                            <i class='bx bx-user-circle'></i> Amit Roy
-                                                            <br /><b>Commission:</b> 20%
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <button class="btn status-box-1">Approved</button>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <div class="form-button-action">
-                                                                <button class="btn btn-primary btn-link btn-lg me-2"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#addRowModal-generate-salary">
-                                                                    <i class='bx bxs-edit bx-tada'></i> </button>
-                                                                <button class="btn btn-danger btn-link btn-lg "
-                                                                    data-bs-toggle="tooltip" data-bs-title="Edit Salary">
-                                                                    <i class='bx bx-trash-alt'></i> </button>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
+                                                    @foreach ($moneyReceipts as $item)
+                                                        {{-- @dd($item); --}}
+                                                        <tr role="row" class="odd">
+                                                            <td class="sorting_1 text-center">{{ $item->mr_code }}</td>
+                                                            <td><a href="#" class="client-info"><i
+                                                                        class='bx bx-user-voice'></i> {{ $item->name }}
+                                                                </a>
+                                                                <br />
+                                                                <b>{{ $item->designation }}</b>
+                                                                <br />
+                                                                <a href="{{ $item->phone }}" class="client-info"><i
+                                                                        class='bx bxl-whatsapp bx-tada'></i>
+                                                                    {{ $item->phone }}</a>
+                                                                <br />
+                                                                <a href="{{ $item->email }}}}" class="client-info"><i
+                                                                        class='bx bx-mail-send bx-tada'></i>
+                                                                    {{ $item->email }} </a>
+                                                            </td>
+                                                            <td class="text-center">Onirban Bangladesh
+                                                                <br /><b>Industry:</b> Agent
+                                                            </td>
+                                                            @php
+                                                                $paymentTypes = [
+                                                                    1 => 'Down Payment',
+                                                                    2 => 'Installment',
+                                                                    3 => 'Booking',
+                                                                    4 => 'Name Transfer Fee',
+                                                                    5 => 'Registration Fees',
+                                                                    6 => 'At a Time',
+                                                                    7 => 'Sand Filling',
+                                                                    8 => 'Plot Transfer Fee',
+                                                                    9 => 'Mutation',
+                                                                ];
+                                                            @endphp
+
+                                                            <td class="text-center">
+                                                                {{ $paymentTypes[$item->payment_type] ?? 'Unknown' }}
+                                                            </td>
+
+                                                            <td class="text-center"><b>{{ $item->amount }}</b>
+                                                                <small>BDT</small>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <i class='bx bx-user-circle'></i> Amit Roy
+                                                                <br /><b>Commission:</b> 20%
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @if ($item->is_active == 1)
+                                                                    <button
+                                                                        class="btn btn-success btn-sm">Approved</button>
+                                                                @elseif($item->is_active == 0)
+                                                                    <button class="btn btn-warning btn-sm">Pending</button>
+                                                                @else
+                                                                    <button
+                                                                        class="btn btn-secondary btn-sm">Unknown</button>
+                                                                @endif
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <div class="form-button-action">
+                                                                    <a href="{{ route('money.receipt.edit', $item->id) }}"
+                                                                        class="btn btn-primary btn-link btn-lg me-2">
+                                                                        <i class='bx bxs-edit bx-tada'></i>
+                                                                    </a>
+                                                                    <form
+                                                                        action="{{ route('money.receipt.destroy', $item->id) }}"
+                                                                        style="display:inline;"
+                                                                        id="delete-money-reciept" class="delete-money-reciept">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <button type="button"
+                                                                            class="btn btn-link btn-danger btn-lg">
+                                                                            <i class='bx bx-trash-alt'></i>
+                                                                        </button>
+                                                                    </form>
+                                                                    
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
                                                 </tbody>
                                             </table>
+                                            <div class="d-flex justify-content-center mt-3">
+                                                {{ $moneyReceipts->links('pagination::bootstrap-4') }}
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -265,3 +307,49 @@
         </div>
     </div>
 @endsection
+
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            document.querySelectorAll('.delete-money-reciept').forEach(function(form) {
+                form.querySelector('button').addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "This action cannot be undone!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            fetch(form.action, {
+                                    method: 'POST',
+                                    headers: {
+                                        'X-CSRF-TOKEN': form.querySelector(
+                                            '[name=_token]').value,
+                                        'X-Requested-With': 'XMLHttpRequest'
+                                    },
+                                    body: new URLSearchParams(new FormData(form))
+                                })
+                                .then(res => res.json())
+                                .then(data => {
+                                    console.log(data)
+                                    if (data.success) {
+                                        Swal.fire('Deleted!', data.success, 'success')
+                                            .then(() => {
+                                                location
+                                                    .reload(); // or redirect if needed
+                                            });
+                                    }
+                                });
+                        }
+                    });
+                });
+            });
+        })
+    </script>
+@endpush
