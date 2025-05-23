@@ -78,7 +78,7 @@
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <input type="text" class="form-control custom-input" id="email2"
-                                                placeholder="Money Recipet No.">
+                                                placeholder="Money Recipet No." value="{{$serialNo}}" readonly>
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
@@ -123,10 +123,10 @@
                                                     </select>
                                                 </div>
 
-                                                <div class="form-group" id="amount_field">
+                                                {{-- <div class="form-group" id="amount_field">
                                                     <input type="text" class="form-control custom-input" id="amount"
                                                         placeholder="Amount">
-                                                </div>
+                                                </div> --}}
                                                 <div class="form-group" id="bank_field">
                                                     <input type="text" class="form-control custom-input" id="bank"
                                                         placeholder="Bank">
@@ -208,8 +208,10 @@
                                                         <th scope="row" class="product-id">1</th>
                                                         <td class="text-start  ">
                                                             <div class="form-group" style="width: 35%">
-                                                                <select class="form-select form-control custom-input"
-                                                                    id="defaultSelect" placeholder="Expense By">
+                                                                <select style="width: 150px;"
+                                                                    class="form-select form-control custom-input"
+                                                                    id="defaultSelect" placeholder="Expense By"
+                                                                    id="payment_type">
                                                                     {{-- <option>Select Product/Service/Item</option> --}}
                                                                     <option value="">Select Type</option>
                                                                     <option value="1">Down Payment</option>
@@ -232,15 +234,24 @@
                                                             </div>
                                                         </td>
                                                         <td class="installment-data">
-                                                            <div class="form-group">
-                                                                <input type="date" class="form-control custom-input"
-                                                                    placeholder="Month">
+                                                            <div class="form-group d-flex align-items-center gap-2">
+                                                                <input type="month" class="form-control custom-input"
+                                                                    id="start_month" placeholder="From Month"
+                                                                    style="max-width: 120px;">
+
+                                                                <span class="fw-bold">to</span>
+
+                                                                <input type="month" class="form-control custom-input"
+                                                                    id="end_month" placeholder="To Month"
+                                                                    style="max-width: 120px;">
                                                             </div>
                                                         </td>
+
                                                         <td class="text-end  ">
                                                             <div class="form-group">
                                                                 <input type="number" class="form-control custom-input"
-                                                                    id="email2" placeholder="Total Amount">
+                                                                    id="mainTotalAmount" placeholder="Total Amount">
+
                                                             </div>
                                                         </td>
                                                         <td class="product-removal  ">
@@ -261,18 +272,20 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <div class="payment-summery">
+                                                <div class="payment-summery d-none" id="full_section">
 
                                                     <ul>
                                                         <li>
-                                                            <h5 class="payment-price-title-3">Installment Amount Received
-                                                                from Mr. Abu Said</h5>
+                                                            <h5 class="payment-price-title-3">
+                                                                <span id="payment_type_name"></span> Amount <span
+                                                                    id="payment_type_amount_text">0</span> Received
+                                                                from <span id="customer_name"></span>
+                                                            </h5>
                                                         </li>
-                                                        <li>
-                                                            <h5 class="payment-price-title-3">: 200,00.00</h5>
-                                                        </li>
+
                                                     </ul>
                                                 </div>
+                                                {{-- Installment Amount Received 200,00.00 from Said --}}
                                             </div>
                                             <div class="col-md-5 ms-auto">
                                                 <div class="price-summery">
@@ -283,7 +296,9 @@
                                                         <li>
                                                             <div class="form-group">
                                                                 <input type="text" class="form-control custom-input-3"
-                                                                    id="email2" placeholder="0.00 BDT">
+                                                                    id="summaryTotalAmount" placeholder="0.00 BDT"
+                                                                    readonly>
+
                                                             </div>
                                                         </li>
                                                     </ul>
@@ -295,7 +310,8 @@
                                                         <li>
                                                             <div class="form-group">
                                                                 <input type="text" class="form-control custom-input-3"
-                                                                    id="email2" placeholder="0.00 BDT">
+                                                                    id="paidAmount" placeholder="0.00 BDT" readonly>
+
                                                             </div>
                                                         </li>
                                                     </ul>
@@ -307,7 +323,8 @@
                                                         <li>
                                                             <div class="form-group">
                                                                 <input type="text" class="form-control custom-input-3"
-                                                                    id="email2" placeholder="0.00 BDT">
+                                                                    id="balanceAmount" placeholder="0.00 BDT" readonly>
+
                                                             </div>
                                                         </li>
                                                     </ul>
@@ -431,6 +448,56 @@
                     $('.installment-header, .installment-data').show();
                 } else {
                     $('.installment-header, .installment-data').hide();
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#mainTotalAmount').on('input', function() {
+                const value = $(this).val();
+
+                // ইনপুট ফিল্ডে ভ্যালু সেট করা
+                $('#summaryTotalAmount').val(value).prop('readonly', true);
+                $('#paidAmount').val(value).prop('readonly', true);
+                $('#balanceAmount').val('0.00').prop('readonly', true);
+                $('#payment_type_amount').val(value);
+
+                // স্প্যানে ভ্যালু দেখানো
+                $('#payment_type_amount_text').text(value); // এই span এর id হবে নিচে দেখানো মতো
+            });
+
+
+            $('#defaultSelect').on('change', function() {
+                const selectedText = $('#defaultSelect option:selected').text();
+                const selectedValue = $(this).val();
+                const customer_name = $('#customer_id option:selected').text();
+                const total_amount = $('#mainTotalAmount').val(); // total amount field থেকে নিচ্ছে
+
+                if (selectedValue !== '') {
+                    $('#payment_type_name').text(selectedText);
+                    $('#customer_name').text(customer_name);
+                    $('#payment_type_amount_text').text(total_amount || '0');
+                    $('#full_section').removeClass('d-none');
+                } else {
+                    $('#payment_type_name').text('');
+                    $('#customer_name').text('');
+                    $('#payment_type_amount_text').text('0');
+                    $('#full_section').addClass('d-none');
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#start_month, #end_month').on('change', function() {
+                const start = $('#start_month').val();
+                const end = $('#end_month').val();
+
+                if (start && end && start > end) {
+                    alert("End Month must be after Start Month");
+                    $('#end_month').val('');
                 }
             });
         });
