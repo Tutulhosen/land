@@ -153,13 +153,15 @@
                                                 aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                                 <div class="accordion-body pb-0">
                                                     <div class="row">
-                                                        <div class="col-xxl-6 col-lg-12 col-md-6">
+                                                        
+                                                            <div class="">
+                                                                <!--<div class="col-xxl-6 col-lg-12 col-md-6">-->
                                                             <div class="card project-details-box">
                                                                 <div class="card-header project-header-bg">
                                                                     <div class="d-flex align-items-center">
                                                                         <div class="flex-grow-1">
                                                                             <a href="project-overview.php"
-                                                                                class="project-main-title">Plot #
+                                                                                class="project-main-title">Goldeneye Developers Limited, Plot #
                                                                                 17</a>
                                                                         </div>
                                                                         <div class="flex-shrink-0">
@@ -239,222 +241,169 @@
                                                                             <li>
                                                                                 <p class="project-semi-title-3">
                                                                                     Installment</p>
-                                                                                <div class="mt-2 d-flex">
-                                                                                    <a href="javascript: void(0);"
-                                                                                        class="avatar-group-item material-shadow"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-trigger="hover"
-                                                                                        data-bs-placement="top"
-                                                                                        data-bs-original-title="Sylvia Wright">
-                                                                                        <div class="">
-                                                                                            <div
-                                                                                                class="profile-team-member-title rounded-circle bg-secondary">
-                                                                                                S
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </a>
-                                                                                    <a href="javascript: void(0);"
-                                                                                        class="avatar-group-item material-shadow"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-trigger="hover"
-                                                                                        data-bs-placement="top"
-                                                                                        data-bs-original-title="Sylvia Wright">
-                                                                                        <div class="">
-                                                                                            <div
-                                                                                                class="profile-team-member-title rounded-circle bg-secondary">
-                                                                                                S
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </a>
-                                                                                    <a href="javascript: void(0);"
-                                                                                        class="avatar-group-item material-shadow"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-trigger="hover"
-                                                                                        data-bs-placement="top"
-                                                                                        data-bs-original-title="Sylvia Wright">
-                                                                                        <div class="">
-                                                                                            <div
-                                                                                                class="profile-team-member-title rounded-circle bg-secondary">
-                                                                                                S
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </a>
-                                                                                    <a href="javascript: void(0);"
-                                                                                        class="avatar-group-item material-shadow"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-trigger="hover"
-                                                                                        data-bs-placement="top"
-                                                                                        data-bs-original-title="Add Members">
-                                                                                        <div class=""
-                                                                                            data-bs-toggle="modal"
-                                                                                            data-bs-target="#inviteMembersModal">
-                                                                                            <div
-                                                                                                class="profile-team-member-title fs-16 rounded-circle bg-light border-dashed border text-primary">
-                                                                                                +
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </a>
-                                                                                </div>
+                                                                                    <h5 class="project-semi-details-1">
+                                                                                    1,00,000</h5>
+                                                                                
                                                                             </li>
                                                                         </ul>
                                                                     </div>
                                                                     <div>
-                                                                        <!-- /.progress -->
+                                                                         <!--/.progress -->
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-xxl-6 col-lg-12 col-md-6">
-                                                            <div class="card project-details-box">
-                                                                <div class="card-header project-header-bg">
-                                                                    <div class="d-flex align-items-center">
-                                                                        <div class="flex-grow-1">
-                                                                            <a href="project-overview.php"
-                                                                                class="project-main-title">Plot #
-                                                                                23</a>
-                                                                        </div>
-                                                                        <div class="flex-shrink-0">
-                                                                            <div
-                                                                                class="d-flex gap-1 align-items-center my-n2">
-                                                                                <div class="dropdown">
-                                                                                    <button
-                                                                                        class="project-menue btn btn-link text-muted p-1 mt-n2 py-0 text-decoration-none fs-15 material-shadow-none"
-                                                                                        data-bs-toggle="dropdown"
-                                                                                        aria-haspopup="true"
-                                                                                        aria-expanded="true">
-                                                                                        <i
-                                                                                            class="bx bx-qr bx-burst"></i>
-                                                                                    </button>
-                                                                                    <div
-                                                                                        class="dropdown-menu dropdown-menu-end">
-                                                                                        <a class="dropdown-item"
-                                                                                            href="project-overview.php"><i
-                                                                                                class="bx bx-show"></i>
-                                                                                            View</a>
-                                                                                        <a class="dropdown-item"
-                                                                                            href="apps-projects-create.html"><i
-                                                                                                class="bx bxs-edit"></i>
-                                                                                            Edit</a>
-                                                                                        <div class="dropdown-divider">
-                                                                                        </div>
-                                                                                        <a class="dropdown-item"
-                                                                                            href="#"
-                                                                                            data-bs-toggle="modal"
-                                                                                            data-bs-target="#removeProjectModal"><i
-                                                                                                class="bx bx-trash"></i>
-                                                                                            Remove</a>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="card-body p-3">
-                                                                    <div class="project-list-sec-1 pb-2">
-                                                                        <ul>
-                                                                            <li>
-                                                                                <p class="project-semi-title-3">Start
-                                                                                    Date</p>
-                                                                                <h5 class="project-semi-details-1">18
-                                                                                    Sep, 2021</h5>
-                                                                            </li>
-                                                                            <li>
-                                                                                <p class="project-semi-title-3">Project
-                                                                                    Budget</p>
-                                                                                <h5 class="project-semi-details-1">
-                                                                                    85,000 BDT</h5>
-                                                                            </li>
-                                                                            <li>
-                                                                                <p class="project-semi-title-1">
-                                                                                    Deadline</p>
-                                                                                <h5 class="project-semi-details-1">18
-                                                                                    Sep, 2021</h5>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                    <div
-                                                                        class="project-list-sec-1 pt-3 border-bottom-0 pb-0">
-                                                                        <ul>
-                                                                            <li>
-                                                                                <p class="project-semi-title-3">Project
-                                                                                    Status</p>
-                                                                                <button
-                                                                                    class="btn status-box-1">Inprogress</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <p class="project-semi-title-3">Project
-                                                                                    Head</p>
-                                                                                <h5 class="project-semi-details-1">
-                                                                                    Masud Ahmed</h5>
-                                                                            </li>
-                                                                            <li>
-                                                                                <p class="project-semi-title-3">Team
-                                                                                    Members</p>
-                                                                                <div class="mt-2 d-flex">
-                                                                                    <a href="javascript: void(0);"
-                                                                                        class="avatar-group-item material-shadow"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-trigger="hover"
-                                                                                        data-bs-placement="top"
-                                                                                        data-bs-original-title="Sylvia Wright">
-                                                                                        <div class="">
-                                                                                            <div
-                                                                                                class="profile-team-member-title rounded-circle bg-secondary">
-                                                                                                S
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </a>
-                                                                                    <a href="javascript: void(0);"
-                                                                                        class="avatar-group-item material-shadow"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-trigger="hover"
-                                                                                        data-bs-placement="top"
-                                                                                        data-bs-original-title="Sylvia Wright">
-                                                                                        <div class="">
-                                                                                            <div
-                                                                                                class="profile-team-member-title rounded-circle bg-secondary">
-                                                                                                S
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </a>
-                                                                                    <a href="javascript: void(0);"
-                                                                                        class="avatar-group-item material-shadow"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-trigger="hover"
-                                                                                        data-bs-placement="top"
-                                                                                        data-bs-original-title="Sylvia Wright">
-                                                                                        <div class="">
-                                                                                            <div
-                                                                                                class="profile-team-member-title rounded-circle bg-secondary">
-                                                                                                S
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </a>
-                                                                                    <a href="javascript: void(0);"
-                                                                                        class="avatar-group-item material-shadow"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-trigger="hover"
-                                                                                        data-bs-placement="top"
-                                                                                        data-bs-original-title="Add Members">
-                                                                                        <div class=""
-                                                                                            data-bs-toggle="modal"
-                                                                                            data-bs-target="#inviteMembersModal">
-                                                                                            <div
-                                                                                                class="profile-team-member-title fs-16 rounded-circle bg-light border-dashed border text-primary">
-                                                                                                +
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </a>
-                                                                                </div>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                    <div>
-                                                                        <!-- /.progress -->
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                        <!--<div class="col-xxl-6 col-lg-12 col-md-6">-->
+                                                        <!--    <div class="card project-details-box">-->
+                                                        <!--        <div class="card-header project-header-bg">-->
+                                                        <!--            <div class="d-flex align-items-center">-->
+                                                        <!--                <div class="flex-grow-1">-->
+                                                        <!--                    <a href="project-overview.php"-->
+                                                        <!--                        class="project-main-title">Plot #-->
+                                                        <!--                        23</a>-->
+                                                        <!--                </div>-->
+                                                        <!--                <div class="flex-shrink-0">-->
+                                                        <!--                    <div-->
+                                                        <!--                        class="d-flex gap-1 align-items-center my-n2">-->
+                                                        <!--                        <div class="dropdown">-->
+                                                        <!--                            <button-->
+                                                        <!--                                class="project-menue btn btn-link text-muted p-1 mt-n2 py-0 text-decoration-none fs-15 material-shadow-none"-->
+                                                        <!--                                data-bs-toggle="dropdown"-->
+                                                        <!--                                aria-haspopup="true"-->
+                                                        <!--                                aria-expanded="true">-->
+                                                        <!--                                <i-->
+                                                        <!--                                    class="bx bx-qr bx-burst"></i>-->
+                                                        <!--                            </button>-->
+                                                        <!--                            <div-->
+                                                        <!--                                class="dropdown-menu dropdown-menu-end">-->
+                                                        <!--                                <a class="dropdown-item"-->
+                                                        <!--                                    href="project-overview.php"><i-->
+                                                        <!--                                        class="bx bx-show"></i>-->
+                                                        <!--                                    View</a>-->
+                                                        <!--                                <a class="dropdown-item"-->
+                                                        <!--                                    href="apps-projects-create.html"><i-->
+                                                        <!--                                        class="bx bxs-edit"></i>-->
+                                                        <!--                                    Edit</a>-->
+                                                        <!--                                <div class="dropdown-divider">-->
+                                                        <!--                                </div>-->
+                                                        <!--                                <a class="dropdown-item"-->
+                                                        <!--                                    href="#"-->
+                                                        <!--                                    data-bs-toggle="modal"-->
+                                                        <!--                                    data-bs-target="#removeProjectModal"><i-->
+                                                        <!--                                        class="bx bx-trash"></i>-->
+                                                        <!--                                    Remove</a>-->
+                                                        <!--                            </div>-->
+                                                        <!--                        </div>-->
+                                                        <!--                    </div>-->
+                                                        <!--                </div>-->
+                                                        <!--            </div>-->
+                                                        <!--        </div>-->
+                                                        <!--        <div class="card-body p-3">-->
+                                                        <!--            <div class="project-list-sec-1 pb-2">-->
+                                                        <!--                <ul>-->
+                                                        <!--                    <li>-->
+                                                        <!--                        <p class="project-semi-title-3">Start-->
+                                                        <!--                            Date</p>-->
+                                                        <!--                        <h5 class="project-semi-details-1">18-->
+                                                        <!--                            Sep, 2021</h5>-->
+                                                        <!--                    </li>-->
+                                                        <!--                    <li>-->
+                                                        <!--                        <p class="project-semi-title-3">Project-->
+                                                        <!--                            Budget</p>-->
+                                                        <!--                        <h5 class="project-semi-details-1">-->
+                                                        <!--                            85,000 BDT</h5>-->
+                                                        <!--                    </li>-->
+                                                        <!--                    <li>-->
+                                                        <!--                        <p class="project-semi-title-1">-->
+                                                        <!--                            Deadline</p>-->
+                                                        <!--                        <h5 class="project-semi-details-1">18-->
+                                                        <!--                            Sep, 2021</h5>-->
+                                                        <!--                    </li>-->
+                                                        <!--                </ul>-->
+                                                        <!--            </div>-->
+                                                        <!--            <div-->
+                                                        <!--                class="project-list-sec-1 pt-3 border-bottom-0 pb-0">-->
+                                                        <!--                <ul>-->
+                                                        <!--                    <li>-->
+                                                        <!--                        <p class="project-semi-title-3">Project-->
+                                                        <!--                            Status</p>-->
+                                                        <!--                        <button-->
+                                                        <!--                            class="btn status-box-1">Inprogress</button>-->
+                                                        <!--                    </li>-->
+                                                        <!--                    <li>-->
+                                                        <!--                        <p class="project-semi-title-3">Project-->
+                                                        <!--                            Head</p>-->
+                                                        <!--                        <h5 class="project-semi-details-1">-->
+                                                        <!--                            Masud Ahmed</h5>-->
+                                                        <!--                    </li>-->
+                                                        <!--                    <li>-->
+                                                        <!--                        <p class="project-semi-title-3">Team-->
+                                                        <!--                            Members</p>-->
+                                                        <!--                        <div class="mt-2 d-flex">-->
+                                                        <!--                            <a href="javascript: void(0);"-->
+                                                        <!--                                class="avatar-group-item material-shadow"-->
+                                                        <!--                                data-bs-toggle="tooltip"-->
+                                                        <!--                                data-bs-trigger="hover"-->
+                                                        <!--                                data-bs-placement="top"-->
+                                                        <!--                                data-bs-original-title="Sylvia Wright">-->
+                                                        <!--                                <div class="">-->
+                                                        <!--                                    <div-->
+                                                        <!--                                        class="profile-team-member-title rounded-circle bg-secondary">-->
+                                                        <!--                                        S-->
+                                                        <!--                                    </div>-->
+                                                        <!--                                </div>-->
+                                                        <!--                            </a>-->
+                                                        <!--                            <a href="javascript: void(0);"-->
+                                                        <!--                                class="avatar-group-item material-shadow"-->
+                                                        <!--                                data-bs-toggle="tooltip"-->
+                                                        <!--                                data-bs-trigger="hover"-->
+                                                        <!--                                data-bs-placement="top"-->
+                                                        <!--                                data-bs-original-title="Sylvia Wright">-->
+                                                        <!--                                <div class="">-->
+                                                        <!--                                    <div-->
+                                                        <!--                                        class="profile-team-member-title rounded-circle bg-secondary">-->
+                                                        <!--                                        S-->
+                                                        <!--                                    </div>-->
+                                                        <!--                                </div>-->
+                                                        <!--                            </a>-->
+                                                        <!--                            <a href="javascript: void(0);"-->
+                                                        <!--                                class="avatar-group-item material-shadow"-->
+                                                        <!--                                data-bs-toggle="tooltip"-->
+                                                        <!--                                data-bs-trigger="hover"-->
+                                                        <!--                                data-bs-placement="top"-->
+                                                        <!--                                data-bs-original-title="Sylvia Wright">-->
+                                                        <!--                                <div class="">-->
+                                                        <!--                                    <div-->
+                                                        <!--                                        class="profile-team-member-title rounded-circle bg-secondary">-->
+                                                        <!--                                        S-->
+                                                        <!--                                    </div>-->
+                                                        <!--                                </div>-->
+                                                        <!--                            </a>-->
+                                                        <!--                            <a href="javascript: void(0);"-->
+                                                        <!--                                class="avatar-group-item material-shadow"-->
+                                                        <!--                                data-bs-toggle="tooltip"-->
+                                                        <!--                                data-bs-trigger="hover"-->
+                                                        <!--                                data-bs-placement="top"-->
+                                                        <!--                                data-bs-original-title="Add Members">-->
+                                                        <!--                                <div class=""-->
+                                                        <!--                                    data-bs-toggle="modal"-->
+                                                        <!--                                    data-bs-target="#inviteMembersModal">-->
+                                                        <!--                                    <div-->
+                                                        <!--                                        class="profile-team-member-title fs-16 rounded-circle bg-light border-dashed border text-primary">-->
+                                                        <!--                                        +-->
+                                                        <!--                                    </div>-->
+                                                        <!--                                </div>-->
+                                                        <!--                            </a>-->
+                                                        <!--                        </div>-->
+                                                        <!--                    </li>-->
+                                                        <!--                </ul>-->
+                                                        <!--            </div>-->
+                                                        <!--            <div>-->
+                                                        <!--                 /.progress -->
+                                                        <!--            </div>-->
+                                                        <!--        </div>-->
+                                                        <!--    </div>-->
+                                                        <!--</div>-->
                                                     </div>
                                                 </div>
                                             </div>
@@ -464,7 +413,7 @@
                                                 <div class="accordion-button collapsed" data-bs-toggle="collapse"
                                                     data-bs-target="#primaryBorderTwo" aria-expanded="false"
                                                     aria-controls="primaryBorderTwo" role="button">
-                                                    <h5>Task</h5>
+                                                    <h5>Payment Summary</h5>
                                                 </div>
                                             </div>
                                             <div id="primaryBorderTwo" class="accordion-collapse collapse border-top"
@@ -550,7 +499,7 @@
                                                 <div class="accordion-button collapsed" data-bs-toggle="collapse"
                                                     role="button" data-bs-target="#primaryBorderThree"
                                                     aria-expanded="false" aria-controls="primaryBorderThree">
-                                                    <h5>Payments</h5>
+                                                    <h5>Nomenee and Gong's</h5>
                                                 </div>
                                             </div>
                                             <div id="primaryBorderThree"
@@ -576,51 +525,51 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="accordion-item">
-                                            <div class="accordion-header" id="headingFive">
-                                                <div class="accordion-button collapsed" data-bs-toggle="collapse"
-                                                    role="button" data-bs-target="#primaryBorderFive"
-                                                    aria-expanded="false" aria-controls="primaryBorderFive">
-                                                    <h5>Tickets</h5>
-                                                </div>
-                                            </div>
-                                            <div id="primaryBorderFive" class="accordion-collapse collapse border-top"
-                                                aria-labelledby="headingFive" data-bs-parent="#accordionExample">
-                                                <div class="accordion-body">
+                                        <!--<div class="accordion-item">-->
+                                        <!--    <div class="accordion-header" id="headingFive">-->
+                                        <!--        <div class="accordion-button collapsed" data-bs-toggle="collapse"-->
+                                        <!--            role="button" data-bs-target="#primaryBorderFive"-->
+                                        <!--            aria-expanded="false" aria-controls="primaryBorderFive">-->
+                                        <!--            <h5>Tickets</h5>-->
+                                        <!--        </div>-->
+                                        <!--    </div>-->
+                                        <!--    <div id="primaryBorderFive" class="accordion-collapse collapse border-top"-->
+                                        <!--        aria-labelledby="headingFive" data-bs-parent="#accordionExample">-->
+                                        <!--        <div class="accordion-body">-->
 
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="accordion-item">
-                                            <div class="accordion-header" id="headingSix">
-                                                <div class="accordion-button collapsed" data-bs-toggle="collapse"
-                                                    data-bs-target="#primaryBorderTwo" aria-expanded="false"
-                                                    aria-controls="primaryBorderTwo" role="button">
-                                                    <h5>Order's</h5>
-                                                </div>
-                                            </div>
-                                            <div id="primaryBorderTwo" class="accordion-collapse collapse border-top"
-                                                aria-labelledby="headingSix" data-bs-parent="#accordionExample">
-                                                <div class="accordion-body">
+                                        <!--        </div>-->
+                                        <!--    </div>-->
+                                        <!--</div>-->
+                                        <!--<div class="accordion-item">-->
+                                        <!--    <div class="accordion-header" id="headingSix">-->
+                                        <!--        <div class="accordion-button collapsed" data-bs-toggle="collapse"-->
+                                        <!--            data-bs-target="#primaryBorderTwo" aria-expanded="false"-->
+                                        <!--            aria-controls="primaryBorderTwo" role="button">-->
+                                        <!--            <h5>Order's</h5>-->
+                                        <!--        </div>-->
+                                        <!--    </div>-->
+                                        <!--    <div id="primaryBorderTwo" class="accordion-collapse collapse border-top"-->
+                                        <!--        aria-labelledby="headingSix" data-bs-parent="#accordionExample">-->
+                                        <!--        <div class="accordion-body">-->
 
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="accordion-item">
-                                            <div class="accordion-header" id="headingSix">
-                                                <div class="accordion-button collapsed" data-bs-toggle="collapse"
-                                                    data-bs-target="#primaryBorderTwo" aria-expanded="false"
-                                                    aria-controls="primaryBorderTwo" role="button">
-                                                    <h5>Notes</h5>
-                                                </div>
-                                            </div>
-                                            <div id="primaryBorderTwo" class="accordion-collapse collapse border-top"
-                                                aria-labelledby="headingSix" data-bs-parent="#accordionExample">
-                                                <div class="accordion-body">
+                                        <!--        </div>-->
+                                        <!--    </div>-->
+                                        <!--</div>-->
+                                        <!--<div class="accordion-item">-->
+                                        <!--    <div class="accordion-header" id="headingSix">-->
+                                        <!--        <div class="accordion-button collapsed" data-bs-toggle="collapse"-->
+                                        <!--            data-bs-target="#primaryBorderTwo" aria-expanded="false"-->
+                                        <!--            aria-controls="primaryBorderTwo" role="button">-->
+                                        <!--            <h5>Notes</h5>-->
+                                        <!--        </div>-->
+                                        <!--    </div>-->
+                                        <!--    <div id="primaryBorderTwo" class="accordion-collapse collapse border-top"-->
+                                        <!--        aria-labelledby="headingSix" data-bs-parent="#accordionExample">-->
+                                        <!--        <div class="accordion-body">-->
 
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <!--        </div>-->
+                                        <!--    </div>-->
+                                        <!--</div>-->
                                     </div>
                                 </div>
                                 <div class="tab-pane" id="bottom-justified-tab2" role="tabpanel">
@@ -638,7 +587,8 @@
                                                 aria-labelledby="headingOne2">
                                                 <div class="accordion-body pb-0">
                                                     <div class="row">
-                                                        <div class="col-xxl-6 col-lg-12 col-md-6">
+                                                        <div class="">
+                                                            <!--<div class="col-xxl-6 col-lg-12 col-md-6">-->
                                                             <div class="card project-details-box">
                                                                 <div class="card-header project-header-bg">
                                                                     <div class="d-flex align-items-center">
@@ -789,157 +739,157 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-xxl-6 col-lg-12 col-md-6">
-                                                            <div class="card project-details-box">
-                                                                <div class="card-header project-header-bg">
-                                                                    <div class="d-flex align-items-center">
-                                                                        <div class="flex-grow-1">
-                                                                            <a href="project-overview.php"
-                                                                                class="project-main-title">Multipurpose
-                                                                                landing template</a>
-                                                                        </div>
-                                                                        <div class="flex-shrink-0">
-                                                                            <div
-                                                                                class="d-flex gap-1 align-items-center my-n2">
-                                                                                <div class="dropdown">
-                                                                                    <button
-                                                                                        class="project-menue btn btn-link text-muted p-1 mt-n2 py-0 text-decoration-none fs-15 material-shadow-none"
-                                                                                        data-bs-toggle="dropdown"
-                                                                                        aria-haspopup="true"
-                                                                                        aria-expanded="true">
-                                                                                        <i
-                                                                                            class="bx bx-qr bx-burst"></i>
-                                                                                    </button>
-                                                                                    <div
-                                                                                        class="dropdown-menu dropdown-menu-end">
-                                                                                        <a class="dropdown-item"
-                                                                                            href="project-overview.php"><i
-                                                                                                class="bx bx-show"></i>
-                                                                                            View</a>
-                                                                                        <a class="dropdown-item"
-                                                                                            href="apps-projects-create.html"><i
-                                                                                                class="bx bxs-edit"></i>
-                                                                                            Edit</a>
-                                                                                        <div class="dropdown-divider">
-                                                                                        </div>
-                                                                                        <a class="dropdown-item"
-                                                                                            href="#"
-                                                                                            data-bs-toggle="modal"
-                                                                                            data-bs-target="#removeProjectModal"><i
-                                                                                                class="bx bx-trash"></i>
-                                                                                            Remove</a>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="card-body p-3">
-                                                                    <div class="project-list-sec-1 pb-2">
-                                                                        <ul>
-                                                                            <li>
-                                                                                <p class="project-semi-title-3">Start
-                                                                                    Date</p>
-                                                                                <h5 class="project-semi-details-1">18
-                                                                                    Sep, 2021</h5>
-                                                                            </li>
-                                                                            <li>
-                                                                                <p class="project-semi-title-3">Project
-                                                                                    Budget</p>
-                                                                                <h5 class="project-semi-details-1">
-                                                                                    85,000 BDT</h5>
-                                                                            </li>
-                                                                            <li>
-                                                                                <p class="project-semi-title-1">
-                                                                                    Deadline</p>
-                                                                                <h5 class="project-semi-details-1">18
-                                                                                    Sep, 2021</h5>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                    <div
-                                                                        class="project-list-sec-1 pt-3 border-bottom-0 pb-0">
-                                                                        <ul>
-                                                                            <li>
-                                                                                <p class="project-semi-title-3">Project
-                                                                                    Status</p>
-                                                                                <button
-                                                                                    class="btn status-box-1">Inprogress</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <p class="project-semi-title-3">Project
-                                                                                    Head</p>
-                                                                                <h5 class="project-semi-details-1">
-                                                                                    Masud Ahmed</h5>
-                                                                            </li>
-                                                                            <li>
-                                                                                <p class="project-semi-title-3">Team
-                                                                                    Members</p>
-                                                                                <div class="mt-2 d-flex">
-                                                                                    <a href="javascript: void(0);"
-                                                                                        class="avatar-group-item material-shadow"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-trigger="hover"
-                                                                                        data-bs-placement="top"
-                                                                                        data-bs-original-title="Sylvia Wright">
-                                                                                        <div class="">
-                                                                                            <div
-                                                                                                class="profile-team-member-title rounded-circle bg-secondary">
-                                                                                                S
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </a>
-                                                                                    <a href="javascript: void(0);"
-                                                                                        class="avatar-group-item material-shadow"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-trigger="hover"
-                                                                                        data-bs-placement="top"
-                                                                                        data-bs-original-title="Sylvia Wright">
-                                                                                        <div class="">
-                                                                                            <div
-                                                                                                class="profile-team-member-title rounded-circle bg-secondary">
-                                                                                                S
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </a>
-                                                                                    <a href="javascript: void(0);"
-                                                                                        class="avatar-group-item material-shadow"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-trigger="hover"
-                                                                                        data-bs-placement="top"
-                                                                                        data-bs-original-title="Sylvia Wright">
-                                                                                        <div class="">
-                                                                                            <div
-                                                                                                class="profile-team-member-title rounded-circle bg-secondary">
-                                                                                                S
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </a>
-                                                                                    <a href="javascript: void(0);"
-                                                                                        class="avatar-group-item material-shadow"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-trigger="hover"
-                                                                                        data-bs-placement="top"
-                                                                                        data-bs-original-title="Add Members">
-                                                                                        <div class=""
-                                                                                            data-bs-toggle="modal"
-                                                                                            data-bs-target="#inviteMembersModal">
-                                                                                            <div
-                                                                                                class="profile-team-member-title fs-16 rounded-circle bg-light border-dashed border text-primary">
-                                                                                                +
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </a>
-                                                                                </div>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                    <div>
+                                                        <!--<div class="col-xxl-6 col-lg-12 col-md-6">-->
+                                                        <!--    <div class="card project-details-box">-->
+                                                        <!--        <div class="card-header project-header-bg">-->
+                                                        <!--            <div class="d-flex align-items-center">-->
+                                                        <!--                <div class="flex-grow-1">-->
+                                                        <!--                    <a href="project-overview.php"-->
+                                                        <!--                        class="project-main-title">Multipurpose-->
+                                                        <!--                        landing template</a>-->
+                                                        <!--                </div>-->
+                                                        <!--                <div class="flex-shrink-0">-->
+                                                        <!--                    <div-->
+                                                        <!--                        class="d-flex gap-1 align-items-center my-n2">-->
+                                                        <!--                        <div class="dropdown">-->
+                                                        <!--                            <button-->
+                                                        <!--                                class="project-menue btn btn-link text-muted p-1 mt-n2 py-0 text-decoration-none fs-15 material-shadow-none"-->
+                                                        <!--                                data-bs-toggle="dropdown"-->
+                                                        <!--                                aria-haspopup="true"-->
+                                                        <!--                                aria-expanded="true">-->
+                                                        <!--                                <i-->
+                                                        <!--                                    class="bx bx-qr bx-burst"></i>-->
+                                                        <!--                            </button>-->
+                                                        <!--                            <div-->
+                                                        <!--                                class="dropdown-menu dropdown-menu-end">-->
+                                                        <!--                                <a class="dropdown-item"-->
+                                                        <!--                                    href="project-overview.php"><i-->
+                                                        <!--                                        class="bx bx-show"></i>-->
+                                                        <!--                                    View</a>-->
+                                                        <!--                                <a class="dropdown-item"-->
+                                                        <!--                                    href="apps-projects-create.html"><i-->
+                                                        <!--                                        class="bx bxs-edit"></i>-->
+                                                        <!--                                    Edit</a>-->
+                                                        <!--                                <div class="dropdown-divider">-->
+                                                        <!--                                </div>-->
+                                                        <!--                                <a class="dropdown-item"-->
+                                                        <!--                                    href="#"-->
+                                                        <!--                                    data-bs-toggle="modal"-->
+                                                        <!--                                    data-bs-target="#removeProjectModal"><i-->
+                                                        <!--                                        class="bx bx-trash"></i>-->
+                                                        <!--                                    Remove</a>-->
+                                                        <!--                            </div>-->
+                                                        <!--                        </div>-->
+                                                        <!--                    </div>-->
+                                                        <!--                </div>-->
+                                                        <!--            </div>-->
+                                                        <!--        </div>-->
+                                                        <!--        <div class="card-body p-3">-->
+                                                        <!--            <div class="project-list-sec-1 pb-2">-->
+                                                        <!--                <ul>-->
+                                                        <!--                    <li>-->
+                                                        <!--                        <p class="project-semi-title-3">Start-->
+                                                        <!--                            Date</p>-->
+                                                        <!--                        <h5 class="project-semi-details-1">18-->
+                                                        <!--                            Sep, 2021</h5>-->
+                                                        <!--                    </li>-->
+                                                        <!--                    <li>-->
+                                                        <!--                        <p class="project-semi-title-3">Project-->
+                                                        <!--                            Budget</p>-->
+                                                        <!--                        <h5 class="project-semi-details-1">-->
+                                                        <!--                            85,000 BDT</h5>-->
+                                                        <!--                    </li>-->
+                                                        <!--                    <li>-->
+                                                        <!--                        <p class="project-semi-title-1">-->
+                                                        <!--                            Deadline</p>-->
+                                                        <!--                        <h5 class="project-semi-details-1">18-->
+                                                        <!--                            Sep, 2021</h5>-->
+                                                        <!--                    </li>-->
+                                                        <!--                </ul>-->
+                                                        <!--            </div>-->
+                                                        <!--            <div-->
+                                                        <!--                class="project-list-sec-1 pt-3 border-bottom-0 pb-0">-->
+                                                        <!--                <ul>-->
+                                                        <!--                    <li>-->
+                                                        <!--                        <p class="project-semi-title-3">Project-->
+                                                        <!--                            Status</p>-->
+                                                        <!--                        <button-->
+                                                        <!--                            class="btn status-box-1">Inprogress</button>-->
+                                                        <!--                    </li>-->
+                                                        <!--                    <li>-->
+                                                        <!--                        <p class="project-semi-title-3">Project-->
+                                                        <!--                            Head</p>-->
+                                                        <!--                        <h5 class="project-semi-details-1">-->
+                                                        <!--                            Masud Ahmed</h5>-->
+                                                        <!--                    </li>-->
+                                                        <!--                    <li>-->
+                                                        <!--                        <p class="project-semi-title-3">Team-->
+                                                        <!--                            Members</p>-->
+                                                        <!--                        <div class="mt-2 d-flex">-->
+                                                        <!--                            <a href="javascript: void(0);"-->
+                                                        <!--                                class="avatar-group-item material-shadow"-->
+                                                        <!--                                data-bs-toggle="tooltip"-->
+                                                        <!--                                data-bs-trigger="hover"-->
+                                                        <!--                                data-bs-placement="top"-->
+                                                        <!--                                data-bs-original-title="Sylvia Wright">-->
+                                                        <!--                                <div class="">-->
+                                                        <!--                                    <div-->
+                                                        <!--                                        class="profile-team-member-title rounded-circle bg-secondary">-->
+                                                        <!--                                        S-->
+                                                        <!--                                    </div>-->
+                                                        <!--                                </div>-->
+                                                        <!--                            </a>-->
+                                                        <!--                            <a href="javascript: void(0);"-->
+                                                        <!--                                class="avatar-group-item material-shadow"-->
+                                                        <!--                                data-bs-toggle="tooltip"-->
+                                                        <!--                                data-bs-trigger="hover"-->
+                                                        <!--                                data-bs-placement="top"-->
+                                                        <!--                                data-bs-original-title="Sylvia Wright">-->
+                                                        <!--                                <div class="">-->
+                                                        <!--                                    <div-->
+                                                        <!--                                        class="profile-team-member-title rounded-circle bg-secondary">-->
+                                                        <!--                                        S-->
+                                                        <!--                                    </div>-->
+                                                        <!--                                </div>-->
+                                                        <!--                            </a>-->
+                                                        <!--                            <a href="javascript: void(0);"-->
+                                                        <!--                                class="avatar-group-item material-shadow"-->
+                                                        <!--                                data-bs-toggle="tooltip"-->
+                                                        <!--                                data-bs-trigger="hover"-->
+                                                        <!--                                data-bs-placement="top"-->
+                                                        <!--                                data-bs-original-title="Sylvia Wright">-->
+                                                        <!--                                <div class="">-->
+                                                        <!--                                    <div-->
+                                                        <!--                                        class="profile-team-member-title rounded-circle bg-secondary">-->
+                                                        <!--                                        S-->
+                                                        <!--                                    </div>-->
+                                                        <!--                                </div>-->
+                                                        <!--                            </a>-->
+                                                        <!--                            <a href="javascript: void(0);"-->
+                                                        <!--                                class="avatar-group-item material-shadow"-->
+                                                        <!--                                data-bs-toggle="tooltip"-->
+                                                        <!--                                data-bs-trigger="hover"-->
+                                                        <!--                                data-bs-placement="top"-->
+                                                        <!--                                data-bs-original-title="Add Members">-->
+                                                        <!--                                <div class=""-->
+                                                        <!--                                    data-bs-toggle="modal"-->
+                                                        <!--                                    data-bs-target="#inviteMembersModal">-->
+                                                        <!--                                    <div-->
+                                                        <!--                                        class="profile-team-member-title fs-16 rounded-circle bg-light border-dashed border text-primary">-->
+                                                        <!--                                        +-->
+                                                        <!--                                    </div>-->
+                                                        <!--                                </div>-->
+                                                        <!--                            </a>-->
+                                                        <!--                        </div>-->
+                                                        <!--                    </li>-->
+                                                        <!--                </ul>-->
+                                                        <!--            </div>-->
+                                                        <!--            <div>-->
                                                                         <!-- /.progress -->
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                        <!--            </div>-->
+                                                        <!--        </div>-->
+                                                        <!--    </div>-->
+                                                        <!--</div>-->
                                                     </div>
                                                 </div>
                                             </div>

@@ -21,7 +21,98 @@
             </div>
          </div>
       </div>
-      <!-- /Welcome Wrap -->       
+      <!-- /Welcome Wrap -->  
+      
+      <div class="row mt-4">
+         <div class="col-xl-3 col-md-6">
+            <div class="card position-relative mb-0">
+               <div class="card-body p-2">
+                  <div class="d-flex align-items-center">
+                     <div class="top-counter-inner">
+                        <ul>
+                           <li>
+                              <div class="counter-icon">
+                                 <i class='bx bxs-buildings bx-flashing' ></i>
+                              </div>
+                              <div class="counter-info-1">
+                                 <h5 class="expense-title-1">Available Plot</h5>
+                                 <p class="expense-title-2">365</p>
+                              </div>
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
+                  <span class="position-absolute top-0 end-0"><img src="assets/img/bg/card-bg-04.png" alt="Img"></span>
+               </div>
+            </div>
+         </div>
+         <div class="col-xl-3 col-md-6">
+            <div class="card position-relative mb-0">
+               <div class="card-body p-2">
+                  <div class="d-flex align-items-center">
+                     <div class="top-counter-inner">
+                        <ul>
+                           <li>
+                              <div class="counter-icon">
+                                 <i class='bx bxs-user-account bx-tada' ></i>
+                              </div>
+                              <div class="counter-info-1">
+                                 <h5 class="expense-title-1">Sales Plot</h5>
+                                 <p class="expense-title-2">340</p>
+                              </div>
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
+                  <span class="position-absolute top-0 end-0"><img src="assets/img/bg/card-bg-04.png" alt="Img"></span>
+               </div>
+            </div>
+         </div>
+         <div class="col-xl-3 col-md-6">
+            <div class="card position-relative mb-0">
+               <div class="card-body p-2">
+                  <div class="d-flex align-items-center">
+                     <div class="top-counter-inner">
+                        <ul>
+                           <li>
+                              <div class="counter-icon">
+                                 <i class='bx bx-user-check text-success' ></i>
+                              </div>
+                              <div class="counter-info-1">
+                                 <h5 class="expense-title-1">Total Agency</h5>
+                                 <p class="expense-title-2">290</p>
+                              </div>
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
+                  <span class="position-absolute top-0 end-0"><img src="assets/img/bg/card-bg-04.png" alt="Img"></span>
+               </div>
+            </div>
+         </div>
+         <div class="col-xl-3 col-md-6">
+            <div class="card position-relative mb-0">
+               <div class="card-body p-2">
+                  <div class="d-flex align-items-center">
+                     <div class="top-counter-inner">
+                        <ul>
+                           <li>
+                              <div class="counter-icon">
+                                 <i class='bx bx-user-x text-danger'></i>
+                              </div>
+                              <div class="counter-info-1">
+                                 <h5 class="expense-title-1">Total Salesman</h5>
+                                 <p class="expense-title-2">50</p>
+                              </div>
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
+                  <span class="position-absolute top-0 end-0"><img src="assets/img/bg/card-bg-04.png" alt="Img"></span>
+               </div>
+            </div>
+         </div>
+      </div>
        
        
        <div class="row mt-4">
@@ -214,96 +305,96 @@
        
        
 
-      <div class="row mt-4">
-         <div class="col-xl-3 col-md-6">
-            <div class="card position-relative mb-0">
-               <div class="card-body p-2">
-                  <div class="d-flex align-items-center">
-                     <div class="top-counter-inner">
-                        <ul>
-                           <li>
-                              <div class="counter-icon">
-                                 <i class='bx bxs-buildings bx-flashing' ></i>
-                              </div>
-                              <div class="counter-info-1">
-                                 <h5 class="expense-title-1">Available Plot</h5>
-                                 <p class="expense-title-2">365</p>
-                              </div>
-                           </li>
-                        </ul>
-                     </div>
-                  </div>
-                  <span class="position-absolute top-0 end-0"><img src="assets/img/bg/card-bg-04.png" alt="Img"></span>
-               </div>
-            </div>
-         </div>
-         <div class="col-xl-3 col-md-6">
-            <div class="card position-relative mb-0">
-               <div class="card-body p-2">
-                  <div class="d-flex align-items-center">
-                     <div class="top-counter-inner">
-                        <ul>
-                           <li>
-                              <div class="counter-icon">
-                                 <i class='bx bxs-user-account bx-tada' ></i>
-                              </div>
-                              <div class="counter-info-1">
-                                 <h5 class="expense-title-1">Sales Plot</h5>
-                                 <p class="expense-title-2">340</p>
-                              </div>
-                           </li>
-                        </ul>
-                     </div>
-                  </div>
-                  <span class="position-absolute top-0 end-0"><img src="assets/img/bg/card-bg-04.png" alt="Img"></span>
-               </div>
-            </div>
-         </div>
-         <div class="col-xl-3 col-md-6">
-            <div class="card position-relative mb-0">
-               <div class="card-body p-2">
-                  <div class="d-flex align-items-center">
-                     <div class="top-counter-inner">
-                        <ul>
-                           <li>
-                              <div class="counter-icon">
-                                 <i class='bx bx-user-check text-success' ></i>
-                              </div>
-                              <div class="counter-info-1">
-                                 <h5 class="expense-title-1">Total Agency</h5>
-                                 <p class="expense-title-2">290</p>
-                              </div>
-                           </li>
-                        </ul>
-                     </div>
-                  </div>
-                  <span class="position-absolute top-0 end-0"><img src="assets/img/bg/card-bg-04.png" alt="Img"></span>
-               </div>
-            </div>
-         </div>
-         <div class="col-xl-3 col-md-6">
-            <div class="card position-relative mb-0">
-               <div class="card-body p-2">
-                  <div class="d-flex align-items-center">
-                     <div class="top-counter-inner">
-                        <ul>
-                           <li>
-                              <div class="counter-icon">
-                                 <i class='bx bx-user-x text-danger'></i>
-                              </div>
-                              <div class="counter-info-1">
-                                 <h5 class="expense-title-1">Total Salesman</h5>
-                                 <p class="expense-title-2">50</p>
-                              </div>
-                           </li>
-                        </ul>
-                     </div>
-                  </div>
-                  <span class="position-absolute top-0 end-0"><img src="assets/img/bg/card-bg-04.png" alt="Img"></span>
-               </div>
-            </div>
-         </div>
-      </div>
+      <!--<div class="row mt-4">-->
+      <!--   <div class="col-xl-3 col-md-6">-->
+      <!--      <div class="card position-relative mb-0">-->
+      <!--         <div class="card-body p-2">-->
+      <!--            <div class="d-flex align-items-center">-->
+      <!--               <div class="top-counter-inner">-->
+      <!--                  <ul>-->
+      <!--                     <li>-->
+      <!--                        <div class="counter-icon">-->
+      <!--                           <i class='bx bxs-buildings bx-flashing' ></i>-->
+      <!--                        </div>-->
+      <!--                        <div class="counter-info-1">-->
+      <!--                           <h5 class="expense-title-1">Available Plot</h5>-->
+      <!--                           <p class="expense-title-2">365</p>-->
+      <!--                        </div>-->
+      <!--                     </li>-->
+      <!--                  </ul>-->
+      <!--               </div>-->
+      <!--            </div>-->
+      <!--            <span class="position-absolute top-0 end-0"><img src="assets/img/bg/card-bg-04.png" alt="Img"></span>-->
+      <!--         </div>-->
+      <!--      </div>-->
+      <!--   </div>-->
+      <!--   <div class="col-xl-3 col-md-6">-->
+      <!--      <div class="card position-relative mb-0">-->
+      <!--         <div class="card-body p-2">-->
+      <!--            <div class="d-flex align-items-center">-->
+      <!--               <div class="top-counter-inner">-->
+      <!--                  <ul>-->
+      <!--                     <li>-->
+      <!--                        <div class="counter-icon">-->
+      <!--                           <i class='bx bxs-user-account bx-tada' ></i>-->
+      <!--                        </div>-->
+      <!--                        <div class="counter-info-1">-->
+      <!--                           <h5 class="expense-title-1">Sales Plot</h5>-->
+      <!--                           <p class="expense-title-2">340</p>-->
+      <!--                        </div>-->
+      <!--                     </li>-->
+      <!--                  </ul>-->
+      <!--               </div>-->
+      <!--            </div>-->
+      <!--            <span class="position-absolute top-0 end-0"><img src="assets/img/bg/card-bg-04.png" alt="Img"></span>-->
+      <!--         </div>-->
+      <!--      </div>-->
+      <!--   </div>-->
+      <!--   <div class="col-xl-3 col-md-6">-->
+      <!--      <div class="card position-relative mb-0">-->
+      <!--         <div class="card-body p-2">-->
+      <!--            <div class="d-flex align-items-center">-->
+      <!--               <div class="top-counter-inner">-->
+      <!--                  <ul>-->
+      <!--                     <li>-->
+      <!--                        <div class="counter-icon">-->
+      <!--                           <i class='bx bx-user-check text-success' ></i>-->
+      <!--                        </div>-->
+      <!--                        <div class="counter-info-1">-->
+      <!--                           <h5 class="expense-title-1">Total Agency</h5>-->
+      <!--                           <p class="expense-title-2">290</p>-->
+      <!--                        </div>-->
+      <!--                     </li>-->
+      <!--                  </ul>-->
+      <!--               </div>-->
+      <!--            </div>-->
+      <!--            <span class="position-absolute top-0 end-0"><img src="assets/img/bg/card-bg-04.png" alt="Img"></span>-->
+      <!--         </div>-->
+      <!--      </div>-->
+      <!--   </div>-->
+      <!--   <div class="col-xl-3 col-md-6">-->
+      <!--      <div class="card position-relative mb-0">-->
+      <!--         <div class="card-body p-2">-->
+      <!--            <div class="d-flex align-items-center">-->
+      <!--               <div class="top-counter-inner">-->
+      <!--                  <ul>-->
+      <!--                     <li>-->
+      <!--                        <div class="counter-icon">-->
+      <!--                           <i class='bx bx-user-x text-danger'></i>-->
+      <!--                        </div>-->
+      <!--                        <div class="counter-info-1">-->
+      <!--                           <h5 class="expense-title-1">Total Salesman</h5>-->
+      <!--                           <p class="expense-title-2">50</p>-->
+      <!--                        </div>-->
+      <!--                     </li>-->
+      <!--                  </ul>-->
+      <!--               </div>-->
+      <!--            </div>-->
+      <!--            <span class="position-absolute top-0 end-0"><img src="assets/img/bg/card-bg-04.png" alt="Img"></span>-->
+      <!--         </div>-->
+      <!--      </div>-->
+      <!--   </div>-->
+      <!--</div>-->
       <div class="row mt-4">
          <div class="col-md-4">
             <div class="card flex-fill h-100 mb-0">
