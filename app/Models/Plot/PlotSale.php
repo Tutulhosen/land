@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Admin\SystemConfiguration\Plot;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Admin\Employee\EmployeePersonalInformation;
+use App\Models\Admin\SystemConfiguration\Agency;
+use App\Models\Admin\SystemConfiguration\Salesman;
 
 class PlotSale extends Model
 {
@@ -23,6 +25,16 @@ class PlotSale extends Model
     public function plot()
     {
         return $this->belongsTo(Plot::class, 'plot_id');
+    }
+
+    public function agency()
+    {
+        return $this->belongsTo(Agency::class, 'agency_id');
+    }
+
+    public function salesman()
+    {
+        return $this->belongsTo(Salesman::class, 'plot_id');
     }
 
     public function moneyReceipts()

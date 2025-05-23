@@ -2,7 +2,6 @@
 @section('title','Dashboard')
 @section('content')
 <div class="container">
-
    <div class="page-inner ms-lg-0">
       <!-- Welcome Wrap -->
       <div class="card mb-0">
@@ -13,11 +12,11 @@
                </span>
                <div class="ms-3">
                   <h3 class="mb-2 project-details-card-header-title">Welcome Back, Admin <a href="javascript:void(0);" class="edit-icon"><i class="ti ti-edit fs-14"></i></a></h3>
-                  {{-- <p class="mb-0 expense-title-1">You have <span class="text-primary text-decoration-underline">21</span> Pending MR Approvals & <span class="text-primary text-decoration-underline">14</span> Leave Requests</p> --}}
+                  <p class="mb-0 expense-title-1">You have <span class="text-primary text-decoration-underline">21</span> Pending Money Receipt for Approvals<span class="text-primary text-decoration-underline"></p>
                </div>
             </div>
             <div class="d-flex align-items-center flex-wrap">
-           <a href="{{route('customer.create')}}" class="btn btn-secondary btn-md me-2"><i class="ti ti-square-rounded-plus me-1"></i>Add Customer</a>
+           <a href="customer.php" class="btn btn-secondary btn-md me-2"><i class="ti ti-square-rounded-plus me-1"></i>Add Customer</a>
                <a href="#" class="btn btn-primary btn-md" data-bs-toggle="modal" data-bs-target="#add_leaves"><i class="ti ti-square-rounded-plus me-1"></i>Money Receipt</a>
             </div>
          </div>
@@ -31,20 +30,20 @@
             <div class="card flex-fill h-100 mb-0">
                <div class="card-header pb-2 pt-2">
                   <div class="d-flex align-items-center justify-content-between flex-wrap row-gap-2">
-                     <h5 class="project-details-card-header-title">Revenue</h5>
+                     <h5 class="project-details-card-header-title">MR Approved & Pending Status</h5>
                      <div class="dropdown">
                         <a href="javascript:void(0);" class="btn btn-white border btn-sm d-inline-flex align-items-center" data-bs-toggle="dropdown">
-                        <i class="ti ti-calendar me-1"></i>2024
+                        <i class="ti ti-calendar me-1"></i>2025
                         </a>
                         <ul class="dropdown-menu  dropdown-menu-end p-3">
+                           <li>
+                              <a href="javascript:void(0);" class="dropdown-item rounded-1">2025</a>
+                           </li>
                            <li>
                               <a href="javascript:void(0);" class="dropdown-item rounded-1">2024</a>
                            </li>
                            <li>
                               <a href="javascript:void(0);" class="dropdown-item rounded-1">2023</a>
-                           </li>
-                           <li>
-                              <a href="javascript:void(0);" class="dropdown-item rounded-1">2022</a>
                            </li>
                         </ul>
                      </div>
@@ -53,8 +52,8 @@
                <div class="card-body pt-3 pb-0">
                   <div class="d-flex align-items-center justify-content-between flex-wrap">
                      <div class="d-flex align-items-center mb-1">
-                        <p class="fs-13 text-gray-9 me-3 mb-0"><i class='bx bxs-square-rounded me-2 text-gray-9' ></i> Income</p>
-                        <p class="fs-13 text-gray-9 mb-0"><i class='bx bxs-square-rounded me-2 text-danger' ></i>Expenses</p>
+                        <p class="fs-13 text-gray-9 me-3 mb-0"><i class='bx bxs-square-rounded me-2 text-gray-9' ></i>Pending MR</p>
+                        <p class="fs-13 text-gray-9 mb-0"><i class='bx bxs-square-rounded me-2 text-danger' ></i>Approved MR</p>
                      </div>
                      <p class="fs-13 mb-1">Last Updated at 11:30PM</p>
                   </div>
@@ -68,10 +67,10 @@
             <div class="card flex-fill h-100 mb-0">
                <div class="card-header pb-2 pt-2">
                   <div class="d-flex align-items-center justify-content-between flex-wrap row-gap-2">
-                     <h5 class="project-details-card-header-title">Clients Details</h5>
+                     <h5 class="project-details-card-header-title">Project Status</h5>
                      <div class="dropdown">
                         <a href="javascript:void(0);" class="btn btn-white border btn-sm d-inline-flex align-items-center" data-bs-toggle="dropdown">
-                        <i class="ti ti-calendar me-1"></i>2024
+                        <i class="ti ti-calendar me-1"></i>2025
                         </a>
                         <ul class="dropdown-menu  dropdown-menu-end p-3">
                            <li>
@@ -92,25 +91,25 @@
                   <div>
                      <div class="mb-3 d-flex align-items-center justify-content-between">
                         <p class="expense-title-1 mb-0">
-                           <i class="bx bxs-square-rounded fs-10 text-dark me-2"></i>Total Client
+                           <i class="bx bxs-square-rounded fs-10 text-dark me-2"></i>Total Customer
                         </p>
                         <span class="expense-title-1 mb-0">1254</span>
                      </div>
                      <div class="mb-3 d-flex align-items-center justify-content-between">
                         <p class="expense-title-1 mb-0">
-                           <i class="bx bxs-square-rounded fs-10 text-dark me-2"></i>Active Client
+                           <i class="bx bxs-square-rounded fs-10 text-dark me-2"></i>Total Sale
                         </p>
                         <span class="expense-title-1 mb-0">1254</span>
                      </div>
                      <div class="mb-3 d-flex align-items-center justify-content-between">
                         <p class="expense-title-1 mb-0">
-                           <i class="bx bxs-square-rounded fs-10 text-dark me-2"></i>Inactive Client
+                           <i class="bx bxs-square-rounded fs-10 text-dark me-2"></i>Total Booking
                         </p>
                         <span class="expense-title-1 mb-0">1254</span>
                      </div>
                      <div class="mb-0 d-flex align-items-center justify-content-between">
                         <p class="expense-title-1 mb-0">
-                           <i class="bx bxs-square-rounded fs-10 text-dark me-2"></i>Repeted Client
+                           <i class="bx bxs-square-rounded fs-10 text-dark me-2"></i>Available Plot
                         </p>
                         <span class="expense-title-1 mb-0">1254</span>
                      </div>
@@ -309,7 +308,7 @@
          <div class="col-md-4">
             <div class="card flex-fill h-100 mb-0">
                <div class="card-header pb-2 d-flex align-items-center justify-content-between flex-wrap">
-                  <h5 class="project-details-card-header-title">Employee Status</h5>
+                  <h5 class="project-details-card-header-title">Salesman Status</h5>
                   <div class="dropdown mb-2">
                      <a href="javascript:void(0);" class="btn btn-white border btn-sm d-inline-flex align-items-center" data-bs-toggle="dropdown">
                      <i class="ti ti-calendar me-1"></i>This Week
@@ -393,7 +392,7 @@
          <div class="col-md-4">
             <div class="card flex-fill h-100 mb-0">
                <div class="card-header pb-2 d-flex align-items-center justify-content-between flex-wrap">
-                  <h5 class="project-details-card-header-title">Attendance Overview</h5>
+                  <h5 class="project-details-card-header-title">Agency Overview</h5>
                   <div class="dropdown mb-2">
                      <a href="javascript:void(0);" class="btn btn-white border btn-sm d-inline-flex align-items-center" data-bs-toggle="dropdown">
                      <i class="ti ti-calendar me-1"></i>Today
@@ -415,24 +414,24 @@
                   <div class="chartjs-wrapper-demo position-relative mb-4">
                      <canvas id="attendance" height="200"></canvas>
                      <div class="position-absolute text-center attendance-canvas">
-                        <p class="fs-13 mb-1">Total Attendance</p>
+                        <p class="fs-13 mb-1">Agency Total</p>
                         <h3 class="display-1">120</h3>
                      </div>
                   </div>
                   <div class="d-flex align-items-center justify-content-between">
-                     <p class="fs-15 mb-2 text-gray-9"><i class='bx bxs-square-rounded text-success'></i> Present</p>
+                     <p class="fs-15 mb-2 text-gray-9"><i class='bx bxs-square-rounded text-success'></i> GoldenEye</p>
                      <p class="fs-15 fw-medium mb-2">59%</p>
                   </div>
                   <div class="d-flex align-items-center justify-content-between">
-                     <p class="fs-15 mb-2 text-gray-9"><i class='bx bxs-square-rounded text-secondary'></i> Late</p>
+                     <p class="fs-15 mb-2 text-gray-9"><i class='bx bxs-square-rounded text-secondary'></i> Land Mark</p>
                      <p class="fs-15 fw-medium mb-2">21%</p>
                   </div>
                   <div class="d-flex align-items-center justify-content-between">
-                     <p class="fs-15 mb-2 text-gray-9"><i class='bx bxs-square-rounded text-warning'></i> Permission</p>
+                     <p class="fs-15 mb-2 text-gray-9"><i class='bx bxs-square-rounded text-warning'></i> SystemEye</p>
                      <p class="fs-15 fw-medium mb-2">2%</p>
                   </div>
                   <div class="d-flex align-items-center justify-content-between mb-2">
-                     <p class="fs-15 mb-2 text-gray-9"><i class='bx bxs-square-rounded text-danger'></i> Absent</p>
+                     <p class="fs-15 mb-2 text-gray-9"><i class='bx bxs-square-rounded text-danger'></i> Rupayon</p>
                      <p class="fs-15 fw-medium mb-2">15%</p>
                   </div>
                </div>
@@ -441,7 +440,7 @@
          <div class="col-md-4">
             <div class="card flex-fill h-100 mb-0">
                <div class="card-header pb-2 d-flex align-items-center justify-content-between flex-wrap">
-                  <h5 class="project-details-card-header-title">Birthdays</h5>
+                  <h5 class="project-details-card-header-title">Cheque Clearing Status</h5>
                   <div class="dropdown mb-2">
                      <a href="javascript:void(0);" class="btn btn-white border btn-sm d-inline-flex align-items-center" data-bs-toggle="dropdown">
                      <i class="ti ti-calendar me-1"></i>Today
@@ -479,11 +478,12 @@
                                              <img src="assets/img/avatar-3.jpg" class="rounded-circle" alt="img">
                                              </a>
                                              <div class="ms-2 overflow-hidden">
-                                                <h6 class="fs-medium mb-0">Andrew Jermia</h6>
-                                                <p class="fs-13 mb-0">IOS Developer</p>
+                                                <h6 class="fs-medium mb-0">Shadhin Mojumder</h6>
+                                                <p class="fs-13 mb-0">National Bank LLC</p>
+                                                <p class="fs-13 mb-0">Amount: 1,20,000</p>
                                              </div>
                                           </div>
-                                          <a href="javascript:void(0);" class="btn btn-secondary btn-xs"><i class='bx bxs-cake' ></i> Send</a>
+                                          <a href="javascript:void(0);" class="btn btn-secondary btn-xs"><i class='bx bxs-cake' ></i> Remainder</a>
                                        </div>
                                     </div>
                                     <div class="bg-light p-2 border border-dashed rounded-top mb-3">

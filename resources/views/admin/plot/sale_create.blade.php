@@ -180,6 +180,21 @@
 @push('scripts')
 <script>
     $(document).ready(function() {
+        $('#customer_salesman_name').select2({
+            placeholder: "-- Select Salesman --",
+            allowClear: true
+        });
+
+        $('#customer_name').select2({
+            placeholder: "-- Select Customer --",
+            allowClear: true
+        });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function() {
         $('#number_of_instalment').on('input', function () {
             this.value = this.value.replace(/[^0-9]/g, '');
         });
@@ -264,14 +279,19 @@
             var blockId = $(this).val();
             if (blockId) {
                 $.ajax({
-                    url: "{{ url('/dashboard/get_road_by_block') }}/" + blockId,
+                    url: "{{ url('/dashboard/get_road_by_block_with_avaiable_plot') }}/" + blockId,
                     type: "GET",
                     dataType: "json",
                     success: function (data) {
+                        
                         $('.road').empty();
                         $('.road').append('<option value="">--select Road--</option>');
-                        $.each(data, function (key, value) {
-                            $('.road').append('<option value="' + value.id + '">' + value.road_name + '</option>');
+                        $.each(data.roads, function (key, road) {
+                            
+                            
+                            $('.road').append(
+                                '<option value="' + road.id + '">' + road.road_name + ' (Available - ' + road.available_plot_counts + ')</option>'
+                            );
                         });
                     }
                 });
@@ -296,26 +316,33 @@
                             let plotList = $('#plot-list');
                             plotList.empty(); // Clear previous data
 
+                           
+
                             $.each(plots, function (index, plot) {
                                 let style = '';
                                 let className = 'number-box';
-                                let extraAttr = `data-id="${plot.id}"`; // add plot ID as data attribute
+                                let extraAttr = `data-id="${plot.id}"`; 
+                                let tooltip = '';
 
                                 if (plot.plot_booking_status == 0) {
                                     style = 'background: linear-gradient(to bottom, #4CAF50, #81C784); color: white;';
                                     className += ' clickable';
-                                    extraAttr += ` onclick="handlePlotClick(${plot.id})"`; // pass plot ID to handler
+                                    tooltip = 'Available';
+                                    extraAttr += ` onclick="handlePlotClick(${plot.id})"`;
                                 } else if (plot.plot_booking_status == 1) {
                                     style = 'background: linear-gradient(to bottom, #f44336, #e57373); color: white;';
+                                    tooltip = `Customer:${plot.customer_name}\n Agency:${plot.agency}\n Salesman:${plot.salesman}\n Price:${plot.total_amount}`;
                                     extraAttr += ` onclick="handlePlotClick(${plot.id})"`;
                                 } else if (plot.plot_booking_status == 2) {
                                     style = 'background: linear-gradient(to bottom, #ffeb3b, #fff176); color: black;';
+                                    tooltip = `Booked for `;
                                     extraAttr += ` onclick="handlePlotClick(${plot.id})"`;
                                 }
 
-                                let box = `<div class="${className}" style="${style}" ${extraAttr}>${plot.plot_name}</div>`;
+                                let box = `<div class="${className}" style="${style}" title="${tooltip}" ${extraAttr}>${plot.plot_name}</div>`;
                                 plotList.append(box);
                             });
+
 
 
 
@@ -392,7 +419,7 @@
             var customer_salesman_nameId = $(this).val();
             if (customer_salesman_nameId) {
                 $.ajax({
-                    url: "{{ url('/dashboard/get_customer_by_salesman') }}/" + customer_salesman_nameId,
+                    url: "{{ url('/dashboard/get_avaiable_customer_by_salesman') }}/" + customer_salesman_nameId,
                     type: "GET",
                     dataType: "json",
                     success: function (data) {

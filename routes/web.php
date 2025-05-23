@@ -428,6 +428,7 @@ Route::middleware(['auth:admin', 'verified'])->group(function () {
 
         Route::get('/get_block_by_sector/{id}', 'get_block_by_sector')->name('get.block.by.sector');
         Route::get('/get_road_by_block/{id}', 'get_road_by_block')->name('get.road.by.block');
+        Route::get('/get_road_by_block_with_avaiable_plot/{id}', 'get_road_by_block_with_avaiable_plot')->name('get.road.by.block.with.avaiable.plot.count');
         Route::get('/get_road_with_default_block_by_sector/{id}/{sector_id}', 'get_road_with_default_block_by_sector')->name('get.road.with.default.block.by.sector');
         Route::get('/get_plot_size_by_plot/{id}', 'get_plot_size_by_plot')->name('get.plot.size.by.plot');
         Route::get('/get_plot_price_by_size/{id}', 'get_plot_price_by_size')->name('get.plot.price.by.size');
@@ -435,6 +436,7 @@ Route::middleware(['auth:admin', 'verified'])->group(function () {
 
         Route::get('/get_salesman_by_agency/{id}', 'get_salesman_by_agency')->name('get.salesman.by.agency');
         Route::get('/get_customer_by_salesman/{id}', 'get_customer_by_salesman')->name('get.customer.by.salesman');
+        Route::get('/get_avaiable_customer_by_salesman/{id}', 'get_avaiable_customer_by_salesman')->name('get.avaiable.customer.by.salesman');
 
         Route::get('/get_dis_by_div/{id}', 'get_dis_by_div')->name('get.dis.by.div');
         Route::get('/get_upa_by_dis/{id}', 'get_upa_by_dis')->name('get.upa.by.dis');
