@@ -123,6 +123,7 @@ Route::middleware(['auth:admin', 'verified'])->group(function () {
 
         // ! Plot booking based on cutomer
         Route::get('/plot-bookings/{cutomerId}', 'bookingPlotByCustomerId')->name('bookings.plot');
+        Route::get('/plot-booking/{id}', 'plotBookingById')->name('booking.plot.byId');
     });
 
 

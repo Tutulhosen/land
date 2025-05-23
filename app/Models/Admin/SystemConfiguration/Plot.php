@@ -16,6 +16,12 @@ class Plot extends Model
         return $this->belongsTo(PlotType::class, 'plot_type_id');
     }
 
+    public function plot_name()
+    {
+        return $this->belongsTo(PlotType::class, 'plot_name');
+    }
+
+
     public function plot_size()
     {
         return $this->belongsTo(PlotSize::class, 'plot_size_id');

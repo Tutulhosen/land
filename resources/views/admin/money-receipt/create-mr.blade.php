@@ -78,7 +78,7 @@
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <input type="text" class="form-control custom-input" id="email2"
-                                                placeholder="Money Recipet No." value="{{$serialNo}}" readonly>
+                                                placeholder="Money Recipet No." value="{{ $serialNo }}" readonly>
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
@@ -144,20 +144,19 @@
                                             <!--end col-->
                                             <div class="col-lg-5 ms-auto">
                                                 <h5 class="invoice-title-1">Transaction Summary:</h5>
-                                                <table class="table table-bordered">
+                                                <table class="table table-bordered table-striped">
                                                     <tbody>
                                                         <tr>
                                                             <td style="font-weight: 500">Total Price</td>
-                                                            <td>0</td>
+                                                            <td id="total_amount">0</td>
                                                         </tr>
                                                         <tr>
                                                             <td style="font-weight: 500">Installment Amount</td>
-                                                            <td>0</td>
+                                                            <td id="installment_amount">0</td>
                                                         </tr>
-
                                                         <tr>
                                                             <td style="font-weight: 500">Booking Amount</td>
-                                                            <td>0</td>
+                                                            <td id="booking_amount">0</td>
                                                         </tr>
                                                         <tr>
                                                             <td style="font-weight: 500">At a Time</td>
@@ -165,21 +164,19 @@
                                                         </tr>
                                                         <tr>
                                                             <td style="font-weight: 500">Down Payment Amount</td>
-                                                            <td>0</td>
+                                                            <td id="down_payment">0</td>
                                                         </tr>
-
                                                         <tr>
                                                             <td style="font-weight: 500">Total Recive Amount</td>
-                                                            <td>0</td>
+                                                            <td id="total_recieved">0</td>
                                                         </tr>
                                                         <tr>
                                                             <td style="font-weight: 500">Total Due</td>
-                                                            <td>0</td>
+                                                            <td id="total_due">0</td>
                                                         </tr>
-
-
                                                     </tbody>
                                                 </table>
+
                                             </div>
                                         </div>
                                     </div>
@@ -378,13 +375,17 @@
                         url: '/dashboard/plot-bookings/' + customerId,
                         type: 'GET',
                         success: function(response) {
-                            console.log(response)
+                            // console.log(response)
                             $('#plot_no').empty().append(
                                 '<option value="">Select Plot</option>');
                             response.forEach(function(booking) {
                                 $('#plot_no').append('<option value="' + booking
-                                    .code + '">' + booking.code + '</option>');
+                                    .code + '">' + booking.plot_details.road.sector
+                                    .sector_name + '-' + booking.plot_details.road
+                                    .road_name + '-' + booking.plot_details
+                                    .plot_name + '</option>');
                             });
+
                         },
                         error: function() {
                             alert('Plot data not found!');
@@ -458,14 +459,12 @@
             $('#mainTotalAmount').on('input', function() {
                 const value = $(this).val();
 
-                // ইনপুট ফিল্ডে ভ্যালু সেট করা
                 $('#summaryTotalAmount').val(value).prop('readonly', true);
                 $('#paidAmount').val(value).prop('readonly', true);
                 $('#balanceAmount').val('0.00').prop('readonly', true);
                 $('#payment_type_amount').val(value);
 
-                // স্প্যানে ভ্যালু দেখানো
-                $('#payment_type_amount_text').text(value); // এই span এর id হবে নিচে দেখানো মতো
+                $('#payment_type_amount_text').text(value);
             });
 
 
@@ -473,8 +472,7 @@
                 const selectedText = $('#defaultSelect option:selected').text();
                 const selectedValue = $(this).val();
                 const customer_name = $('#customer_id option:selected').text();
-                const total_amount = $('#mainTotalAmount').val(); // total amount field থেকে নিচ্ছে
-
+                const total_amount = $('#mainTotalAmount').val();
                 if (selectedValue !== '') {
                     $('#payment_type_name').text(selectedText);
                     $('#customer_name').text(customer_name);
@@ -498,6 +496,52 @@
                 if (start && end && start > end) {
                     alert("End Month must be after Start Month");
                     $('#end_month').val('');
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#plot_no').on('change', function() {
+                var bookingId = $(this).val();
+
+                if (bookingId) {
+                    $.ajax({
+                        url: '/dashboard/plot-booking/' + bookingId,
+                        type: 'GET',
+                        success: function(response) {
+                            const installment = parseInt(response.booking?.installment_amount ||
+                                0);
+                            const bookingAmount = parseInt(response.booking_amount?.amount ||
+                            0);
+                            const downPayment = parseInt(response.down_payment?.amount || 0);
+
+                            const total_recieved = installment + bookingAmount + downPayment;
+                            // console.log(total_recieved);
+                            const total_due = parseInt(response.booking?.total_amount) - total_recieved;
+
+                            if (response) {
+                                $('#total_amount').text(response.booking?.total_amount || 0);
+                                $('#installment_amount').text(installment);
+                                $('#booking_amount').text(bookingAmount);
+                                $('#down_payment').text(downPayment);
+                                $('#total_recieved').text(total_recieved);
+                                $('#total_due').text(total_due);
+                            } else {
+                                $('#total_amount').text('0');
+                                $('#installment_amount').text('0');
+                                $('#booking_amount').text('0');
+                                $('#down_payment').text('0');
+                            }
+                        },
+                        error: function(e) {
+                            console.log(e)
+                            $('#total_amount').text('0');
+                        }
+                    });
+                } else {
+                    $('#total_amount').text('0');
                 }
             });
         });
